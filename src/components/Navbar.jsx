@@ -88,7 +88,7 @@ export const Navbar = () => {
           </ul>
         </div>
       </nav>
-      <div className="p-6 bg-white">{}</div>
+      <div className="bg-inherit p-4">{}</div>
     </>
   );
 };
