@@ -8,7 +8,7 @@ import { Navbar } from "./components/Navbar";
 import { Join } from "./components/Join";
 import { Contacts } from "./pages/Contacts";
 import { Footer } from "./components/Footer";
-import ServiceDetail from "./components/ServiceDetail";
+import { ServiceDetail } from "./components/ServiceDetail";
 import { SignIn } from "./components/SignIn";
 import { UserProvider } from "./context/UserContext";
 import { ConfirmEmail } from "./server/VerifyEmail";

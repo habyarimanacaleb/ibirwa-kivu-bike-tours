@@ -4,7 +4,7 @@ import servicesData from "../assets/Servicesdata";
 import { Navbar } from "../components/Navbar";
 import { FaWhatsapp, FaEnvelope, FaChevronDown } from "react-icons/fa";
 
-const ServiceDetail = () => {
+export const ServiceDetail = () => {
   const { id } = useParams();
   const service = servicesData.find((service) => service.id === parseInt(id));
 
@@ -94,5 +94,3 @@ const ServiceDetail = () => {
     </div>
   );
 };
-
-export default ServiceDetail;
