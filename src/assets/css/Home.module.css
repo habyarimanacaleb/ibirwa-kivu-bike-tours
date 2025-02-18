@@ -1,0 +1,16 @@
+.bgImage {
+  background-image: url("../bg-2.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.75;
+  background-size: cover;
+  background-attachment: fixed;
+}
+.aboutBg {
+  background-image: url("../about-bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: scroll;
+  background-origin: border-box;
+}
