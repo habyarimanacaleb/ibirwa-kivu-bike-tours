@@ -20,7 +20,7 @@ export const DropdownMenu = () => {
   }, []);
 
   return (
-    <li className="relative">
+    <li className="relative mr-40">
       {/* Services Button with Chevron Icon */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
@@ -35,7 +35,7 @@ export const DropdownMenu = () => {
       {isOpen && (
         <ul
           ref={dropdownRef}
-          className="absolute left-0 mt-2 bg-blue-700 z-10 px-2 w-[300px] py-4 rounded-md shadow-lg max-h-60 overflow-y-auto"
+          className="absolute left-0 mt-2 bg-blue-700 z-10 px-2 w-[300px] py-4 rounded-md shadow-lg max-h-80 overflow-y-auto"
         >
           <li>
             <h3 className="text-gray-600 font-semibold text-[18px] mb-2"> Our Services</h3>
@@ -43,7 +43,7 @@ export const DropdownMenu = () => {
               <div key={service.id} onClick={() => setIsOpen(false)}>
                 <button
                   onClick={() => navigate(`/service/${service.id}`)}
-                  className="block text-white p-2 hover:bg-blue-500 w-full text-left"
+                  className="block text-white p-2 hover:bg-blue-500 w-full text-left flex flex-col items center"
                 >
                   {service.title}
                 </button>
