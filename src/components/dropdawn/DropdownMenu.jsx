@@ -1,13 +1,13 @@
-import { useState, useEffect, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { FaGlobe } from "react-icons/fa";
+import React,{ useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaChevronDown } from "react-icons/fa"; // Importing the chevron down icon
+import servicesData from "../../assets/Servicesdata.js"; // Updated path
 
-function DropdownMenu() {
-  const { i18n } = useTranslation();
+export const DropdownMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
-  // Close the dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -19,76 +19,39 @@ function DropdownMenu() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLinkClick = () => {
-    setIsOpen(false);
-  };
-
-  // Change language
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
-
   return (
     <li className="relative">
-      <ul
-        ref={dropdownRef}
-        className={`absolute left-0 mt-2 bg-blue-700 ${
-          isOpen ? "block" : "hidden"
-        } z-10 px-2 w-[200px] py-4`}
-      >
-        <li className="mt-4 md:mt-0">
-          <div onClick={handleLinkClick}>
-            <button
-              onClick={() => changeLanguage("en")}
-              className="block text-white p-2 hover:bg-blue-500 w-full"
-            >
-              English
-            </button>
-          </div>
-          <div onClick={handleLinkClick}>
-            <button
-              onClick={() => changeLanguage("fr")}
-              className="block text-white p-2 hover:bg-blue-500  w-full"
-            >
-              Français
-            </button>
-          </div>
-          <div onClick={handleLinkClick}>
-            <button
-              onClick={() => changeLanguage("es")}
-              className="block text-white p-2 hover:bg-blue-500  w-full"
-            >
-              Español
-            </button>
-          </div>
-          <div onClick={handleLinkClick}>
-            <button
-              onClick={() => changeLanguage("rw")}
-              className="block text-white p-2 hover:bg-blue-500  w-full"
-            >
-              Kinyarwanda
-            </button>
-          </div>
-          <div onClick={handleLinkClick}>
-            <button
-              onClick={() => changeLanguage("ar")}
-              className="block text-white p-2 hover:bg-blue-500  w-full"
-            >
-              العربية
-            </button>
-          </div>
-        </li>
-      </ul>
+      {/* Services Button with Chevron Icon */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="text-white flex items-center text-2xl"
-        title="Language Translation"
+        className="text-white flex items-center text-xl cursor-pointer gap-2"
+        title="Services Menu"
       >
-        <FaGlobe className="text-xl cursor-pointer " />{" "}
-        <span className="font-semibold-200 text-xl">Translate</span>
+        <span className="font-semibold text-xl">Services</span>
+        <FaChevronDown className={`transition-transform duration-200 ${isOpen ? "rotate-180" : "rotate-0"}`} />
       </button>
+
+      {/* Dropdown List */}
+      {isOpen && (
+        <ul
+          ref={dropdownRef}
+          className="absolute left-0 mt-2 bg-blue-700 z-10 px-2 w-[300px] py-4 rounded-md shadow-lg max-h-60 overflow-y-auto"
+        >
+          <li>
+            <h3 className="text-white font-semibold mb-2">Services</h3>
+            {servicesData.map((service) => (
+              <div key={service.id} onClick={() => setIsOpen(false)}>
+                <button
+                  onClick={() => navigate(`/service/${service.id}`)}
+                  className="block text-white p-2 hover:bg-blue-500 w-full text-left"
+                >
+                  {service.title}
+                </button>
+              </div>
+            ))}
+          </li>
+        </ul>
+      )}
     </li>
   );
-}
-
-export default DropdownMenu;
+};

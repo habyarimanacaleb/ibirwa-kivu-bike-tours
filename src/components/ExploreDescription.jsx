@@ -40,7 +40,7 @@ export const ExploreDescription = () => {
           </p>
 
           <h3 className="lg:text-2xl text-[18px] font-semibold mb-4">
-            Day 4-5: Musanze to Rubavu (Congo Nile Trail)
+            Day 4-5: Rubavu to Kibuye (Congo Nile Trail)
           </h3>
           <p className="mb-4 text-gray-400 text-justfy">
             Cycle along the stunning shores of Lake Kivu on the Congo Nile

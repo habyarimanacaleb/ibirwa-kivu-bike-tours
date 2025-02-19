@@ -1,14 +1,19 @@
-// src/components/ProtectedRoute.jsx
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedRoute = () => {
-  // Check if the user is authenticated (e.g., by checking for a token in localStorage)
-  const isAuthenticated = localStorage.getItem("token");
+  const isAuthenticated = localStorage.getItem("token"); // Check for token
+  const userRole = localStorage.getItem("role"); // Fetch role from localStorage
 
-  // If authenticated, render the child components (e.g., Dashboard, CreateService, etc.)
-  // If not authenticated, redirect to the login page
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+  const allowedRoles = ["admin", "superadmin"]; // Define allowed roles for admin access
+
+
+  // If the user does not have an allowed role, redirect to home
+  if (!allowedRoles.includes(userRole) || !isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa"; // Icons for menu
-// import DropdownMenu from "./dropdawn/DropdownMenu";
+import {DropdownMenu} from "./dropdawn/DropdownMenu";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,16 +27,12 @@ export const Navbar = () => {
               </h1>
             </div>
           </div>
-
-          {/* Menu Button (Mobile) */}
           <button
             className="text-white text-2xl md:hidden"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
-
-          {/* Navbar Links */}
           <ul
             className={`md:flex md:space-x-6 absolute md:static md:items-center  px-6 py-4 bg-blue-600 md:w-auto w-full left-0 top-16 transition-all duration-300 ease-in-out ${
               isOpen ? "block" : "hidden"
@@ -83,8 +79,7 @@ export const Navbar = () => {
                 Sign up
               </NavLink>
             </li>
-            {/* Dropdown Menu */}
-            {/* <DropdownMenu /> */}
+            <DropdownMenu />
           </ul>
         </div>
       </nav>

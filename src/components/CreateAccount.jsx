@@ -1,14 +1,12 @@
-import React from "react";
-
-import { useState } from "react";
+import React, { useState } from "react";
 
 export const CreateAccount = ({ onSwitchToSignIn }) => {
   const [formData, setFormData] = useState({
-    userName: "",
+    username: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState({
     password: false,
     confirmPassword: false,
@@ -16,7 +14,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.password !== confirmPassword) {
       alert("Passwords do not match");
       return;
     }
@@ -68,18 +66,18 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
         <form className="mt-4" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
-              htmlFor="fullName"
+              htmlFor="username"
               className="block text-sm font-medium text-gray-700"
             >
-              User Name
+              Username
             </label>
             <input
               type="text"
-              id="userName"
-              name="userName"
-              value={formData.fullName}
+              id="username"
+              name="username"
+              value={formData.username}
               onChange={handleChange}
-              placeholder="Enter your Full Name"
+              placeholder="Enter your Username"
               className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -146,8 +144,8 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
                 type={showPassword.confirmPassword ? "text" : "password"}
                 id="confirmPassword"
                 name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirm your Password"
                 className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
               />
