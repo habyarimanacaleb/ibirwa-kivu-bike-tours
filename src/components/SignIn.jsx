@@ -33,7 +33,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
           localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(user)); // Ensure consistency with UserContext
           updateUser(user);
-          navigate(user.role === "admin" ? "/dashboard" : "/");
+          navigate(user.role === "admin" ? "/admin" : "/");
         } else {
           setError("Login successful, but token is missing.");
         }
