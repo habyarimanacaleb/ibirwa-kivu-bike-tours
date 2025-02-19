@@ -49,7 +49,7 @@ export const ExploreDescription = () => {
             most picturesque MTB experiences in Africa.
           </p>
 
-          <h3 className="lg:text-2xl text-[18px] ont-semibold mb-4">
+          <h3 className="lg:text-2xl text-[18px] font-semibold mb-4">
             Day 6: Mount Karongi Full-Day Trail
           </h3>
           <p className="mb-4 text-gray-400 text-justfy">
