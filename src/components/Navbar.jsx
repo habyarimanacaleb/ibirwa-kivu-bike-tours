@@ -34,7 +34,7 @@ export const Navbar = () => {
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
           <ul
-            className={`md:flex md:space-x-6 absolute md:static md:items-center font-semibold text-[17px] px-6 py-4 md:w-auto w-full left-0 top-16 transition-all duration-300 ease-in-out ${
+            className={`md:flex md:space-x-6 absolute md:static md:items-center font-semibold text-[17px] p-4 sm:bg-blue-600 md:bg-blue-600 md:w-auto w-full left-0 top-16 transition-all duration-300 ease-in-out ${
               isOpen ? "block" : "hidden"
             } z-40`}
           >
