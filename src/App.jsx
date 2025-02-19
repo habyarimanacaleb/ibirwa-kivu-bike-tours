@@ -47,7 +47,7 @@ function App() {
           />
           <Route element={<ProtectedRoute />}>
             <Route
-              path="/dashboard/*"
+              path="/admin/*"
               element={
                 <div className="flex">
                   <Sidebar />
