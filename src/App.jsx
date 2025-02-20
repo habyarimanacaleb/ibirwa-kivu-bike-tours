@@ -15,7 +15,7 @@ import { ConfirmEmail } from "./server/VerifyEmail";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { DashboardHome } from "./pages/DashboardHome";
 import { CreateService } from "./admin-dashboard/CreateServices";
-import { Sidebar } from "./components/Sidebar"; 
+import { Sidebar } from "./components/Sidebar";
 
 function App() {
   return (
@@ -30,14 +30,23 @@ function App() {
                 <Navbar />
                 <Routes>
                   <Route path="/" element={<Home />} />
-                  <Route path="/services-gallery" element={<GalleryServices />} />
+                  <Route
+                    path="/services-gallery"
+                    element={<GalleryServices />}
+                  />
                   <Route path="/service/:id" element={<ServiceDetail />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/signin" element={<SignIn />} />
                   <Route path="/join" element={<Join />} />
-                  <Route path="/explore-more-to-Rwanda" element={<ExploreRwanda />} />
+                  <Route
+                    path="/explore-more-to-Rwanda"
+                    element={<ExploreRwanda />}
+                  />
                   <Route path="/parks" element={<h1>National Parks....</h1>} />
-                  <Route path="/culture" element={<h1>Culture & Heritage...</h1>} />
+                  <Route
+                    path="/culture"
+                    element={<h1>Culture & Heritage...</h1>}
+                  />
                   <Route path="/contact" element={<Contacts />} />
                   <Route path="/api/confirm-email" element={<ConfirmEmail />} />
                 </Routes>
@@ -46,20 +55,8 @@ function App() {
             }
           />
           <Route element={<ProtectedRoute />}>
-            <Route
-              path="/admin/*"
-              element={
-                <div className="flex">
-                  <Sidebar />
-                  <div className="flex-1 p-4">
-                    <Routes>
-                      <Route path="/" element={<DashboardHome />} />
-                      <Route path="create-service" element={<CreateService />} />
-                    </Routes>
-                  </div>
-                </div>
-              }
-            />
+            <Route path="/admin" element={<DashboardHome />} />
+            <Route path="create-service" element={<CreateService />} />
           </Route>
 
           {/* 404 Page */}

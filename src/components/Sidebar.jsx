@@ -1,6 +1,16 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaBars, FaHome, FaPlus, FaEdit, FaTrash, FaCog, FaChartLine, FaNewspaper, FaEnvelope } from "react-icons/fa";
+import {
+  FaBars,
+  FaHome,
+  FaPlus,
+  FaEdit,
+  FaTrash,
+  FaCog,
+  FaChartLine,
+  FaNewspaper,
+  FaEnvelope,
+} from "react-icons/fa";
 
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -18,12 +28,25 @@ export const Sidebar = () => {
   ];
 
   return (
-    <div className="flex">
+    <div className={`fixed inset-0 flex`}>
       {/* Sidebar */}
-      <div className={`bg-blue-800 h-screen p-5 text-white transition-all duration-300 ${isOpen ? "w-60" : "w-16"}`}>
+      <div
+        className={`bg-blue-800 h-screen p-5 text-white transition-all duration-300 ${
+          isOpen ? "w-64" : "w-20"
+        } overflow-y-auto`}
+      >
         <div className="flex items-center justify-between">
-          <h1 className={`text-xl font-bold transition-opacity ${isOpen ? "opacity-100" : "opacity-0"}`}>Admin Panel</h1>
-          <button onClick={() => setIsOpen(!isOpen)} className="text-white text-2xl">
+          <h1
+            className={`text-xl font-bold transition-opacity ${
+              isOpen ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            Admin Panel
+          </h1>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-white text-2xl"
+          >
             <FaBars />
           </button>
         </div>
@@ -31,9 +54,19 @@ export const Sidebar = () => {
         {/* Navigation Links */}
         <ul className="mt-6 space-y-4">
           {links.map((link) => (
-            <li key={link.name} className={`flex items-center p-2 rounded-md hover:bg-blue-600 ${location.pathname === link.path ? "bg-blue-700" : ""}`}>
+            <li
+              key={link.name}
+              className={`flex items-center p-2 rounded-md hover:bg-blue-600 ${
+                location.pathname === link.path ? "bg-blue-700" : ""
+              }`}
+            >
               <span className="text-xl">{link.icon}</span>
-              <Link to={link.path} className={`ml-3 text-lg font-medium transition-opacity ${isOpen ? "opacity-100" : "opacity-0"}`}>
+              <Link
+                to={link.path}
+                className={`ml-3 text-lg font-medium transition-opacity ${
+                  isOpen ? "opacity-100" : "opacity-0"
+                }`}
+              >
                 {link.name}
               </Link>
             </li>

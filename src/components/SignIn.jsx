@@ -31,7 +31,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
         const { token, user } = data;
         if (token && user) {
           localStorage.setItem("token", token);
-          localStorage.setItem("user", JSON.stringify(user)); // Ensure consistency with UserContext
+          localStorage.setItem("user", JSON.stringify(user));
           updateUser(user);
           navigate(user.role === "admin" ? "/admin" : "/");
         } else {
@@ -61,7 +61,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
           </button>
           <button
             className="w-1/2 text-center font-semibold pb-2 text-gray-400"
-            onClick={onSwitchToCreate}
+            onClick={onSwitchToCreate} // Calling function passed as prop for "Create Account"
           >
             Create Account
           </button>
