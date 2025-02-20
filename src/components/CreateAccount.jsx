@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { replace, useNavigate } from "react-router-dom";
 
 export const CreateAccount = ({ onSwitchToSignIn }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -33,6 +35,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
 
       if (response.ok) {
         alert(data.message);
+        navigate("/join");
       } else {
         alert(data.message);
       }
