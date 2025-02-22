@@ -1,4 +1,4 @@
-import React,{ useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa"; // Importing the chevron down icon
 import servicesData from "../../assets/Servicesdata.js"; // Updated path
@@ -20,15 +20,18 @@ export const DropdownMenu = () => {
   }, []);
 
   return (
-    <li className="relative mr-40">
-      {/* Services Button with Chevron Icon */}
+    <li className="relative mr-0 lg:mr-40">
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="text-white flex items-center text-xl cursor-pointer gap-2"
         title="Services Menu"
       >
         <span className="font-semibold text-[18px]">Services</span>
-        <FaChevronDown className={`transition-transform duration-200 ${isOpen ? "rotate-180" : "rotate-0"}`} />
+        <FaChevronDown
+          className={`transition-transform duration-200 ${
+            isOpen ? "rotate-180" : "rotate-0"
+          }`}
+        />
       </button>
 
       {/* Dropdown List */}
@@ -38,12 +41,15 @@ export const DropdownMenu = () => {
           className="absolute left-0 mt-2 bg-blue-700 z-10 px-2 w-[300px] py-4 rounded-md shadow-lg max-h-80 overflow-y-auto"
         >
           <li>
-            <h3 className="text-gray-600 font-semibold text-[18px] mb-2"> Our Services</h3>
+            <h3 className="text-gray-600 font-semibold text-[18px] mb-2">
+              {" "}
+              Our Services
+            </h3>
             {servicesData.map((service) => (
               <div key={service.id} onClick={() => setIsOpen(false)}>
                 <button
                   onClick={() => navigate(`/service/${service.id}`)}
-                  className="block text-white p-2 hover:bg-blue-500 w-full text-left flex flex-col items center"
+                  className=" text-white p-2 hover:bg-blue-500 w-full text-left flex flex-col items center"
                 >
                   {service.title}
                 </button>
