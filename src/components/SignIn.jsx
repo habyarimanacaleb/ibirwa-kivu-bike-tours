@@ -33,16 +33,20 @@ export const SignIn = ({ onSwitchToCreate }) => {
           localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(user));
           updateUser(user);
+          setFormData({ email: "", password: "" }); // Reset form
           navigate(user.role === "admin" ? "/admin" : "/");
         } else {
           setError("Login successful, but token is missing.");
+          setFormData({ email: "", password: "" }); // Reset form
         }
       } else {
         setError(data.message || "Login failed");
+        setFormData({ email: "", password: "" }); // Reset form
       }
     } catch (error) {
       setError("An error occurred. Please try again.");
       console.error("Login error:", error);
+      setFormData({ email: "", password: "" }); // Reset form
     } finally {
       setLoading(false);
     }
@@ -84,6 +88,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your Email"
+              autoComplete="email"
               className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
               required
             />
@@ -104,6 +109,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Enter your Password"
+                autoComplete="current-password"
                 className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
                 required
               />
