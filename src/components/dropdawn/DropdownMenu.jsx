@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaChevronDown } from "react-icons/fa"; // Importing the chevron down icon
-import servicesData from "../../assets/Servicesdata.js"; // Updated path
+import { FaChevronDown } from "react-icons/fa";
+import servicesData from "../../assets/Servicesdata.js";
 
 export const DropdownMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +19,11 @@ export const DropdownMenu = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleNavigation = (serviceId) => {
+    setIsOpen(false);
+    navigate(`/service/${serviceId}`);
+  };
+
   return (
     <li className="relative mr-0 lg:mr-40">
       <button
@@ -33,7 +38,6 @@ export const DropdownMenu = () => {
           }`}
         />
       </button>
-
       {/* Dropdown List */}
       {isOpen && (
         <ul
@@ -42,15 +46,14 @@ export const DropdownMenu = () => {
         >
           <li>
             <h3 className="text-gray-600 font-semibold text-[18px] mb-2">
-              {" "}
               Our Services
             </h3>
             {servicesData.map((service) => (
-              <div key={service.id} onClick={() => setIsOpen(false)}>
-                <button
-                  onClick={() => navigate(`/service/${service.id}`)}
-                  className=" text-white p-2 hover:bg-blue-500 w-full text-left flex flex-col items center"
-                >
+              <div
+                key={service.id}
+                onClick={() => handleNavigation(service.id)}
+              >
+                <button className="text-white p-2 hover:bg-blue-500 w-full text-left flex flex-col items-center">
                   {service.title}
                 </button>
               </div>
