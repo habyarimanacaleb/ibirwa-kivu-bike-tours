@@ -3,7 +3,7 @@ export const ExploreDescription = () => {
   return (
     <main className="lg:max-w-[1200px] w-full flex flex-col items-center">
       <section className="py-12 ">
-        <div className="container mx-auto px-6 text-justify">
+        <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold mb-6">Service Description</h2>
           <p className="mb-4 text-gray-400 text-justfy">
             Embark on a thrilling 6-day mountain biking adventure across
@@ -16,7 +16,7 @@ export const ExploreDescription = () => {
             an overview of what to expect on your MTB journey:
           </p>
 
-          <h3 className="lg:text-2xl text-[18px]  font-semibold mb-4">
+          <h3 className="lg:text-2xl text-[16px]  font-semibold mb-4">
             Day 1: Kigali to Jari (Beginner-Friendly Trails)
           </h3>
           <p className="mb-4 text-gray-400 text-justfy">
@@ -27,7 +27,7 @@ export const ExploreDescription = () => {
             life.
           </p>
 
-          <h3 className="lg:text-2xl text-[18px] font-semibold mb-4">
+          <h3 className="lg:text-2xl text-[16px] font-semibold mb-4">
             Day 2-3: Jari to Musanze (Volcanoes National Park)
           </h3>
           <p className="mb-4 text-gray-400 text-justfy">
@@ -39,7 +39,7 @@ export const ExploreDescription = () => {
             cultural sites.
           </p>
 
-          <h3 className="lg:text-2xl text-[18px] font-semibold mb-4">
+          <h3 className="lg:text-2xl text-[16px] font-semibold mb-4">
             Day 4-5: Rubavu to Kibuye (Congo Nile Trail)
           </h3>
           <p className="mb-4 text-gray-400 text-justfy">
@@ -49,7 +49,7 @@ export const ExploreDescription = () => {
             most picturesque MTB experiences in Africa.
           </p>
 
-          <h3 className="lg:text-2xl text-[18px] font-semibold mb-4">
+          <h3 className="lg:text-2xl text-[16px] font-semibold mb-4">
             Day 6: Mount Karongi Full-Day Trail
           </h3>
           <p className="mb-4 text-gray-400 text-justfy">
@@ -59,7 +59,7 @@ export const ExploreDescription = () => {
             opportunity to relax by the lake, soaking in the natural beauty.
           </p>
 
-          <h2 className="text-3xl font-bold mb-6">
+          <h2 className="lg:text-3xl font-bold mb-6 text-[25px]">
             Additional Services Provided
           </h2>
           <ul className="list-disc list-inside mb-4">
@@ -106,7 +106,7 @@ export const ExploreDescription = () => {
             </li>
           </ul>
 
-          <h2 className="text-3xl font-bold mb-6">
+          <h2 className="lg:text-3xl font-bold mb-6 text-[20px]">
             Why Choose This MTB Tour in Rwanda?
           </h2>
           <ul className="list-disc list-inside mb-4">
