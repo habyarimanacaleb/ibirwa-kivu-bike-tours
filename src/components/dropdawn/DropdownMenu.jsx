@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa";
 import servicesData from "../../assets/Servicesdata.js";
 
-export const DropdownMenu = () => {
+export const DropdownMenu = ({ closeMenu }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ export const DropdownMenu = () => {
 
   const handleNavigation = (serviceId) => {
     setIsOpen(false);
+    closeMenu();
     navigate(`/service/${serviceId}`);
   };
 

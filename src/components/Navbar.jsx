@@ -15,6 +15,10 @@ export const Navbar = () => {
     }
   }, [isOpen]);
 
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
       {/* Navbar */}
@@ -43,10 +47,10 @@ export const Navbar = () => {
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
           <ul
-            className={`md:flex md:space-x-6 absolute md:static md:items-center font-semibold text-[17px] px-6 py-4 sm:bg-blue-600 md:bg-blue-600 md:w-auto w-full left-0 top-16 transition-all duration-300 ease-in-out ${
+            className={`md:flex md:space-x-6 absolute md:static md:items-center font-semibold text-[17px] px-6 py-4 sm:bg-blue-600 md:bg-blue-600 md:w-auto w-full left-0 top-16 transition-all duration-500 ease-in-out ${
               isOpen
-                ? " bg-blue-600 h-screen flex flex-col  overflow-hidden"
-                : "hidden"
+                ? " bg-blue-600 h-screen flex flex-col  overflow-hidden opacity-100"
+                : "hidden opacity-0"
             } z-40`}
           >
             <li className="pb-2">
@@ -55,6 +59,7 @@ export const Navbar = () => {
                 className={({ isActive }) =>
                   isActive ? "text-yellow-400" : "text-white"
                 }
+                onClick={closeMenu}
               >
                 Home
               </NavLink>
@@ -65,6 +70,7 @@ export const Navbar = () => {
                 className={({ isActive }) =>
                   isActive ? "text-yellow-400" : "text-white"
                 }
+                onClick={closeMenu}
               >
                 Gallery
               </NavLink>
@@ -76,6 +82,7 @@ export const Navbar = () => {
                 className={({ isActive }) =>
                   isActive ? "text-yellow-400" : "text-white"
                 }
+                onClick={closeMenu}
               >
                 Contact
               </NavLink>
@@ -86,11 +93,12 @@ export const Navbar = () => {
                 className={({ isActive }) =>
                   isActive ? "text-yellow-400" : "text-white"
                 }
+                onClick={closeMenu}
               >
                 Sign up
               </NavLink>
             </li>
-            <DropdownMenu />
+            <DropdownMenu closeMenu={closeMenu} />
           </ul>
         </div>
       </nav>

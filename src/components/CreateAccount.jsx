@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { replace, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const CreateAccount = ({ onSwitchToSignIn }) => {
   const navigate = useNavigate();
@@ -18,6 +18,8 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
     e.preventDefault();
     if (formData.password !== confirmPassword) {
       alert("Passwords do not match");
+      setFormData({ username: "", email: "", password: "" });
+      setConfirmPassword("");
       return;
     }
 
@@ -35,12 +37,18 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
 
       if (response.ok) {
         alert(data.message);
+        setFormData({ username: "", email: "", password: "" });
+        setConfirmPassword("");
         navigate("/join");
       } else {
         alert(data.message);
+        setFormData({ username: "", email: "", password: "" });
+        setConfirmPassword("");
       }
     } catch (error) {
       alert("An error occurred");
+      setFormData({ username: "", email: "", password: "" });
+      setConfirmPassword("");
     }
   };
 
@@ -81,6 +89,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
               value={formData.username}
               onChange={handleChange}
               placeholder="Enter your Username"
+              autoComplete="username"
               className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -99,6 +108,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your Email"
+              autoComplete="email"
               className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -118,6 +128,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Write your Password"
+                autoComplete="new-password"
                 className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
               />
               <button
@@ -150,6 +161,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirm your Password"
+                autoComplete="new-password"
                 className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
               />
               <button
