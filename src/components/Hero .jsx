@@ -3,7 +3,11 @@ export const Hero = () => {
   return (
     <section
       className="hero bg-cover bg-center h-96"
-      style={{ backgroundImage: "url('../kivu-image/rwanda-hero.jpg')" }}
+      style={{
+        backgroundImage: "url('../kivu-image/mtb-bg-image.jpg')",
+        opacity: 0.9,
+        filter: "brightness(80%)",
+      }}
     >
       <div className="container mx-auto h-full flex items-center justify-center">
         <div className="text-center text-white">
