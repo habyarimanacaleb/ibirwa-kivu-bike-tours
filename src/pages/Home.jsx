@@ -17,23 +17,23 @@ export const Home = () => {
           <h1 className="lg:text-[90px] text-[36px] sm:text-[50px] text-bold py-2 capitalize text-center">
             IBIRWA KIVU BIKE TOURS
           </h1>
-          <h4 className="text-bold-600 lg:text-[45px] text-[25px] sm:text-[33px] text-center">
+          <h4 className="text-bold-600 lg:text-[45px] text-[25px]  text-center">
             Rental and Tour Services in Rwanda
           </h4>
-          <p className="home-bind py-1 lg:text-[20px] text-[10px] sm:text-[14px] text-center">
-            <span className="text-gray-400 italic">Kigali</span>
-            <span className=" px-1 text-gray-500 text-xl">|</span>
-            <span className="text-gray-400 italic">Lake Kivu</span>
-            <span className=" px-1 text-gray-500 text-xl">|</span>
-            <span className="text-gray-400 italic">Gisenyi</span>
-            <span className=" px-1 text-gray-500 text-xl">|</span>
-            <span className="text-gray-400 italic">Kibuye</span>
-            <span className=" px-1 text-gray-500 text-xl">|</span>
-            <span className="text-gray-400 italic">Gitesi</span>
-            <span className=" px-1 text-gray-500 text-xl">|</span>
-            <span className="text-gray-400 italic">Nyakariba Swamp</span>
-            <span className=" px-1 text-gray-500 text-xl">|</span>
-            <span className="text-gray-400 italic">Nkombo Culture</span>
+          <p className="home-bind py-1 lg:text-[20px] text-[12px] text-center">
+            <span className="text-gray-700 italic">Kigali</span>
+            <span className=" px-1 text-gray-500 text-md">|</span>
+            <span className="text-gray-700 italic">Lake Kivu</span>
+            <span className=" px-1 text-gray-500 text-md">|</span>
+            <span className="text-gray-700 italic">Gisenyi</span>
+            <span className=" px-1 text-gray-500 text-md">|</span>
+            <span className="text-gray-700 italic">Kibuye</span>
+            <span className=" px-1 text-gray-500 text-md">|</span>
+            <span className="text-gray-700 italic">Gitesi</span>
+            <span className=" px-1 text-gray-500 text-md">|</span>
+            <span className="text-gray-700 italic">Nyakariba Swamp</span>
+            <span className=" px-1 text-gray-500 text-md">|</span>
+            <span className="text-gray-700 italic">Nkombo Culture</span>
           </p>
         </div>
         <div className="my-quote text-3xl mt-68 italic font-serif font-bold pb-10">
