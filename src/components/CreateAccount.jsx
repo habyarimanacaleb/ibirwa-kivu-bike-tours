@@ -2,27 +2,20 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const CreateAccount = ({ onSwitchToSignIn }) => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: "",
     email: "",
+    username: "",
     password: "",
+    role: "user",
   });
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState({
-    password: false,
-    confirmPassword: false,
-  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== confirmPassword) {
-      alert("Passwords do not match");
-      setFormData({ username: "", email: "", password: "" });
-      setConfirmPassword("");
-      return;
-    }
-
+    setLoading(true);
+    setError("");
     try {
       const response = await fetch(
         "https://kivu-back-end.onrender.com/api/ibirwa-clients/signup",
@@ -34,29 +27,26 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
       );
 
       const data = await response.json();
+      console.log("API Response:", data);
 
       if (response.ok) {
-        alert(data.message);
-        setFormData({ username: "", email: "", password: "" });
-        setConfirmPassword("");
-        navigate("/join");
+        setFormData({ email: "", username: "", password: "", role: "client" }); // Reset form
+        navigate("/signin");
       } else {
-        alert(data.message);
-        setFormData({ username: "", email: "", password: "" });
-        setConfirmPassword("");
+        setError(data.message || "Signup failed");
+        setFormData({ email: "", username: "", password: "", role: "client" }); // Reset form
       }
     } catch (error) {
-      alert("An error occurred");
-      setFormData({ username: "", email: "", password: "" });
-      setConfirmPassword("");
+      setError(`An error occurred: ${error.message}`);
+      console.error("Signup error:", error);
+      setFormData({ email: "", username: "", password: "", role: "client" }); // Reset form
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -65,7 +55,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
         <div className="flex justify-between border-b border-gray-200 pb-3">
           <button
             className="w-1/2 text-center font-semibold pb-2 text-gray-400"
-            onClick={onSwitchToSignIn}
+            onClick={onSwitchToSignIn} // Calling function passed as prop for "Sign In"
           >
             Sign In
           </button>
@@ -74,26 +64,9 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
           </button>
         </div>
 
-        <form className="mt-4" onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Username
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              placeholder="Enter your Username"
-              autoComplete="username"
-              className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
+        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
+        <form className="mt-4" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -110,6 +83,27 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
               placeholder="Enter your Email"
               autoComplete="email"
               className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              placeholder="Enter your Username"
+              autoComplete="username"
+              className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
+              required
             />
           </div>
 
@@ -120,73 +114,30 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
             >
               Password
             </label>
-            <div className="relative">
-              <input
-                type={showPassword.password ? "text" : "password"}
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Write your Password"
-                autoComplete="new-password"
-                className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
-              />
-              <button
-                type="button"
-                onClick={() =>
-                  setShowPassword({
-                    ...showPassword,
-                    password: !showPassword.password,
-                  })
-                }
-                className="absolute inset-y-0 right-2 flex items-center px-2 mt-1 text-gray-400"
-              >
-                {showPassword.password ? "Hide" : "Show"}
-              </button>
-            </div>
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Confirm Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword.confirmPassword ? "text" : "password"}
-                id="confirmPassword"
-                name="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm your Password"
-                autoComplete="new-password"
-                className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
-              />
-              <button
-                type="button"
-                onClick={() =>
-                  setShowPassword({
-                    ...showPassword,
-                    confirmPassword: !showPassword.confirmPassword,
-                  })
-                }
-                className="absolute inset-y-0 right-2 flex items-center px-2 mt-1 text-gray-400"
-              >
-                {showPassword.confirmPassword ? "Hide" : "Show"}
-              </button>
-            </div>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Enter your Password"
+              autoComplete="current-password"
+              className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
           </div>
 
           <button
             type="submit"
             className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            disabled={loading}
           >
-            Create Account
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
       </div>
     </div>
   );
 };
+
+export default CreateAccount;

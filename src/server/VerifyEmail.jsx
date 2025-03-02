@@ -9,7 +9,9 @@ export const ConfirmEmail = () => {
 
   useEffect(() => {
     if (token) {
-      fetch(`/api/confirm-email?token=${token}`)
+      fetch(
+        `https://kivu-back-end.onrender.com/api/confirm-email?token=${token}`
+      )
         .then((res) => res.json())
         .then((data) => setMessage(data.message))
         .catch(() => setMessage("Invalid or expired token"));

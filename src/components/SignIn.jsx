@@ -44,7 +44,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
         setFormData({ email: "", password: "" }); // Reset form
       }
     } catch (error) {
-      setError("An error occurred. Please try again.");
+      setError(`An error occurred: ${error.message}`);
       console.error("Login error:", error);
       setFormData({ email: "", password: "" }); // Reset form
     } finally {
