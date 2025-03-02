@@ -10,7 +10,7 @@ export const ConfirmEmail = () => {
   useEffect(() => {
     if (token) {
       fetch(
-        `https://kivu-back-end.onrender.com/api/users/confirm-email?token=${token}`
+        `https://kivu-back-end.onrender.com/api/ibirwa-clients/confirm-email?token=${token}`
       )
         .then((res) => res.json())
         .then((data) => setMessage(data.message))
