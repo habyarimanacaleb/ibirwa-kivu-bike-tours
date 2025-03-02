@@ -15,7 +15,6 @@ import { ConfirmEmail } from "./server/VerifyEmail";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { DashboardHome } from "./pages/DashboardHome";
 import { CreateService } from "./admin-dashboard/CreateServices";
-import { Sidebar } from "./components/Sidebar";
 
 function App() {
   return (
