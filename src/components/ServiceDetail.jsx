@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { FaWhatsapp, FaEnvelope, FaChevronDown } from "react-icons/fa";
 
-const ServiceDetail = () => {
+export const ServiceDetail = () => {
   const { id } = useParams();
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -137,5 +137,3 @@ const ServiceDetail = () => {
     </div>
   );
 };
-
-export default ServiceDetail;
