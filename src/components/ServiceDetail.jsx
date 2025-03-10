@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { FaWhatsapp, FaEnvelope, FaChevronDown } from "react-icons/fa";
+import { Footer } from "./Footer";
 
 export const ServiceDetail = () => {
   const { id } = useParams();
@@ -89,17 +90,17 @@ export const ServiceDetail = () => {
               <h4 className="text-xl font-semibold mb-6 flex items-center text-gray-700">
                 Contact Us Via
                 <FaChevronDown
-                  className="text-2xl ml-2 relative "
+                  className="text-2xl ml-2 relative bottom-0.5 cursor-pointer"
                   onClick={handleDisplayMenu}
                 />
-                <div
+                {/* <div
                   className="hidden mt-4 absolute bottom-0 left-15 bg-white p-4 rounded-lg shadow-md"
                   id="contact-links"
                 >
                   <p>link 1</p>
                   <p>link 2</p>
                   <p>link 3</p>
-                </div>
+                </div> */}
               </h4>
               <div className="call-actions flex gap-4" id="contact-via">
                 <a
@@ -134,6 +135,7 @@ export const ServiceDetail = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

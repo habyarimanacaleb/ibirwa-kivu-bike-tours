@@ -32,30 +32,32 @@ export const Footer = () => {
               Contact Us
             </span>
           </div>
-          <div className="footer-right">
-            <h3 className="text-xl font-semibold mb-3">Get in Touch</h3>
-            <ul className="text-gray-300 space-y-2 text-sm">
-              <li>
-                <FaEnvelopeOpen className="mr-2" />
-                jeandamourrwibutso@gmail.com
-              </li>
-              <li>
-                <FaPhone className="mr-2" /> +250784606393
-              </li>
-              <li>
-                <FaMapMarkerAlt className="mr-2" /> Kibuye, Rwanda
-              </li>
-              <li>
-                <a
-                  href="https://www.google.com/maps?q=Kibuye,+Rwanda"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  View on Google Maps
-                </a>
-              </li>
-            </ul>
+          <div className="footer-right flex items-start justify-between">
+            <div className="footer-contact">
+              <h3 className="text-xl font-semibold mb-3">Get in Touch</h3>
+              <ul className="text-gray-300 space-y-2 text-sm">
+                <li>
+                  <FaEnvelopeOpen className="mr-2" />
+                  jeandamourrwibutso@gmail.com
+                </li>
+                <li>
+                  <FaPhone className="mr-2" /> +250784606393
+                </li>
+                <li>
+                  <FaMapMarkerAlt className="mr-2" /> Kibuye, Rwanda
+                </li>
+                <li>
+                  <a
+                    href="https://www.google.com/maps?q=Kibuye,+Rwanda"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-blue-600 hover:underline"
+                  >
+                    View on Google Maps
+                  </a>
+                </li>
+              </ul>
+            </div>
             <div className="mt-4 flex space-x-4">
               <a href="https://facebook.com" className="hover:text-blue-200">
                 <FaFacebook className="text-xl" />

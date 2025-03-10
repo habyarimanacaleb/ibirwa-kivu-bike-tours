@@ -32,7 +32,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
           localStorage.setItem("user", JSON.stringify(user));
           updateUser(user);
           setFormData({ email: "", password: "" });
-          navigate(user.role === "admin" ? "/admin" : "/");
+          navigate(user.role === "admin" ? "/admin" : "/services-gallery");
         } else {
           setError("Login successful, but token is missing.");
           setFormData({ email: "", password: "" });
@@ -113,7 +113,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute inset-y-0 right-2 flex items-center px-2 mt-1 text-gray-400"
               >
-                {/* {showPassword ? "Hide" : "Show"} */}
+                {showPassword ? "Hide" : "Show"}
               </button>
             </div>
           </div>
