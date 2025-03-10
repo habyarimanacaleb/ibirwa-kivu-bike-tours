@@ -1,4 +1,3 @@
-// DashboardHome.jsx
 import React, { useState, useEffect } from "react";
 import { Sidebar } from "../components/Sidebar";
 import StatsCard from "../components/StatsCard";
@@ -11,7 +10,7 @@ import axios from "axios";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import SearchBar from "../components/SearchBar";
-const DashboardHome = () => {
+export const DashboardHome = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [services, setServices] = useState([]);
@@ -106,4 +105,3 @@ const DashboardHome = () => {
     </div>
   );
 };
-export default DashboardHome;
