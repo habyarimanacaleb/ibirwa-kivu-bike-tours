@@ -14,14 +14,25 @@ import { UserProvider } from "./context/UserContext";
 import { ConfirmEmail } from "./server/VerifyEmail";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { DashboardHome } from "./pages/DashboardHome";
-import { CreateService } from "./admin-dashboard/CreateServices";
-
+import ServicesList from "./components/ServicesList";
+import { CreateServices } from "./admin-dashboard/CreateServices";
+import ContactInformation from "./admin-dashboard/ContactInformation";
+import Gallery from "./admin-dashboard/Gallery";
+import CreateGallery from "./admin-dashboard/CreateGallery";
+import UpdateGallery from "./admin-dashboard/UpdateGallery";
+import ServiceDetail from "./components/ServiceDetail";
+import UpdateService from "./admin-dashboard/UpdateService";
+import DashboardHome from "./pages/DashboardHome";
+import Services from "./components/Services";
+import Trends from "./components/Trends";
+import News from "./components/News";
+import Settings from "./components/Settings";
+import "./App.css";
 function App() {
   return (
     <UserProvider>
       <Router>
         <Routes>
-          {/* Public Routes with Navbar & Footer */}
           <Route
             path="/*"
             element={
@@ -33,6 +44,7 @@ function App() {
                     path="/services-gallery"
                     element={<GalleryServices />}
                   />
+                  <Route path="/services" element={<Services />} />
                   <Route path="/service/:id" element={<ServiceDetail />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/signin" element={<SignIn />} />
@@ -55,10 +67,22 @@ function App() {
           />
           <Route element={<ProtectedRoute />}>
             <Route path="/admin" element={<DashboardHome />} />
-            <Route path="create-service" element={<CreateService />} />
+            <Route path="create-service" element={<CreateServices />} />
+            <Route path="/tour-services" element={<Services />} />
+            <Route path="/admin" element={<ServicesList />} />
+            <Route path="/service/:id" element={<ServiceDetail />} />
+            <Route path="/update-service/:id" element={<UpdateService />} />
+            <Route
+              path="/contact-information"
+              element={<ContactInformation />}
+            />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/create-gallery" element={<CreateGallery />} />
+            <Route path="/update-gallery/:id" element={<UpdateGallery />} />
+            <Route path="/trends" element={<Trends />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/settings" element={<Settings />} />
           </Route>
-
-          {/* 404 Page */}
           <Route
             path="*"
             element={
@@ -72,5 +96,4 @@ function App() {
     </UserProvider>
   );
 }
-
 export default App;
