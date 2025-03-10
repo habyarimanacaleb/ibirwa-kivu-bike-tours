@@ -1,6 +1,7 @@
 // src/pages/Services.js
 import React from "react";
 import Slideshow from "../components/Slideshow";
+import Gallery from "../components/Gallery";
 
 export const GalleryServices = () => {
   return (
@@ -11,9 +12,7 @@ export const GalleryServices = () => {
       <div>
         <Slideshow />
       </div>
-      <div className="service-container mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* Dynamically insert cards */}
-      </div>
+      <Gallery />
     </section>
   );
 };

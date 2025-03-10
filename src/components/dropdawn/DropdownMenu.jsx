@@ -26,13 +26,12 @@ export const DropdownMenu = ({ closeMenu }) => {
   };
 
   return (
-    <li className="relative mr-0 lg:mr-40">
+    <div className="relative mr-0 lg:mr-40">
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="text-white flex items-center text-xl cursor-pointer gap-2"
         title="Services Menu"
       >
-        <span className="font-semibold text-[18px]">Services</span>
         <FaChevronDown
           className={`transition-transform duration-200 ${
             isOpen ? "rotate-180" : "rotate-0"
@@ -43,7 +42,7 @@ export const DropdownMenu = ({ closeMenu }) => {
       {isOpen && (
         <ul
           ref={dropdownRef}
-          className="absolute left-0 mt-2 bg-blue-700 z-10 px-2 w-[300px] py-4 rounded-md shadow-lg max-h-80 overflow-y-auto"
+          className="absolute left-0 mt-[13px] bg-blue-700 z-10 px-2 w-[300px] py-4 rounded-md shadow-lg max-h-80 overflow-y-auto"
         >
           <li>
             <h3 className="text-gray-600 font-semibold text-[18px] mb-2">
@@ -62,6 +61,6 @@ export const DropdownMenu = ({ closeMenu }) => {
           </li>
         </ul>
       )}
-    </li>
+    </div>
   );
 };

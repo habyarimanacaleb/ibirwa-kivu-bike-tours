@@ -23,11 +23,11 @@ export const Navbar = () => {
     <>
       {/* Navbar */}
       <nav className="bg-blue-600 h-16 fixed w-full top-0 left-0 z-50 shadow-md px-2 items-center justify-center">
-        <div className="container mx-auto flex justify-between items-center">
+        <div className="container mx-auto flex justify-between items-center py-4 ">
           {/* Logo */}
           <div
             className="app-logo cursor-pointer flex items-center"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
           >
             <img
               src="/kivu-image/bt-logo-52.jpg"
@@ -47,7 +47,7 @@ export const Navbar = () => {
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
           <ul
-            className={`md:flex md:space-x-6 absolute md:static md:items-center font-semibold text-[17px] px-6 py-4 sm:bg-blue-600 md:bg-blue-600 md:w-auto w-full left-0 top-16 transition-all duration-500 ease-in-out ${
+            className={`md:flex md:space-x-6 absolute md:static md:items-center font-semibold text-[17px] px-6  sm:bg-blue-600 md:bg-blue-600 md:w-auto w-full left-0 top-16 transition-all duration-500 ease-in-out ${
               isOpen
                 ? " bg-blue-600 h-screen flex flex-col overflow-hidden opacity-100"
                 : "hidden md:flex md:opacity-100"
@@ -64,18 +64,6 @@ export const Navbar = () => {
                 Home
               </NavLink>
             </li>
-            <li className="pb-2">
-              <NavLink
-                to="/services-gallery"
-                className={({ isActive }) =>
-                  isActive ? "text-yellow-400" : "text-white"
-                }
-                onClick={closeMenu}
-              >
-                Gallery
-              </NavLink>
-            </li>
-
             <li className="pb-2">
               <NavLink
                 to="/contact"
@@ -98,7 +86,12 @@ export const Navbar = () => {
                 Sign up
               </NavLink>
             </li>
-            <DropdownMenu closeMenu={closeMenu} />
+            <li className="flex items-center justify-center">
+              <span className="text-white text-md font-bold pr-2 mt-[-5px]">
+                Services
+              </span>
+              <DropdownMenu closeMenu={closeMenu} />
+            </li>
           </ul>
         </div>
       </nav>

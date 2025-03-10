@@ -7,7 +7,6 @@ import { ExploreRwanda } from "./pages/ExploreRwanda";
 import { Navbar } from "./components/Navbar";
 import { Join } from "./components/Join";
 import { Contacts } from "./pages/Contacts";
-import { Footer } from "./components/Footer";
 import { ServiceDetail } from "./components/ServiceDetail";
 import { SignIn } from "./components/SignIn";
 import { UserProvider } from "./context/UserContext";
@@ -26,6 +25,7 @@ import Trends from "./components/Trends";
 import News from "./components/News";
 import Settings from "./components/Settings";
 import "./App.css";
+
 function App() {
   return (
     <UserProvider>
@@ -34,33 +34,40 @@ function App() {
           <Route
             path="/*"
             element={
-              <>
+              <div className="flex flex-col min-h-screen">
                 <Navbar />
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route
-                    path="/services-gallery"
-                    element={<GalleryServices />}
-                  />
-                  <Route path="/services" element={<Services />} />
-                  <Route path="/service/:id" element={<ServiceDetail />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/signin" element={<SignIn />} />
-                  <Route path="/join" element={<Join />} />
-                  <Route
-                    path="/explore-more-to-Rwanda"
-                    element={<ExploreRwanda />}
-                  />
-                  <Route path="/parks" element={<h1>National Parks....</h1>} />
-                  <Route
-                    path="/culture"
-                    element={<h1>Culture & Heritage...</h1>}
-                  />
-                  <Route path="/contact" element={<Contacts />} />
-                  <Route path="/api/confirm-email" element={<ConfirmEmail />} />
-                </Routes>
-                <Footer />
-              </>
+                <div className="flex-grow">
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route
+                      path="/services-gallery"
+                      element={<GalleryServices />}
+                    />
+                    <Route path="/services" element={<Services />} />
+                    <Route path="/service/:id" element={<ServiceDetail />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/signin" element={<SignIn />} />
+                    <Route path="/join" element={<Join />} />
+                    <Route
+                      path="/explore-more-to-Rwanda"
+                      element={<ExploreRwanda />}
+                    />
+                    <Route
+                      path="/parks"
+                      element={<h1>National Parks....</h1>}
+                    />
+                    <Route
+                      path="/culture"
+                      element={<h1>Culture & Heritage...</h1>}
+                    />
+                    <Route path="/contact" element={<Contacts />} />
+                    <Route
+                      path="/api/confirm-email"
+                      element={<ConfirmEmail />}
+                    />
+                  </Routes>
+                </div>
+              </div>
             }
           />
           <Route element={<ProtectedRoute />}>
@@ -94,4 +101,5 @@ function App() {
     </UserProvider>
   );
 }
+
 export default App;
