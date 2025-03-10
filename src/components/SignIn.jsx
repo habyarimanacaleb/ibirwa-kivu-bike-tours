@@ -9,7 +9,6 @@ export const SignIn = ({ onSwitchToCreate }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { updateUser } = useUser();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -23,7 +22,6 @@ export const SignIn = ({ onSwitchToCreate }) => {
           body: JSON.stringify(formData),
         }
       );
-
       const data = await response.json();
       console.log("API Response:", data);
 
@@ -33,20 +31,20 @@ export const SignIn = ({ onSwitchToCreate }) => {
           localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(user));
           updateUser(user);
-          setFormData({ email: "", password: "" }); // Reset form
+          setFormData({ email: "", password: "" });
           navigate(user.role === "admin" ? "/admin" : "/");
         } else {
           setError("Login successful, but token is missing.");
-          setFormData({ email: "", password: "" }); // Reset form
+          setFormData({ email: "", password: "" });
         }
       } else {
         setError(data.message || "Login failed");
-        setFormData({ email: "", password: "" }); // Reset form
+        setFormData({ email: "", password: "" });
       }
     } catch (error) {
       setError(`An error occurred: ${error.message}`);
       console.error("Login error:", error);
-      setFormData({ email: "", password: "" }); // Reset form
+      setFormData({ email: "", password: "" });
     } finally {
       setLoading(false);
     }
@@ -55,7 +53,6 @@ export const SignIn = ({ onSwitchToCreate }) => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-6">
@@ -65,12 +62,11 @@ export const SignIn = ({ onSwitchToCreate }) => {
           </button>
           <button
             className="w-1/2 text-center font-semibold pb-2 text-gray-400"
-            onClick={onSwitchToCreate} // Calling function passed as prop for "Create Account"
+            onClick={onSwitchToCreate}
           >
             Create Account
           </button>
         </div>
-
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
         <form className="mt-4" onSubmit={handleSubmit}>
@@ -93,7 +89,6 @@ export const SignIn = ({ onSwitchToCreate }) => {
               required
             />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="password"
@@ -118,11 +113,10 @@ export const SignIn = ({ onSwitchToCreate }) => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute inset-y-0 right-2 flex items-center px-2 mt-1 text-gray-400"
               >
-                {showPassword ? "Hide" : "Show"}
+                {/* {showPassword ? "Hide" : "Show"} */}
               </button>
             </div>
           </div>
-
           <button
             type="submit"
             className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
