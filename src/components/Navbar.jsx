@@ -86,7 +86,7 @@ export const Navbar = () => {
                 Sign up
               </NavLink>
             </li>
-            <li className="flex items-center justify-center">
+            <li className="flex">
               <span className="text-white text-md font-bold pr-2 mt-[-5px]">
                 Services
               </span>

@@ -16,7 +16,6 @@ import { DashboardHome } from "./pages/DashboardHome";
 import ServicesList from "./components/ServicesList";
 import { CreateServices } from "./admin-dashboard/CreateServices";
 import ContactInformation from "./admin-dashboard/ContactInformation";
-import Gallery from "./admin-dashboard/Gallery";
 import CreateGallery from "./admin-dashboard/CreateGallery";
 import UpdateGallery from "./admin-dashboard/UpdateGallery";
 import UpdateService from "./admin-dashboard/UpdateService";
@@ -25,7 +24,6 @@ import Trends from "./components/Trends";
 import News from "./components/News";
 import Settings from "./components/Settings";
 import "./App.css";
-
 function App() {
   return (
     <UserProvider>
@@ -99,5 +97,4 @@ function App() {
     </UserProvider>
   );
 }
-
 export default App;
