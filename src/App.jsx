@@ -75,13 +75,11 @@ function App() {
             <Route path="create-service" element={<CreateServices />} />
             <Route path="/tour-services" element={<Services />} />
             <Route path="/admin" element={<ServicesList />} />
-            <Route path="/service/:id" element={<ServiceDetail />} />
             <Route path="/update-service/:id" element={<UpdateService />} />
             <Route
               path="/contact-information"
               element={<ContactInformation />}
             />
-            <Route path="/gallery" element={<Gallery />} />
             <Route path="/create-gallery" element={<CreateGallery />} />
             <Route path="/update-gallery/:id" element={<UpdateGallery />} />
             <Route path="/trends" element={<Trends />} />
