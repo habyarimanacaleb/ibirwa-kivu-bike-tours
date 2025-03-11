@@ -38,14 +38,6 @@ export const ServiceDetail = () => {
   if (!service) {
     return <div>Service not found</div>;
   }
-  const handleDisplayMenu = () => {
-    const contactLinks = document.getElementById("contact-links");
-    if (contactLinks.style.display === "block") {
-      contactLinks.style.display = "none";
-    } else {
-      contactLinks.style.display = "block";
-    }
-  };
   return (
     <div className="service-detail">
       <section className="content py-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -89,18 +81,7 @@ export const ServiceDetail = () => {
               </h2>
               <h4 className="text-xl font-semibold mb-6 flex items-center text-gray-700">
                 Contact Us Via
-                <FaChevronDown
-                  className="text-2xl ml-2 relative bottom-0.5 cursor-pointer"
-                  onClick={handleDisplayMenu}
-                />
-                {/* <div
-                  className="hidden mt-4 absolute bottom-0 left-15 bg-white p-4 rounded-lg shadow-md"
-                  id="contact-links"
-                >
-                  <p>link 1</p>
-                  <p>link 2</p>
-                  <p>link 3</p>
-                </div> */}
+                <FaChevronDown className="text-2xl ml-2 relative bottom-0.5 cursor-pointer" />
               </h4>
               <div className="call-actions flex gap-4" id="contact-via">
                 <a
