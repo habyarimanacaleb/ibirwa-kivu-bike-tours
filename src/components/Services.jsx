@@ -36,13 +36,11 @@ const Services = () => {
 
   return (
     <div className="p-6">
-      <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <h1 className="text-2xl font-bold mb-6">Services</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {loading
           ? Array.from({ length: 6 }).map((_, index) => (
-              <div
-                key={index}
-                className="bg-white p-4 rounded-lg shadow-lg flex"
-              >
+              <div key={index} className="bg-white p-4 rounded-lg shadow-lg">
                 <Skeleton height={192} className="rounded-lg" />
                 <Skeleton height={24} width={`80%`} className="mt-4" />
                 <Skeleton height={16} width={`60%`} className="mt-2" />
