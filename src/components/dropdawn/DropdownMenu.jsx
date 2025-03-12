@@ -26,7 +26,7 @@ export const DropdownMenu = ({ closeMenu }) => {
   };
 
   return (
-    <div className="relative mr-0 lg:mr-40">
+    <div className="relative mr-full lg:mr-40">
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="text-white flex items-center text-xl cursor-pointer gap-2"

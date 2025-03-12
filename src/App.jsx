@@ -12,11 +12,11 @@ import { SignIn } from "./components/SignIn";
 import { UserProvider } from "./context/UserContext";
 import { ConfirmEmail } from "./server/VerifyEmail";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { DashboardHome } from "./pages/DashboardHome";
+// import { DashboardHome } from "./pages/DashboardHome";
+import { Dashboard } from "./pages/Dashboard";
 import ServicesList from "./components/ServicesList";
 import { CreateServices } from "./admin-dashboard/CreateServices";
 import ContactInformation from "./admin-dashboard/ContactInformation";
-import Gallery from "./admin-dashboard/Gallery";
 import CreateGallery from "./admin-dashboard/CreateGallery";
 import UpdateGallery from "./admin-dashboard/UpdateGallery";
 import UpdateService from "./admin-dashboard/UpdateService";
@@ -25,7 +25,6 @@ import Trends from "./components/Trends";
 import News from "./components/News";
 import Settings from "./components/Settings";
 import "./App.css";
-
 function App() {
   return (
     <UserProvider>
@@ -71,7 +70,8 @@ function App() {
             }
           />
           <Route element={<ProtectedRoute />}>
-            <Route path="/admin" element={<DashboardHome />} />
+            {/* <Route path="/admin" element={<DashboardHome />} /> */}
+            <Route path="/admin" element={<Dashboard />} />
             <Route path="create-service" element={<CreateServices />} />
             <Route path="/tour-services" element={<Services />} />
             <Route path="/admin" element={<ServicesList />} />
@@ -99,5 +99,4 @@ function App() {
     </UserProvider>
   );
 }
-
 export default App;

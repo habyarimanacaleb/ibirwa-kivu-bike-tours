@@ -36,7 +36,10 @@ export const Contacts = () => {
       if (response.ok) {
         setResponseMessage("Contact information submitted successfully!");
         setResponseClass("text-green-600 font-bold");
-        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => {
+          setResponseClass("hidden");
+          setFormData({ name: "", email: "", message: "" });
+        }, 3000);
         navigate("/");
       } else {
         setResponseMessage("Error: " + result.message);
