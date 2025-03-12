@@ -12,7 +12,8 @@ import { SignIn } from "./components/SignIn";
 import { UserProvider } from "./context/UserContext";
 import { ConfirmEmail } from "./server/VerifyEmail";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { DashboardHome } from "./pages/DashboardHome";
+// import { DashboardHome } from "./pages/DashboardHome";
+import { Dashboard } from "./pages/Dashboard";
 import ServicesList from "./components/ServicesList";
 import { CreateServices } from "./admin-dashboard/CreateServices";
 import ContactInformation from "./admin-dashboard/ContactInformation";
@@ -69,7 +70,8 @@ function App() {
             }
           />
           <Route element={<ProtectedRoute />}>
-            <Route path="/admin" element={<DashboardHome />} />
+            {/* <Route path="/admin" element={<DashboardHome />} /> */}
+            <Route path="/admin" element={<Dashboard />} />
             <Route path="create-service" element={<CreateServices />} />
             <Route path="/tour-services" element={<Services />} />
             <Route path="/admin" element={<ServicesList />} />
