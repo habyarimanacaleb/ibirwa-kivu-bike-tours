@@ -32,8 +32,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
           localStorage.setItem("user", JSON.stringify(user));
           updateUser(user);
           setFormData({ email: "", password: "" });
-          // navigate(user.role === "admin" ? "/admin" : "/services-gallery");
-          navigate("/admin");
+          navigate(user.role === "admin" ? "/admin" : "/services-gallery");
         } else {
           setError("Login successful, but token is missing.");
           setFormData({ email: "", password: "" });
