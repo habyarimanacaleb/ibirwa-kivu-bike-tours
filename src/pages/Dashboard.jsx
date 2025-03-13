@@ -293,14 +293,18 @@ export function Dashboard() {
       <main className="flex-1 p-6 overflow-auto">
         <div className="flex justify-between items-center">
           <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
-          <div className="relative flex justify-between items-center search-bar pr-2">
-            <Bell className="mr-2" />
-            {notifications > 0 && (
-              <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-                {notifications}
-              </span>
-            )}
-            <User />
+          <div className=" flex justify-between items-center search-bar pr-2">
+            <div className="relative">
+              <Bell className="mr-2" />
+              {notifications > 0 && (
+                <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                  {notifications}
+                </span>
+              )}
+            </div>
+            <div className="p-1 rounded-full bg-gray-200 mx-1">
+              <User />
+            </div>
           </div>
         </div>
         <h1 className="text-3xl font-bold mb-6">Welcome back, Admin!</h1>
