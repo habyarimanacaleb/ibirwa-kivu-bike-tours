@@ -122,8 +122,7 @@ export const Home = () => {
                 aria-label="Click to connect with our support team"
                 title="Stay with us"
               >
-                <i className="fa-solid fa-right-to-bracket"></i> Signup/Login to
-                Book
+                <i className="fa-solid fa-right-to-bracket"></i>Our Gallery
               </button>
               <button
                 onClick={() => navigate("/contact")}
