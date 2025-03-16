@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa";
-import servicesData from "../../assets/Servicesdata.js";
+import axios from "axios";
 
 export const DropdownMenu = ({ closeMenu }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
@@ -17,6 +20,23 @@ export const DropdownMenu = ({ closeMenu }) => {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get(
+          "https://kivu-back-end.onrender.com/api/services"
+        );
+        setServices(response.data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
   }, []);
 
   const handleNavigation = (serviceId) => {
@@ -48,16 +68,22 @@ export const DropdownMenu = ({ closeMenu }) => {
             <h3 className="text-gray-600 font-semibold text-[18px] mb-2">
               Our Services
             </h3>
-            {servicesData.map((service) => (
-              <div
-                key={service.id}
-                onClick={() => handleNavigation(service.id)}
-              >
-                <button className="text-white p-2 hover:bg-blue-500 w-full text-left flex flex-col items-center">
-                  {service.title}
-                </button>
-              </div>
-            ))}
+            {loading ? (
+              <div className="text-white">Loading...</div>
+            ) : error ? (
+              <div className="text-red-500">Error: {error.message}</div>
+            ) : (
+              services.map((service) => (
+                <div
+                  key={service._id}
+                  onClick={() => handleNavigation(service._id)}
+                >
+                  <button className="text-white p-2 hover:bg-blue-500 w-full text-left flex flex-col items-center">
+                    {service.title}
+                  </button>
+                </div>
+              ))
+            )}
           </li>
         </ul>
       )}
