@@ -25,6 +25,7 @@ import Trends from "./components/Trends";
 import News from "./components/News";
 import Settings from "./components/Settings";
 import "./App.css";
+
 function App() {
   return (
     <UserProvider>
@@ -99,4 +100,5 @@ function App() {
     </UserProvider>
   );
 }
+
 export default App;
