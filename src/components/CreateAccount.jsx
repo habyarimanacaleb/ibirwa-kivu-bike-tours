@@ -51,7 +51,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-6">
+      <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-4">
         <div className="flex justify-between border-b border-gray-200 pb-3">
           <button
             className="w-1/2 text-center font-semibold pb-2 text-gray-400"
@@ -129,7 +129,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
 
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-full py-2 px-4 bg-black text-white font-semibold rounded-lg shadow-md hover:bg-black-200 focus:ring-2 focus:ring-black-300 focus:ring-offset-2"
             disabled={loading}
           >
             {loading ? "Creating Account..." : "Create Account"}
