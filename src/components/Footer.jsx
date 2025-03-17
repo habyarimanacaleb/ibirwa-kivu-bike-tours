@@ -13,7 +13,7 @@ import {
 export const Footer = () => {
   const navigate = useNavigate();
   return (
-    <footer className="bg-blue-500 text-white py-10 relative">
+    <footer className="bg-black text-white py-10 relative">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
           <div className="footer-left">

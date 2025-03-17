@@ -1,6 +1,7 @@
 // src/pages/Contacts.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 export const Contacts = () => {
   const navigate = useNavigate();
@@ -53,7 +54,8 @@ export const Contacts = () => {
   };
 
   return (
-    <div className="bg-gray-100 p-6 mt-14 min-h-[100vh]">
+    <div className="bg-gray-100 p-6 mt-10 min-h-[100vh]">
+      <Navbar />
       <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
         <form id="contactForm" onSubmit={handleSubmit}>
@@ -100,7 +102,7 @@ export const Contacts = () => {
           </div>
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="bg-black text-white px-4 py-2 rounded hover:bg-black-200"
           >
             Submit
           </button>

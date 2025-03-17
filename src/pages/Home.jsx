@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import homeBg from "../assets/css/Home.module.css";
 import Services from "../components/Services";
@@ -7,46 +8,101 @@ import ChevronButton from "../components/ChevronButton";
 
 export const Home = () => {
   const navigate = useNavigate();
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get(
+          "https://kivu-back-end.onrender.com/api/services"
+        );
+        setServices(response.data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % services.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [services.length]);
   return (
     <>
-      <div className="bg-gray-100 ">
-        <section
-          id="home"
-          className={`welcome-page ${homeBg.bgImage} min-h-[100vh] flex flex-col pt-16`}
-        >
-          <div className="hello flex flex-col items-center justify-center">
-            <h1 className="lg:text-[90px] text-[36px] sm:text-[50px] text-bold py-2 capitalize text-center">
-              IBIRWA KIVU BIKE TOURS
-            </h1>
-            <h4 className="text-bold-600 lg:text-[45px] text-[25px]  text-center">
-              Rental and Tour Services in Rwanda
-            </h4>
-            <p className="home-bind py-1 lg:text-[20px] text-[12px] text-center">
-              <span className="text-darkgray-700 italic">Kigali</span>
-              <span className=" px-1 text-gray-500 text-md">|</span>
-              <span className="text-darkgray-700 italic">Lake Kivu</span>
-              <span className=" px-1 text-gray-500 text-md">|</span>
-              <span className="text-darkgray-700 italic">Gisenyi</span>
-              <span className=" px-1 text-gray-500 text-md">|</span>
-              <span className="text-darkgray-700 italic">Kibuye</span>
-              <span className=" px-1 text-gray-500 text-md">|</span>
-              <span className="text-darkgray-700 italic">Gitesi</span>
-              <span className=" px-1 text-gray-500 text-md">|</span>
-              <span className="text-darkgray-700 italic">Nyakariba Swamp</span>
-              <span className=" px-1 text-gray-500 text-md">|</span>
-              <span className="text-darkgray-700 italic">Nkombo Culture</span>
+      <div className="bg-gray-200 ">
+        <section className="relative home-hello-section lg:h-screen h-auto py-6 text-white">
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center  p-6 bg-black-300 bg-opacity-70 z-10">
+            {/* <h1 className="lg:text-7xl text-4xl capitalize font-bold py-4">
+              Welcome to Our Services
+            </h1> */}
+            <div className="hello flex flex-col items-center justify-center">
+              <h1 className="lg:text-[90px] text-[33px] text-bold py-2 capitalize text-center">
+                IBIRWA KIVU BIKE TOURS
+              </h1>
+              <h4 className="text-bold-600 lg:text-[45px] text-[25px]  text-center">
+                Rental and Tour Services in Rwanda
+              </h4>
+              <p className="home-bind py-1 lg:text-[20px] text-[12px] text-center">
+                <span className="text-darkgray-700 italic">Kigali</span>
+                <span className=" px-1 text-gray-500 text-md">|</span>
+                <span className="text-darkgray-700 italic">Lake Kivu</span>
+                <span className=" px-1 text-gray-500 text-md">|</span>
+                <span className="text-darkgray-700 italic">Gisenyi</span>
+                <span className=" px-1 text-gray-500 text-md">|</span>
+                <span className="text-darkgray-700 italic">Kibuye</span>
+                <span className=" px-1 text-gray-500 text-md">|</span>
+                <span className="text-darkgray-700 italic">Nkombo Culture</span>
+              </p>
+            </div>
+            <h3 className="text-2xl font-semibold my-2">
+              Explore Our Offerings
+            </h3>
+            <p className="text-lg">
+              Discover the best services we offer to make your experience
+              unforgettable.
             </p>
           </div>
-          <div className="my-quote text-3xl mt-68 italic font-serif font-bold pb-10">
-            <p className="text-center text-bold capitalize">
-              We Travel in Comfort
-            </p>
+          <div className="services-images relative h-80 lg:h-screen">
+            {loading ? (
+              <div className="text-center text-white">Loading...</div>
+            ) : error ? (
+              <div className="text-center text-red-500">
+                Error: {error.message}
+              </div>
+            ) : (
+              services.map((service, index) => (
+                <div
+                  key={service._id}
+                  className={`service-image-container absolute inset-0 transition-opacity duration-1000 ${
+                    index === currentIndex ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  {service.imageFile && (
+                    <img
+                      src={service.imageFile}
+                      alt={service.title}
+                      className="w-full h-96 object-cover"
+                    />
+                  )}
+                </div>
+              ))
+            )}
           </div>
         </section>
         <section
-          className={`about fade-in mx-auto flex flex-col items-center justify-center ${homeBg.aboutBg} p-6 min-h-[100vh]`}
+          className={`about fade-in mx-auto flex flex-col items-center justify-center ${homeBg.aboutBg} p-6 lg:h-screen h-auto`}
         >
-          <div className="about-content py-3">
+          <div className="about-content py-6">
             <h1 className="headings mb-12 text-4xl text-center text-bold-600">
               About Us
             </h1>
@@ -122,7 +178,7 @@ export const Home = () => {
                 aria-label="Click to connect with our support team"
                 title="Stay with us"
               >
-                <i className="fa-solid fa-right-to-bracket"></i>Our Gallery
+                <i className="fa-solid fa-right-to-bracket"></i>View Our Gallery
               </button>
               <button
                 onClick={() => navigate("/contact")}
