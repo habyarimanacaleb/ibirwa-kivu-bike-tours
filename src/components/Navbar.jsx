@@ -22,7 +22,7 @@ export const Navbar = () => {
   return (
     <>
       {/* Navbar */}
-      <nav className="bg-blue-600 h-16 fixed w-full top-0 left-0 z-50 shadow-md px-2 items-center justify-center">
+      <nav className="bg-black h-20 fixed w-full top-0 left-0 z-50 shadow-md px-2 items-center justify-center">
         <div className="container mx-auto flex justify-between items-center py-4 ">
           {/* Logo */}
           <div
@@ -30,14 +30,13 @@ export const Navbar = () => {
             onClick={() => navigate("/")}
           >
             <img
-              src="/kivu-image/bt-logo-52.jpg"
+              src="/kivu-image/bt-logo-52.png"
               alt="Kivu Logo"
-              className="h-12 w-12 mr-2"
+              className="h-16 w-16"
             />
-            <div>
-              <h1 className="text-white text-xl font-bold">
-                Ibirwa Kivu Bike Tours
-              </h1>
+            <div className="text-white text-sm font-bold flex flex-col">
+              <span>Ibirwa Kivu</span>
+              <span>Bike Tours</span>
             </div>
           </div>
           <button
@@ -47,9 +46,9 @@ export const Navbar = () => {
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
           <ul
-            className={`md:flex md:space-x-6 absolute md:static md:items-center font-semibold text-[17px] px-6  sm:bg-blue-600 md:bg-blue-600 md:w-auto w-full left-0 top-16 transition-all duration-500 ease-in-out ${
+            className={`md:flex md:space-x-6 absolute md:static md:items-center font-semibold text-[17px] px-6  sm:bg-black md:bg-black md:w-auto w-full left-0 top-16 transition-all duration-500 ease-in-out ${
               isOpen
-                ? " bg-blue-600 h-screen flex flex-col overflow-hidden opacity-100"
+                ? " bg-black h-screen flex flex-col overflow-hidden opacity-100"
                 : "hidden md:flex md:opacity-100"
             } z-40`}
           >
@@ -95,7 +94,7 @@ export const Navbar = () => {
           </ul>
         </div>
       </nav>
-      <div className="bg-inherit p-4">{}</div>
+      <div className="bg-inherit p-5">{}</div>
     </>
   );
 };
