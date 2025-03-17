@@ -41,7 +41,7 @@ export const Home = () => {
     <>
       <div className="bg-gray-200 ">
         <section className="relative home-hello-section lg:h-screen h-auto py-6 text-white">
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center  p-6 bg-black-300 bg-opacity-90 z-10">
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center  p-6 bg-black-300 bg-opacity-70 z-10">
             {/* <h1 className="lg:text-7xl text-4xl capitalize font-bold py-4">
               Welcome to Our Services
             </h1> */}
