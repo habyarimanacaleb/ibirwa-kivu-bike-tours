@@ -37,6 +37,7 @@ export const Navbar = () => {
             <div className="text-white text-sm font-bold flex flex-col">
               <span>Ibirwa Kivu</span>
               <span>Bike Tours</span>
+              <span>We Travel IN Comfort</span>
             </div>
           </div>
           <button

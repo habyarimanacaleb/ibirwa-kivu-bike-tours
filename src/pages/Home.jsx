@@ -5,6 +5,7 @@ import homeBg from "../assets/css/Home.module.css";
 import Services from "../components/Services";
 import { Footer } from "../components/Footer";
 import ChevronButton from "../components/ChevronButton";
+import TourInquiryForm from "../components/TourInquiryForm";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -41,38 +42,7 @@ export const Home = () => {
     <>
       <div className="bg-gray-200 ">
         <section className="relative home-hello-section lg:h-screen h-auto py-6 text-white">
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center  p-6 bg-black-300 bg-opacity-70 z-10">
-            {/* <h1 className="lg:text-7xl text-4xl capitalize font-bold py-4">
-              Welcome to Our Services
-            </h1> */}
-            <div className="hello flex flex-col items-center justify-center">
-              <h1 className="lg:text-[90px] text-[33px] text-bold py-2 capitalize text-center">
-                IBIRWA KIVU BIKE TOURS
-              </h1>
-              <h4 className="text-bold-600 lg:text-[45px] text-[25px]  text-center">
-                Rental and Tour Services in Rwanda
-              </h4>
-              <p className="home-bind py-1 lg:text-[20px] text-[12px] text-center">
-                <span className="text-darkgray-700 italic">Kigali</span>
-                <span className=" px-1 text-gray-500 text-md">|</span>
-                <span className="text-darkgray-700 italic">Lake Kivu</span>
-                <span className=" px-1 text-gray-500 text-md">|</span>
-                <span className="text-darkgray-700 italic">Gisenyi</span>
-                <span className=" px-1 text-gray-500 text-md">|</span>
-                <span className="text-darkgray-700 italic">Kibuye</span>
-                <span className=" px-1 text-gray-500 text-md">|</span>
-                <span className="text-darkgray-700 italic">Nkombo Culture</span>
-              </p>
-            </div>
-            <h3 className="text-2xl font-semibold my-2">
-              Explore Our Offerings
-            </h3>
-            <p className="text-lg">
-              Discover the best services we offer to make your experience
-              unforgettable.
-            </p>
-          </div>
-          <div className="services-images relative h-80 lg:h-screen">
+          <div className="services-images relative h-80 lg:h-screen rounded-b-2xl">
             {loading ? (
               <div className="text-center text-white">Loading...</div>
             ) : error ? (
@@ -97,6 +67,29 @@ export const Home = () => {
                 </div>
               ))
             )}
+          </div>
+          <div className="  flex flex-col  justify-center text-center  p-6 bg-black-300 bg-opacity-70 z-10">
+            {/* <div className="hello flex flex-col items-center justify-center">
+              <h1 className="lg:text-[90px] text-[33px] text-bold py-2 capitalize text-center">
+                IBIRWA KIVU BIKE TOURS
+              </h1>
+              <h4 className="text-bold-600 lg:text-[45px] text-[25px]  text-center">
+                Rental and Tour Services in Rwanda
+              </h4>
+              <p className="home-bind py-1 lg:text-[20px] text-[12px] text-center">
+                <span className="text-darkgray-700 italic">Kigali</span>
+                <span className=" px-1 text-gray-500 text-md">|</span>
+                <span className="text-darkgray-700 italic">Lake Kivu</span>
+                <span className=" px-1 text-gray-500 text-md">|</span>
+                <span className="text-darkgray-700 italic">Gisenyi</span>
+                <span className=" px-1 text-gray-500 text-md">|</span>
+                <span className="text-darkgray-700 italic">Kibuye</span>
+                <span className=" px-1 text-gray-500 text-md">|</span>
+                <span className="text-darkgray-700 italic">Nkombo Culture</span>
+              </p>
+            </div> */}
+
+            <TourInquiryForm />
           </div>
         </section>
         <section
