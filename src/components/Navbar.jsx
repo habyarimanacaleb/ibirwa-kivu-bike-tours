@@ -34,9 +34,10 @@ export const Navbar = () => {
               alt="Kivu Logo"
               className="h-16 w-16"
             />
-            <div className="text-white text-sm font-bold flex flex-col">
+            <div className="text-white text-xs font-bold flex flex-col">
               <span>Ibirwa Kivu</span>
               <span>Bike Tours</span>
+              <span>We Travel IN Comfort</span>
             </div>
           </div>
           <button
@@ -46,7 +47,7 @@ export const Navbar = () => {
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
           <ul
-            className={`md:flex md:space-x-6 absolute md:static md:items-center font-semibold text-[17px] px-6  sm:bg-black md:bg-black md:w-auto w-full left-0 top-16 transition-all duration-500 ease-in-out ${
+            className={`md:flex md:space-x-6 absolute md:static md:items-center font-semibold text-[17px] px-6  sm:bg-black md:bg-black md:w-auto w-full left-0 top-20 transition-all duration-500 ease-in-out ${
               isOpen
                 ? " bg-black h-screen flex flex-col overflow-hidden opacity-100"
                 : "hidden md:flex md:opacity-100"
