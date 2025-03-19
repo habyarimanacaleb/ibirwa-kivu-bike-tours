@@ -42,7 +42,7 @@ export const Home = () => {
     <>
       <div className="bg-gray-200 ">
         <section className="relative home-hello-section lg:h-screen h-auto py-6 text-white">
-          <div className="services-images relative h-80 lg:h-screen rounded-b-2xl">
+          <div className="services-images relative h-80  rounded-b-2xl">
             {loading ? (
               <div className="text-center text-white">Loading...</div>
             ) : error ? (
@@ -54,7 +54,7 @@ export const Home = () => {
                 <div
                   key={service._id}
                   className={`service-image-container absolute inset-0 transition-opacity duration-1000 ${
-                    index === currentIndex ? "opacity-100" : "opacity-0"
+                    index === currentIndex ? "opacity-90" : "opacity-0"
                   }`}
                 >
                   {service.imageFile && (
@@ -68,27 +68,7 @@ export const Home = () => {
               ))
             )}
           </div>
-          <div className="  flex flex-col  justify-center text-center  p-6 bg-black-300 bg-opacity-70 z-10">
-            {/* <div className="hello flex flex-col items-center justify-center">
-              <h1 className="lg:text-[90px] text-[33px] text-bold py-2 capitalize text-center">
-                IBIRWA KIVU BIKE TOURS
-              </h1>
-              <h4 className="text-bold-600 lg:text-[45px] text-[25px]  text-center">
-                Rental and Tour Services in Rwanda
-              </h4>
-              <p className="home-bind py-1 lg:text-[20px] text-[12px] text-center">
-                <span className="text-darkgray-700 italic">Kigali</span>
-                <span className=" px-1 text-gray-500 text-md">|</span>
-                <span className="text-darkgray-700 italic">Lake Kivu</span>
-                <span className=" px-1 text-gray-500 text-md">|</span>
-                <span className="text-darkgray-700 italic">Gisenyi</span>
-                <span className=" px-1 text-gray-500 text-md">|</span>
-                <span className="text-darkgray-700 italic">Kibuye</span>
-                <span className=" px-1 text-gray-500 text-md">|</span>
-                <span className="text-darkgray-700 italic">Nkombo Culture</span>
-              </p>
-            </div> */}
-
+          <div className="  flex flex-col  justify-center text-center  bg-black bg-opacity-70 z-10">
             <TourInquiryForm />
           </div>
         </section>
@@ -113,7 +93,7 @@ export const Home = () => {
           </div>
           <button
             onClick={() => navigate("/about")}
-            className="btn mt-2 w-[150px] bg-blue-500 cursor-pointer text-white px-3 py-2 rounded-md hover:bg-blue-600"
+            className="btn my-2 w-[150px] bg-blue-500 cursor-pointer text-white px-3 py-2 rounded-md hover:bg-blue-600"
           >
             Lead More
           </button>
@@ -126,9 +106,8 @@ export const Home = () => {
         </section>
         <section id="mtb-tours" className="py-10 bg-gray-100">
           <div className="mx-auto px-6 flex flex-col justify-center items-center">
-            <h2 className="text-3xl font-bold text-blue-600 text-center mb-8">
-              Explore Rwanda: 6-Day MTB Adventure Through the Land of a Thousand
-              Hills
+            <h2 className="text-2xl font-bold text-black-800 text-center mb-8">
+              6-Day MTB Adventure Through the Land of a Thousand Hills
             </h2>
             <p className="text-xl pt-2 pb-6 text-gray-700 text-justify">
               Rwanda, known as the "Land of a Thousand Hills," offers a unique
