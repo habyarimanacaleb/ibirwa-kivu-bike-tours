@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // Fetch user data from localStorage
   const username = localStorage.getItem("username");
@@ -17,9 +17,7 @@ const Settings = () => {
     // Clear all information from local storage
     localStorage.clear();
     sessionStorage.clear();
-
-    // Redirect to the homepage
-    history.push("/");
+    navigate("/");
   };
 
   const handleSaveSettings = () => {
