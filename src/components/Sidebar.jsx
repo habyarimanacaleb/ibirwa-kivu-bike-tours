@@ -21,7 +21,16 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
     { name: "Create Service", path: "/create-service", icon: <FaPlus /> },
     { name: "Create Gallery", path: "/create-gallery", icon: <FaPlus /> },
     { name: "Update Gallery", path: "/update-gallery", icon: <FaEdit /> },
-    { name: "User Querry", path: "/contact-information", icon: <FaMessage /> },
+    {
+      name: "Client Querry",
+      path: "/contact-information",
+      icon: <FaMessage />,
+    },
+    {
+      name: "Client Inquiry Inf",
+      path: "/inquiries-information",
+      icon: <FaMessage />,
+    },
     { name: "Settings", path: "/settings", icon: <FaCog /> },
     { name: "Trends", path: "/trends", icon: <FaChartLine /> },
     { name: "News", path: "/news", icon: <FaNewspaper /> },
