@@ -177,7 +177,15 @@ export function Dashboard() {
                 to="/contact-information"
                 className="flex items-center hover:text-blue-300"
               >
-                <MessageSquare className="mr-2" /> User Queries
+                <MessageSquare className="mr-2" /> Client Queries
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/inquiries-information"
+                className="flex items-center hover:text-blue-300"
+              >
+                <MessageEvent className="mr-2" /> Client inquiry Inf
               </Link>
             </li>
             <li>
