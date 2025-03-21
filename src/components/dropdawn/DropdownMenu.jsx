@@ -62,7 +62,7 @@ export const DropdownMenu = ({ closeMenu }) => {
       {isOpen && (
         <ul
           ref={dropdownRef}
-          className="absolute left-0 mt-[13px] bg-blue-700 z-10 px-2 w-[300px] py-4 rounded-md shadow-lg max-h-80 overflow-y-auto"
+          className="absolute left-0 mt-[13px] bg-black z-10 px-2 w-[300px] py-4 rounded-md shadow-lg max-h-80 overflow-y-auto"
         >
           <li>
             <h3 className="text-gray-600 font-semibold text-[18px] mb-2">
