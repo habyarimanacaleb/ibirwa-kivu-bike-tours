@@ -185,7 +185,7 @@ export function Dashboard() {
                 to="/inquiries-information"
                 className="flex items-center hover:text-blue-300"
               >
-                <MessageEvent className="mr-2" /> Client inquiry Inf
+                <MessageSquare className="mr-2" /> Client inquiry Inform
               </Link>
             </li>
             <li>
@@ -274,22 +274,44 @@ export function Dashboard() {
                 <Link
                   to="/contact-information"
                   onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center hover:text-blue-300"
                 >
-                  User Queries
+                  Client Queries
                 </Link>
               </li>
               <li>
-                <Link to="/settings" onClick={() => setIsMobileMenuOpen(false)}>
+                <Link
+                  to="/inquiries-information"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center hover:text-blue-300"
+                >
+                  Client inquiry Inform
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/settings"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center hover:text-blue-300"
+                >
                   Settings
                 </Link>
               </li>
               <li>
-                <Link to="/trends" onClick={() => setIsMobileMenuOpen(false)}>
+                <Link
+                  to="/trends"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center hover:text-blue-300"
+                >
                   Trends
                 </Link>
               </li>
               <li>
-                <Link to="/news" onClick={() => setIsMobileMenuOpen(false)}>
+                <Link
+                  to="/news"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center hover:text-blue-300"
+                >
                   News
                 </Link>
               </li>
