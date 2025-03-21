@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 const Settings = () => {
   const navigate = useNavigate();
 
-  // Fetch user data from localStorage
   const username = localStorage.getItem("username");
   const email = localStorage.getItem("email");
   const role = localStorage.getItem("role");
@@ -14,14 +13,12 @@ const Settings = () => {
   const [twoFactorAuth, setTwoFactorAuth] = useState(false);
 
   const handleLogout = () => {
-    // Clear all information from local storage
     localStorage.clear();
     sessionStorage.clear();
     navigate("/");
   };
 
   const handleSaveSettings = () => {
-    // Save settings to localStorage or send to the server
     localStorage.setItem("emailNotifications", emailNotifications);
     localStorage.setItem("smsNotifications", smsNotifications);
     localStorage.setItem("twoFactorAuth", twoFactorAuth);
@@ -33,7 +30,6 @@ const Settings = () => {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Settings</h1>
 
-      {/* User Profile Section */}
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">Profile</h2>
         {username && email && role ? (
@@ -56,7 +52,6 @@ const Settings = () => {
         </button>
       </div>
 
-      {/* Account Settings Section */}
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">Account Settings</h2>
         <p className="mb-2">Change your account email or password.</p>
@@ -68,7 +63,6 @@ const Settings = () => {
         </button>
       </div>
 
-      {/* Notification Settings Section */}
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">Notifications</h2>
         <p className="mb-2">Choose your notification preferences.</p>
@@ -92,7 +86,6 @@ const Settings = () => {
         </label>
       </div>
 
-      {/* Security Settings Section */}
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">Security</h2>
         <p className="mb-2">Manage your security settings.</p>
@@ -107,7 +100,6 @@ const Settings = () => {
         </label>
       </div>
 
-      {/* Save Settings Button */}
       <div className="mb-6">
         <button
           onClick={handleSaveSettings}
@@ -117,7 +109,6 @@ const Settings = () => {
         </button>
       </div>
 
-      {/* Logout Button */}
       <div className="mt-6">
         <button
           onClick={handleLogout}
