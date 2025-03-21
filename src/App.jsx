@@ -21,6 +21,7 @@ import CreateGallery from "./admin-dashboard/CreateGallery";
 import UpdateGallery from "./admin-dashboard/UpdateGallery";
 import UpdateService from "./admin-dashboard/UpdateService";
 import Services from "./components/Services";
+import TourInquiriesDashboard from "./components/TourInquiriesDashboard";
 import Trends from "./components/Trends";
 import News from "./components/News";
 import Settings from "./components/Settings";
@@ -80,6 +81,10 @@ function App() {
             <Route
               path="/contact-information"
               element={<ContactInformation />}
+            />
+            <Route
+              path="/inquiries-information"
+              element={<TourInquiriesDashboard />}
             />
             <Route path="/create-gallery" element={<CreateGallery />} />
             <Route path="/update-gallery/:id" element={<UpdateGallery />} />
