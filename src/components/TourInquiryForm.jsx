@@ -104,18 +104,20 @@ const TourInquiryForm = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
-              type="date"
+              type="text"
               name="checkinDate"
               value={formData.checkinDate}
               onChange={handleChange}
+              placeholder="Checkin Date"
               required
               className="p-3 w-full bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-green-500"
             />
             <input
-              type="date"
+              type="text"
               name="checkoutDate"
               value={formData.checkoutDate}
               onChange={handleChange}
+              placeholder="Checkout Date"
               required
               className="p-3 w-full bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-green-500"
             />
