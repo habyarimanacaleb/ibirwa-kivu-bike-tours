@@ -11,7 +11,7 @@ const Trends = () => {
       try {
         // Replace with your weather API endpoint and API key
         const cities = ["Bali", "Paris", "Kyoto"];
-        const apiKey = "YOUR_API_KEY"; // Replace with your API key
+        const apiKey = "0bdbab9c0c6132c2f2acad314bdd0c40";
         const requests = cities.map((city) =>
           axios.get(
             `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
