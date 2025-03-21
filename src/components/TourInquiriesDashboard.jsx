@@ -18,7 +18,11 @@ const TourInquiriesDashboard = () => {
       );
       setInquiries(response.data);
     } catch (error) {
-      console.error("Error fetching inquiries:", error);
+      if (error.response && error.response.status === 404) {
+        alert("Inquiries not found. Please check the API endpoint.");
+      } else {
+        console.error("Error fetching inquiries:", error);
+      }
     }
   };
 
@@ -35,8 +39,12 @@ const TourInquiriesDashboard = () => {
       setResponseMessage("");
       setSelectedInquiry(null);
     } catch (error) {
-      console.error("Error sending response:", error);
-      alert("Failed to send response.");
+      if (error.response && error.response.status === 404) {
+        alert("Inquiry not found. Please check the API endpoint.");
+      } else {
+        console.error("Error sending response:", error);
+        alert("Failed to send response.");
+      }
     } finally {
       setLoading(false);
     }
@@ -53,8 +61,12 @@ const TourInquiriesDashboard = () => {
       alert("Inquiry deleted successfully!");
       fetchInquiries();
     } catch (error) {
-      console.error("Error deleting inquiry:", error);
-      alert("Failed to delete inquiry.");
+      if (error.response && error.response.status === 404) {
+        alert("Inquiry not found. Please check the API endpoint.");
+      } else {
+        console.error("Error deleting inquiry:", error);
+        alert("Failed to delete inquiry.");
+      }
     }
   };
 
