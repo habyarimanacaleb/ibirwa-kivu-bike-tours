@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const TourInquiryForm = () => {
   const [formData, setFormData] = useState({
@@ -10,30 +11,54 @@ const TourInquiryForm = () => {
     checkoutDate: "",
   });
   const [responseMessage, setResponseMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Inquiry Submitted:", formData);
-    setResponseMessage("Inquiry submitted successfully!");
-    setFormData({
-      name: "",
-      email: "",
-      destination: "",
-      paxNumber: "",
-      checkinDate: "",
-      checkoutDate: "",
-    });
-    setTimeout(() => {
-      setResponseMessage("");
-    }, 3000);
+    setLoading(true);
+    setResponseMessage("");
+
+    try {
+      const response = await fetch(
+        "https://kivu-back-end.onrender.com/api/inquiries",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong");
+      }
+
+      setResponseMessage(data.message);
+      setFormData({
+        name: "",
+        email: "",
+        destination: "",
+        paxNumber: "",
+        checkinDate: "",
+        checkoutDate: "",
+      });
+    } catch (error) {
+      setResponseMessage(`Error: ${error.message}`);
+    } finally {
+      setLoading(false);
+      setTimeout(() => setResponseMessage(""), 3000);
+    }
   };
 
   return (
-    <div className=" text-white pt-10 pb-2 px-5  md:px-20 mt-[-15px] z-10">
+    <div className="text-white pt-10 pb-2 px-5 md:px-20 mt-[-15px] z-10">
       <div className="w-full lg:max-w-3xl mx-auto bg-gray-900 p-6 rounded-lg shadow-lg mb-2">
         <h2 className="text-2xl font-semibold text-center mb-4">
           Plan Your Tour
@@ -49,7 +74,7 @@ const TourInquiryForm = () => {
               className="p-3 w-full bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-green-500"
             />
             <input
-              type="text"
+              type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
@@ -78,34 +103,41 @@ const TourInquiryForm = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
-              type="text"
+              type="date"
               name="checkinDate"
               value={formData.checkinDate}
               onChange={handleChange}
-              placeholder="Checkin Date (dd/mm/yyyy)"
               required
               className="p-3 w-full bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-green-500"
             />
             <input
-              type="text"
+              type="date"
               name="checkoutDate"
               value={formData.checkoutDate}
               onChange={handleChange}
-              placeholder="Checkout Date (dd/mm/yyyy)"
               required
               className="p-3 w-full bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-green-500"
             />
           </div>
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-green-500 text-black font-semibold py-3 rounded-md hover:bg-green-600 transition"
           >
-            Inquire Now
+            {loading ? "Submitting..." : "Inquire Now"}
           </button>
         </form>
-        <p className="text-green-500 text-sm py-2 text-center">
-          {responseMessage}
-        </p>
+        {responseMessage && (
+          <p
+            className={`text-sm py-2 text-center ${
+              responseMessage.includes("Error")
+                ? "text-red-500"
+                : "text-green-500"
+            }`}
+          >
+            {responseMessage}
+          </p>
+        )}
       </div>
     </div>
   );
