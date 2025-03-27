@@ -10,7 +10,26 @@ const Trends = () => {
     const fetchWeatherTrends = async () => {
       try {
         // Replace with your weather API endpoint and API key
-        const cities = ["Bali", "Paris", "Kyoto"];
+        const cities = [
+          "Bali",
+          "Paris",
+          "Kyoto",
+          "Kigali",
+          "New York",
+          "Cape Town",
+          "Dubai",
+          "Sydney",
+          "Rio de Janeiro",
+          "Barcelona",
+          "Mumbai",
+          "London",
+          "Los Angeles",
+          "Toronto",
+          "Berlin",
+          "Moscow",
+          "Beijing",
+          "Shanghai",
+        ];
         const apiKey = "0bdbab9c0c6132c2f2acad314bdd0c40";
         const requests = cities.map((city) =>
           axios.get(

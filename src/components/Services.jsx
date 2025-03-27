@@ -49,20 +49,27 @@ const Services = () => {
           : services.map((service) => (
               <div
                 key={service._id}
-                className="bg-white p-4 rounded-lg shadow-lg"
+                className="bg-white p-4 rounded-lg shadow-lg w-full h-full flex flex-col overflow-hidden 
+                           transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl"
               >
                 {service.imageFile && (
-                  <img
-                    src={service.imageFile}
-                    alt={service.title}
-                    className="w-full h-48 object-cover rounded-lg"
-                  />
+                  <div className="w-full max-h-[40vh] bg-white flex justify-center items-center rounded-lg overflow-hidden">
+                    <img
+                      src={service.imageFile}
+                      alt={service.title}
+                      className="w-full h-auto object-contain transition-transform duration-300 ease-in-out hover:scale-110"
+                    />
+                  </div>
                 )}
-                <h2 className="text-xl font-bold mt-4">{service.title}</h2>
-                <p className="text-sm text-gray-500">{service.description}</p>
+                <h2 className="text-xl font-bold mt-4 transition-all duration-300 ease-in-out hover:text-blue-600">
+                  {service.title}
+                </h2>
+                <p className="text-sm text-gray-500 transition-all duration-300 ease-in-out hover:text-gray-700">
+                  {service.description}
+                </p>
                 <Link
                   to={`/service/${service._id}`}
-                  className="text-blue-500 mt-2 inline-block"
+                  className="text-blue-500 mt-2 inline-block transition-all duration-300 ease-in-out hover:underline hover:text-blue-700"
                 >
                   Learn more
                 </Link>
