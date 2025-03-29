@@ -29,7 +29,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
 
       if (response.ok) {
         setFormData({ email: "", username: "", password: "", role: "client" }); // Reset form
-        navigate("/login");
+        navigate("/login"); // navigate to our login page and make sure is redirected to the login page
       } else {
         setError(data.message || "Signup failed");
         setFormData({ email: "", username: "", password: "", role: "client" }); 
