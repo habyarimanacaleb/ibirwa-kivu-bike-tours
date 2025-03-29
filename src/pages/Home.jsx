@@ -43,7 +43,7 @@ export const Home = () => {
     <>
       <div className="bg-gray-200">
         <section className="relative home-hello-section lg:h-screen h-auto py-6 text-white">
-          <div className="services-images relative h-80 w-full rounded-b-lg overflow-hidden">
+          <div className="services-images relative h-80 w-full overflow-hidden">
             {loading ? (
               <div className="text-center text-white">Loading...</div>
             ) : error ? (
@@ -75,7 +75,7 @@ export const Home = () => {
           </div>
         </section>
         <section
-          className={`about fade-in mx-auto flex flex-col items-center justify-center ${homeBg.aboutBg} p-6 lg:h-screen h-auto`}
+          className={`about fade-in mx-auto flex flex-col items-center mt-[-12px] justify-center ${homeBg.aboutBg} p-6 lg:h-screen h-auto`}
         >
           <div className="about-content py-6">
             <h1 className="headings mb-12 text-4xl text-center text-bold-600">
