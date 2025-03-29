@@ -43,7 +43,7 @@ export const Home = () => {
     <>
       <div className="bg-gray-200">
         <section className="relative home-hello-section lg:h-screen h-auto py-6 text-white">
-          <div className="services-images relative h-80 w-full rounded-b-lg overflow-hidden">
+          <div className="services-images relative h-80 w-full overflow-hidden">
             {loading ? (
               <div className="text-center text-white">Loading...</div>
             ) : error ? (
