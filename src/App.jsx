@@ -10,9 +10,7 @@ import { Contacts } from "./pages/Contacts";
 import { ServiceDetail } from "./components/ServiceDetail";
 import { SignIn } from "./components/SignIn";
 import { UserProvider } from "./context/UserContext";
-import { ConfirmEmail } from "./server/VerifyEmail";
 import ProtectedRoute from "./components/ProtectedRoute";
-// import { DashboardHome } from "./pages/DashboardHome";
 import { Dashboard } from "./pages/Dashboard";
 import ServicesList from "./components/ServicesList";
 import { CreateServices } from "./admin-dashboard/CreateServices";
@@ -47,7 +45,7 @@ function App() {
                     <Route path="/services" element={<Services />} />
                     <Route path="/service/:id" element={<ServiceDetail />} />
                     <Route path="/about" element={<About />} />
-                    <Route path="/signin" element={<SignIn />} />
+                    <Route path="/login" element={<SignIn />} />
                     <Route path="/join" element={<Join />} />
                     <Route
                       path="/explore-more-to-Rwanda"
@@ -62,10 +60,6 @@ function App() {
                       element={<h1>Culture & Heritage...</h1>}
                     />
                     <Route path="/contact" element={<Contacts />} />
-                    <Route
-                      path="/api/confirm-email"
-                      element={<ConfirmEmail />}
-                    />
                   </Routes>
                 </div>
               </div>

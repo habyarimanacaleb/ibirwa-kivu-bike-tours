@@ -38,11 +38,12 @@ export const Home = () => {
 
     return () => clearInterval(interval);
   }, [services.length]);
+
   return (
     <>
-      <div className="bg-gray-200 ">
+      <div className="bg-gray-200">
         <section className="relative home-hello-section lg:h-screen h-auto py-6 text-white">
-          <div className="services-images relative h-80  rounded-b-2xl">
+          <div className="services-images relative h-80 w-full rounded-b-2xl overflow-hidden">
             {loading ? (
               <div className="text-center text-white">Loading...</div>
             ) : error ? (
@@ -53,22 +54,23 @@ export const Home = () => {
               services.map((service, index) => (
                 <div
                   key={service._id}
-                  className={`service-image-container absolute inset-0 transition-opacity duration-1000 ${
-                    index === currentIndex ? "opacity-90" : "opacity-0"
+                  className={`absolute inset-0 transition-opacity duration-1000 ${
+                    index === currentIndex ? "opacity-100" : "opacity-0"
                   }`}
                 >
                   {service.imageFile && (
                     <img
                       src={service.imageFile}
                       alt={service.title}
-                      className="w-full h-96 object-cover"
+                      className="w-full min-w-full h-full object-cover"
                     />
                   )}
                 </div>
               ))
             )}
           </div>
-          <div className="  flex flex-col  justify-center text-center  bg-black bg-opacity-70 z-10">
+
+          <div className="flex flex-col justify-center text-center bg-black bg-opacity-70 z-10">
             <TourInquiryForm />
           </div>
         </section>
