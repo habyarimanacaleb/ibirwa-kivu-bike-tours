@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 export const CreateAccount = ({ onSwitchToSignIn }) => {
   const [formData, setFormData] = useState({
     email: "",
@@ -25,21 +24,20 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
           body: JSON.stringify(formData),
         }
       );
-
       const data = await response.json();
       console.log("API Response:", data);
 
       if (response.ok) {
         setFormData({ email: "", username: "", password: "", role: "client" }); // Reset form
-        navigate("/signin");
+        navigate("/login");
       } else {
         setError(data.message || "Signup failed");
-        setFormData({ email: "", username: "", password: "", role: "client" }); // Reset form
+        setFormData({ email: "", username: "", password: "", role: "client" }); 
       }
     } catch (error) {
       setError(`An error occurred: ${error.message}`);
       console.error("Signup error:", error);
-      setFormData({ email: "", username: "", password: "", role: "client" }); // Reset form
+      setFormData({ email: "", username: "", password: "", role: "client" }); 
     } finally {
       setLoading(false);
     }
@@ -52,10 +50,15 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-4">
+        <div className="flex justify-center mb-4 flex-col items-center">
+          <img src="/kivu-image/bt-logo-52.png" alt="our logo" className="w-13 h-13 rounded-full"/>
+          <h1 className="text-2xl font-bold text-center mb-2">Ibirwa Kivu Bike Tours</h1>
+          <h2 className="text-2xl font-bold text-center mb-4">Create Account</h2>
+        </div>
         <div className="flex justify-between border-b border-gray-200 pb-3">
           <button
             className="w-1/2 text-center font-semibold pb-2 text-gray-400"
-            onClick={onSwitchToSignIn} // Calling function passed as prop for "Sign In"
+            onClick={onSwitchToSignIn} 
           >
             Sign In
           </button>
