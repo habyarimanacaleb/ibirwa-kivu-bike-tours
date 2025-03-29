@@ -75,7 +75,7 @@ export const Home = () => {
           </div>
         </section>
         <section
-          className={`about fade-in mx-auto flex flex-col items-center justify-center ${homeBg.aboutBg} p-6 lg:h-screen h-auto`}
+          className={`about fade-in mx-auto flex flex-col items-center mt-[-12px] justify-center ${homeBg.aboutBg} p-6 lg:h-screen h-auto`}
         >
           <div className="about-content py-6">
             <h1 className="headings mb-12 text-4xl text-center text-bold-600">
