@@ -47,18 +47,6 @@ function App() {
                     <Route path="/about" element={<About />} />
                     <Route path="/login" element={<SignIn />} />
                     <Route path="/join" element={<Join />} />
-                    <Route
-                      path="/explore-more-to-Rwanda"
-                      element={<ExploreRwanda />}
-                    />
-                    <Route
-                      path="/parks"
-                      element={<h1>National Parks....</h1>}
-                    />
-                    <Route
-                      path="/culture"
-                      element={<h1>Culture & Heritage...</h1>}
-                    />
                     <Route path="/contact" element={<Contacts />} />
                   </Routes>
                 </div>
