@@ -5,7 +5,6 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
     email: "",
     username: "",
     password: "",
-    role: "user",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -15,33 +14,31 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+  
     try {
-      const response = await fetch(
-        "https://kivu-back-end.onrender.com/api/ibirwa-clients/signup",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch("https://kivu-back-end.onrender.com/api/ibirwa-clients/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+  
       const data = await response.json();
       console.log("API Response:", data);
-
-      if (response.ok) {
-        setFormData({ email: "", username: "", password: "", role: "client" }); // Reset form
+  
+      if (response.ok || data.message?.includes("Signup successful")) {
+        setFormData({ email: "", username: "", password: "" });
         navigate("/login");
       } else {
         setError(data.message || "Signup failed");
-        setFormData({ email: "", username: "", password: "", role: "client" }); 
       }
     } catch (error) {
       setError(`An error occurred: ${error.message}`);
       console.error("Signup error:", error);
-      setFormData({ email: "", username: "", password: "", role: "client" }); 
     } finally {
       setLoading(false);
     }
   };
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
