@@ -2,6 +2,7 @@ import React from "react";
 import { Navbar } from "../components/Navbar";
 import { Hero } from "../components/Hero ";
 import { ExploreDescription } from "../components/ExploreDescription";
+import { Footer } from "../components/Footer";
 export const ExploreRwanda = () => {
   return (
     <div>
@@ -21,6 +22,7 @@ export const ExploreRwanda = () => {
         </div>
         <ExploreDescription />
       </div>
+      <Footer />
     </div>
   );
 };

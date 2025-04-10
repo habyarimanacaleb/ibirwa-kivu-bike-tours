@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaEnvelopeOpen,
   FaPhone,
@@ -33,6 +33,41 @@ export const Footer = () => {
             </span>
           </div>
           <div className="footer-right flex items-start justify-between">
+            <div className="footer-contact">
+              <h3 className="text-xl font-semibold mb-3">Quick Link</h3>
+              <ul className="text-gray-300 space-y-2 text-sm">
+                <li>
+                  <Link to="/about" className="hover:text-blue-200">
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/services" className="hover:text-blue-200">
+                    Services
+                  </Link>
+                </li>
+                <li>
+                  <Link to="#" className="hover:text-blue-200">
+                    Terms & Conditions
+                  </Link>
+                </li>
+                <li>
+                  <Link to="#" className="hover:text-blue-200">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/contact" className="hover:text-blue-200">
+                    Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link to="#" className="hover:text-blue-200">
+                    FAQs
+                  </Link>
+                </li>
+              </ul>
+            </div>
             <div className="footer-contact">
               <h3 className="text-xl font-semibold mb-3">Get in Touch</h3>
               <ul className="text-gray-300 space-y-2 text-sm">
