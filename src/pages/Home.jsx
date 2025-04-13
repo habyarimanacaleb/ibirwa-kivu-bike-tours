@@ -18,20 +18,21 @@ export const Home = () => {
     const fetchServices = async () => {
       try {
         const response = await axios.get(
-          "https://kivu-back-end.onrender.com/api/services"
+          "https://kivu-back-end.onrender.com/api/services/images"
         );
-        setServices(response.data);
+        console.log("response is ", response.data); // Debugging
+        setServices(response.data.data || []); // Update to use `data` array directly
       } catch (error) {
         setError(error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchServices();
   }, []);
 
   useEffect(() => {
+    if (services.length === 0) return;
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % services.length);
     }, 5000);
@@ -45,26 +46,24 @@ export const Home = () => {
         <section className="relative home-hello-section lg:h-screen h-auto py-6 text-white">
           <div className="services-images relative h-80 w-full overflow-hidden">
             {loading ? (
-              <div className="text-center text-white">Loading...</div>
+              <div className={`text-center text-white pt-12 ${homeBg.skeletonLoader}`}>Loading...</div>
             ) : error ? (
               <div className="text-center text-red-500">
                 Error: {error.message}
               </div>
             ) : (
-              services.map((service, index) => (
+              services.map((imageUrl, index) => (
                 <div
-                  key={service._id}
+                  key={index}
                   className={`absolute inset-0 transition-opacity duration-1000 ${
                     index === currentIndex ? "opacity-100" : "opacity-0"
                   }`}
                 >
-                  {service.imageFile && (
-                    <img
-                      src={service.imageFile}
-                      alt={service.title}
-                      className="w-full min-w-full h-full object-cover"
-                    />
-                  )}
+                  <img
+                    src={imageUrl}
+                    alt={`Service ${index + 1}`}
+                    className="w-full min-w-full h-full object-cover"
+                  />
                 </div>
               ))
             )}
@@ -177,7 +176,6 @@ export const Home = () => {
               src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d498.40452490265733!2d29.351690226419816!3d-2.0614499745769814!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dd299a5c0f8e8b%3A0x5ff6d8482fdee395!2sIBIRWA%20AFRICAN%20LAKE%20TOURS!5e0!3m2!1sen!2sru!4v1734709878109!5m2!1sen!2sru"
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
-              autoSave={true}
               className="map-link w-[100%] h-[100vh]"
             ></iframe>
           </div>
@@ -190,3 +188,5 @@ export const Home = () => {
 };
 
 export default Home;
+
+
