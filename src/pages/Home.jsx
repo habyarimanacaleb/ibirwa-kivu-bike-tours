@@ -6,7 +6,6 @@ import Services from "../components/Services";
 import { Footer } from "../components/Footer";
 import ChevronButton from "../components/ChevronButton";
 import TourInquiryForm from "../components/TourInquiryForm";
-import PaginationServices from "./pagination";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -170,7 +169,7 @@ export const Home = () => {
             </p>
           </div>
         </section>
-        <section className="map w-[100%] min-h-[60vh]">
+        {/* <section className="map w-[100%] min-h-[60vh]">
           <div id="google-map-container">
             <iframe
               title="explore Ibirwa African Tours"
@@ -180,7 +179,7 @@ export const Home = () => {
               className="map-link w-[100%] h-[100vh]"
             ></iframe>
           </div>
-        </section>
+        </section> */}
         <ChevronButton />
         <Footer />
       </div>
