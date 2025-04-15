@@ -15,8 +15,12 @@ const Services = () => {
         const response = await axios.get(
           "https://kivu-back-end.onrender.com/api/services"
         );
-        if (response.data && Array.isArray(response.data)) {
-          setServices(response.data);
+
+        console.log("response data", response.data.services);
+
+        if (response.data.services && Array.isArray(response.data.services)) {
+          setServices(response.data.services);
+          console.log("our services", services)
         } else {
           console.error("Unexpected response format:", response.data);
         }
