@@ -17,6 +17,7 @@ export const ServiceDetail = () => {
           `https://kivu-back-end.onrender.com/api/services/${id}`
         );
         const data = response.data;
+        console.log("response is from detail ", data); // Debugging
         setService(data);
         setLoading(false);
       } catch (error) {

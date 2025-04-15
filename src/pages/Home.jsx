@@ -6,6 +6,7 @@ import Services from "../components/Services";
 import { Footer } from "../components/Footer";
 import ChevronButton from "../components/ChevronButton";
 import TourInquiryForm from "../components/TourInquiryForm";
+import PaginationServices from "./pagination";
 
 export const Home = () => {
   const navigate = useNavigate();
