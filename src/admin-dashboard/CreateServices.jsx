@@ -18,9 +18,10 @@ export const CreateServices = () => {
     const fetchServiceDetails = async () => {
       try {
         const response = await axios.get(
-          "https://kivu-back-end.onrender.com/api/services/67be688178e589240f31a8a7"
+          "https://kivu-back-end.onrender.com/api/services/67c0f47f02c5888782662aca"
         );
         const service = response.data;
+        console.log("Fetched service details:", service);
         setTitle(service.title);
         setDescription(service.description);
         setDetailPage(service.detailPage);

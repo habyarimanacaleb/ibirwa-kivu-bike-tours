@@ -18,6 +18,7 @@ import axios from "axios";
 import SearchBar from "../components/SearchBar";
 import Gallery from "../admin-dashboard/Gallery";
 import ServicesList from "../components/ServicesList";
+import Footer from "../admin-dashboard/Footer";
 
 export function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -58,8 +59,8 @@ export function Dashboard() {
 
         const usersData = usersRes.data;
         const contactsData = contactsRes.data;
-        const servicesData = servicesRes.data;
-        const galleryData = galleryRes.data;
+        const servicesData = servicesRes.data.services;
+        const galleryData = galleryRes.data.data;
 
         setAnalytics({
           users: usersData.length,
@@ -88,8 +89,8 @@ export function Dashboard() {
           axios.get("https://kivu-back-end.onrender.com/api/services"),
           axios.get("https://kivu-back-end.onrender.com/api/gallery"),
         ]);
-        setServices(servicesResponse.data);
-        setGallery(galleryResponse.data);
+        setServices(servicesResponse.data.services || []);
+        setGallery(galleryResponse.data.data  || []);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -361,6 +362,7 @@ export function Dashboard() {
         <ServicesList services={filteredServices} />
         <Gallery gallery={filteredGallery} />
       </main>
+      <Footer />
     </div>
   );
 }

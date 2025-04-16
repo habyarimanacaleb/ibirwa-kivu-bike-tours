@@ -32,8 +32,8 @@ export const Footer = () => {
               Contact Us
             </span>
           </div>
-          <div className="footer-right flex items-start justify-between">
-            <div className="footer-contact">
+          <div className="footer-right block lg:flex items-start justify-between">
+            <div className="footer-contact mt-5 lg:mt-0">
               <h3 className="text-xl font-semibold mb-3">Quick Link</h3>
               <ul className="text-gray-300 space-y-2 text-sm">
                 <li>
@@ -68,7 +68,7 @@ export const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div className="footer-contact">
+            <div className="footer-contact-get-in-touch mt-8 lg:mt-0">
               <h3 className="text-xl font-semibold mb-3">Get in Touch</h3>
               <ul className="text-gray-300 space-y-2 text-sm">
                 <li>
@@ -93,7 +93,7 @@ export const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div className="mt-4 flex space-x-4">
+            <div className="mt-8 flex space-x-4">
               <a href="https://facebook.com" className="hover:text-blue-200">
                 <FaFacebook className="text-xl" />
               </a>
@@ -106,7 +106,7 @@ export const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="mt-10 text-center border-t border-blue-600 pt-4 text-sm text-gray-400">
+        <div className="mt-2 lg:mt-8 text-center border-t border-blue-600 pt-4 text-sm text-gray-400">
           &copy; {new Date().getFullYear()} Ibirwa Kivu Bike. All rights
           reserved.
         </div>

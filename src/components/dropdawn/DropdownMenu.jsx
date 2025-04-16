@@ -28,7 +28,7 @@ export const DropdownMenu = ({ closeMenu }) => {
         const response = await axios.get(
           "https://kivu-back-end.onrender.com/api/services"
         );
-        setServices(response.data);
+        setServices(response.data.services || []); 
       } catch (error) {
         setError(error);
       } finally {
@@ -51,6 +51,7 @@ export const DropdownMenu = ({ closeMenu }) => {
         onClick={() => setIsOpen((prev) => !prev)}
         className="text-white flex items-center text-xl cursor-pointer gap-2"
         title="Services Menu"
+        aria-label="Services Menu"
       >
         <FaChevronDown
           className={`transition-transform duration-200 ${
@@ -65,7 +66,7 @@ export const DropdownMenu = ({ closeMenu }) => {
           className="absolute left-0 mt-[13px] bg-black z-10 px-2 w-[300px] py-4 rounded-md shadow-lg max-h-80 overflow-y-auto"
         >
           <li>
-            <h3 className="text-gray-600 font-semibold text-[18px] mb-2">
+            <h3 className="text-white font-bold text-[25px] mb-2">
               Our Services
             </h3>
             {loading ? (
@@ -78,7 +79,7 @@ export const DropdownMenu = ({ closeMenu }) => {
                   key={service._id}
                   onClick={() => handleNavigation(service._id)}
                 >
-                  <button className="text-white p-2 hover:bg-blue-500 w-full text-left flex flex-col items-center">
+                  <button className="text-white p-2 hover:bg-blue-500 w-full text-left flex flex-col items-start gap-2 rounded-md transition duration-200 ease-in-out">
                     {service.title}
                   </button>
                 </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,Outlet } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { GalleryServices } from "./pages/GalleryServices";
 import { About } from "./pages/About";
@@ -61,9 +61,9 @@ function App() {
           <Route element={<ProtectedRoute />}>
             {/* <Route path="/admin" element={<DashboardHome />} /> */}
             <Route path="/admin" element={<Dashboard />} />
-            <Route path="create-service" element={<CreateServices />} />
+            <Route path="/create-service" element={<CreateServices />} />
             <Route path="/tour-services" element={<Services />} />
-            <Route path="/admin" element={<ServicesList />} />
+            <Route path="/admin-service-list" element={<ServicesList />} />
             <Route path="/update-service/:id" element={<UpdateService />} />
             <Route
               path="/contact-information"
