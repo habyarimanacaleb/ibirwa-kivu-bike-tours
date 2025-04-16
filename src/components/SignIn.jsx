@@ -1,3 +1,4 @@
+// components/SignIn.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
@@ -7,12 +8,15 @@ export const SignIn = ({ onSwitchToCreate }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
   const { updateUser } = useUser();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+
     try {
       const response = await fetch(
         "https://kivu-back-end.onrender.com/api/ibirwa-clients/login",
@@ -22,37 +26,32 @@ export const SignIn = ({ onSwitchToCreate }) => {
           body: JSON.stringify(formData),
         }
       );
-      const data = await response.json();
-      console.log("API Response:", data);
 
-      if (response.ok) {
-        const { token, user } = data;
-        if (token && user) {
-          localStorage.setItem("token", token);
-          localStorage.setItem("user", JSON.stringify(user));
-          updateUser(user);
-          setFormData({ email: "", password: "" });
-          navigate(user.role === "admin" ? "/admin" : "/services-gallery");
-        } else {
-          setError("Login successful, but token is missing.");
-          setFormData({ email: "", password: "" });
-        }
-      } else {
-        setError(data.message || "Login failed");
+      const data = await response.json();
+
+      if (response.ok && data.token && data.user) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        updateUser(data.user);
         setFormData({ email: "", password: "" });
+
+        navigate(data.user.role === "admin" ? "/admin" : "/services-gallery");
+      } else {
+        setError(data.message || "Login failed. Please try again.");
       }
-    } catch (error) {
-      setError(`An error occurred: ${error.message}`);
-      console.error("Login error:", error);
-      setFormData({ email: "", password: "" });
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("An error occurred. Please check your connection.");
     } finally {
+      setFormData({ email: "", password: "" });
       setLoading(false);
     }
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-6">
@@ -61,20 +60,19 @@ export const SignIn = ({ onSwitchToCreate }) => {
             Sign In
           </button>
           <button
+            type="button"
             className="w-1/2 text-center font-semibold pb-2 text-gray-400"
             onClick={onSwitchToCreate}
           >
             Create Account
           </button>
         </div>
+
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
         <form className="mt-4" onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email
             </label>
             <input
@@ -89,11 +87,9 @@ export const SignIn = ({ onSwitchToCreate }) => {
               required
             />
           </div>
+
           <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
             </label>
             <div className="relative">
@@ -117,6 +113,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
               </button>
             </div>
           </div>
+
           <button
             type="submit"
             className="w-full py-2 px-4 bg-black text-white font-semibold rounded-lg shadow-md hover:bg-black-200 focus:ring-2 focus:ring-black-300 focus:ring-offset-2"

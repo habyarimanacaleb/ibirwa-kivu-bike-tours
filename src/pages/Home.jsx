@@ -73,9 +73,14 @@ export const Home = () => {
             <TourInquiryForm />
           </div>
         </section>
-        <section
-          className={`about fade-in mx-auto flex flex-col items-center mt-[-12px] justify-center ${homeBg.aboutBg} p-6 lg:h-screen h-auto`}
-        >
+        <section className="service fade-in" id="service">
+          <h1 className="headings text-bold-600 text-center text-5xl my-10">
+            Our Services/Tours
+          </h1>
+          <Services />
+        </section>
+
+        <section className={`about fade-in mx-auto flex flex-col items-center mt-[-12px] justify-center ${homeBg.aboutBg} p-6 lg:h-screen h-auto`}>
           <div className="about-content py-6">
             <h1 className="headings mb-12 text-4xl text-center text-bold-600">
               About Us
@@ -99,12 +104,7 @@ export const Home = () => {
             Lead More
           </button>
         </section>
-        <section className="service fade-in" id="service">
-          <h1 className="headings text-bold-600 text-center text-5xl my-10">
-            Our Services/Tours
-          </h1>
-          <Services />
-        </section>
+        
         <section id="mtb-tours" className="py-10 bg-gray-100">
           <div className="mx-auto px-6 flex flex-col justify-center items-center">
             <h2 className="text-2xl font-bold text-black-800 text-center mb-8">
@@ -129,6 +129,7 @@ export const Home = () => {
             </div>
           </div>
         </section>
+
         <section id="contactus">
           <div
             className="contact-us-by-this-button text-center py-6 bg-gray-100 rounded-lg shadow-md"
@@ -169,6 +170,7 @@ export const Home = () => {
             </p>
           </div>
         </section>
+        
         {/* <section className="map w-[100%] min-h-[60vh]">
           <div id="google-map-container">
             <iframe

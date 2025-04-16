@@ -35,8 +35,8 @@ const GalleryContainer = () => {
         const response = await axios.get(
           "https://kivu-back-end.onrender.com/api/gallery"
         );
-        setGallery(response.data);
-        console.log(response.data);
+        setGallery(response.data.data || []); 
+        console.log("Gallery Data",response.data.data);
         setLoading(false);
       } catch (error) {
         setError(error);
