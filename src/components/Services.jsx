@@ -16,7 +16,12 @@ const Services = () => {
           "https://kivu-back-end.onrender.com/api/services"
         );
         if (response.data.services && Array.isArray(response.data.services)) {
-          setServices(response.data.services);
+          const respData = response.data.services;
+          const sortedServices = [...respData].sort(
+            (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+          
+          setServices(sortedServices);
         } else {
           console.error("Unexpected response format:", response.data);
         }
