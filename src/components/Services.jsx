@@ -15,28 +15,38 @@ const Services = () => {
         const response = await axios.get(
           "https://kivu-back-end.onrender.com/api/services"
         );
-        if (response.data.services && Array.isArray(response.data.services)) {
-          const respData = response.data.services;
-          const sortedServices = [...respData].sort(
-            (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
-          
-          setServices(sortedServices);
+
+        const fetchedServices = response?.data?.services;
+
+        if (Array.isArray(fetchedServices)) {
+          const sorted = [...fetchedServices].sort((a, b) => {
+            const dateA = new Date(a.createdAt || 0).getTime();
+            const dateB = new Date(b.createdAt || 0).getTime();
+            return dateB - dateA; // Descending: newest first
+          });
+
+          setServices(sorted);
         } else {
-          console.error("Unexpected response format:", response.data);
+          console.warn("Unexpected response format:", response.data);
+          setServices([]);
         }
+      } catch (err) {
+        console.error("Error fetching services:", err);
+        setError(err);
+      } finally {
         setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-        console.error("Error fetching services:", error);
       }
     };
+
     fetchServices();
   }, []);
 
   if (error) {
-    return <div className="text-red-500 p-4">Error fetching services: {error.message}</div>;
+    return (
+      <div className="text-red-600 text-center p-4">
+        Error fetching services: {error.message || "Something went wrong."}
+      </div>
+    );
   }
 
   return (
@@ -69,7 +79,9 @@ const Services = () => {
                 <h2 className="text-xl font-bold mt-4 hover:text-blue-600 transition">
                   {service.title}
                 </h2>
-                <p className="text-sm text-gray-500 mt-2">{service.description}</p>
+                <p className="text-sm text-gray-500 mt-2">
+                  {service.description}
+                </p>
                 <Link
                   to={`/service/${service._id}`}
                   className="text-blue-500 mt-3 hover:underline hover:text-blue-700 transition"

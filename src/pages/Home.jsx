@@ -73,12 +73,6 @@ export const Home = () => {
             <TourInquiryForm />
           </div>
         </section>
-        <section className="service fade-in" id="service">
-          <h1 className="headings text-bold-600 text-center text-5xl my-10">
-            Our Services/Tours
-          </h1>
-          <Services />
-        </section>
 
         <section className={`about fade-in mx-auto flex flex-col items-center mt-[-12px] justify-center ${homeBg.aboutBg} p-6 lg:h-screen h-auto`}>
           <div className="about-content py-6">
@@ -103,6 +97,13 @@ export const Home = () => {
           >
             Lead More
           </button>
+        </section>
+
+        <section className="service fade-in" id="service">
+          <h1 className="headings text-bold-600 text-center text-5xl my-10">
+            Our Services/Tours
+          </h1>
+          <Services />
         </section>
         
         <section id="mtb-tours" className="py-10 bg-gray-100">
@@ -171,17 +172,6 @@ export const Home = () => {
           </div>
         </section>
         
-        {/* <section className="map w-[100%] min-h-[60vh]">
-          <div id="google-map-container">
-            <iframe
-              title="explore Ibirwa African Tours"
-              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d498.40452490265733!2d29.351690226419816!3d-2.0614499745769814!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dd299a5c0f8e8b%3A0x5ff6d8482fdee395!2sIBIRWA%20AFRICAN%20LAKE%20TOURS!5e0!3m2!1sen!2sru!4v1734709878109!5m2!1sen!2sru"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              className="map-link w-[100%] h-[100vh]"
-            ></iframe>
-          </div>
-        </section> */}
         <ChevronButton />
         <Footer />
       </div>
