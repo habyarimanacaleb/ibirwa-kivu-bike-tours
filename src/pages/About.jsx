@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import ReviewForm from "../components/ReviewForm";
 
 export const About = () => {
   const [testimonials, setTestimonials] = useState([
@@ -37,7 +38,7 @@ export const About = () => {
   };
 
   return (
-    <div className="about fade-in mx-auto w-full  lg:max-w-6xl flex flex-col py-10 px-4 ">
+    <div className="about fade-in mx-auto w-full  lg:max-w-[1200px] flex flex-col py-10 px-4 mt-8 ">
       <motion.div
         initial="hidden"
         animate="visible"
@@ -188,64 +189,17 @@ export const About = () => {
           </p>
         </div>
       </motion.div>
-
+      {/* reviews */}
       <motion.div
         initial="hidden"
         animate="visible"
         variants={fadeInVariants}
         transition={{ duration: 0.5, delay: 1.4 }}
       >
-        <section className="testimonials-container text-2xl sm:text-xl md:text-2xl text-center py-6 bg-gray-100 rounded-lg shadow-md p-2">
-          <h2 className="font-bold text-3xl mb-4 text-blue-800">
-            What Our Travelers Say
-          </h2>
-          <div className="testimonials lg:flex">
-            {testimonials.map((testimonial) => (
-              <div
-                key={testimonial.id}
-                className="testimonial-item mb-4 container"
-              >
-                <p className="italic mb-2 text-gray-700">
-                  "{testimonial.text}"
-                </p>
-                <p className="font-semibold text-gray-800">
-                  {testimonial.name}
-                </p>
-              </div>
-            ))}
-          </div>
-          <h3 className="text-2xl mt-8 mb-4 text-blue-800">
-            Submit Your Testimonial
-          </h3>
-          <form onSubmit={handleSubmit} className="testimonial-form">
-            <input
-              type="text"
-              placeholder="Your Name"
-              value={newTestimonial.name}
-              onChange={(e) =>
-                setNewTestimonial({ ...newTestimonial, name: e.target.value })
-              }
-              className="input-field mb-4 p-2 w-full border border-gray-300 rounded"
-              required
-            />
-            <textarea
-              placeholder="Your Experience"
-              value={newTestimonial.text}
-              onChange={(e) =>
-                setNewTestimonial({ ...newTestimonial, text: e.target.value })
-              }
-              className="input-field mb-4 p-2 w-full border border-gray-300 rounded"
-              rows="4"
-              required
-            />
-            <button
-              type="submit"
-              className="submit-btn px-4 py-2 bg-blue-600 text-white rounded"
-            >
-              Submit Testimonial
-            </button>
-          </form>
-        </section>
+        <div className="min-h-screen bg-gray-50 py-10 px-4">
+      <h1 className="text-center text-3xl font-bold">Kivu Tour Reviews</h1>
+      <ReviewForm />
+    </div>
       </motion.div>
 
       {/* CTA Section */}
