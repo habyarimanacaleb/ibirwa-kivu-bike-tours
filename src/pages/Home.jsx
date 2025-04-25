@@ -6,6 +6,7 @@ import Services from "../components/Services";
 import { Footer } from "../components/Footer";
 import ChevronButton from "../components/ChevronButton";
 import TourInquiryForm from "../components/TourInquiryForm";
+import WhatsAppChat from "../components/WhatsAppChat";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -173,6 +174,7 @@ export const Home = () => {
         </section>
         
         <ChevronButton />
+        <WhatsAppChat />
         <Footer />
       </div>
     </>
