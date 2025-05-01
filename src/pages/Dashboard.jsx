@@ -18,7 +18,6 @@ import axios from "axios";
 import SearchBar from "../components/SearchBar";
 import Gallery from "../admin-dashboard/Gallery";
 import ServicesList from "../components/ServicesList";
-import Footer from "../admin-dashboard/Footer";
 
 export function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -362,7 +361,6 @@ export function Dashboard() {
         <ServicesList services={filteredServices} />
         <Gallery gallery={filteredGallery} />
       </main>
-      <Footer />
     </div>
   );
 }
