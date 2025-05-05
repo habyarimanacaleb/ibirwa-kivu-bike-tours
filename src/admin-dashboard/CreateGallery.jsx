@@ -18,7 +18,10 @@ const CreateGallery = () => {
         const response = await axios.get(
           "https://kivu-back-end.onrender.com/api/gallery"
         );
-        setGallery(response.data);
+        console.log("Fetched gallery data:", response.data);
+        const data = response.data;
+        const galleryArray = Array.isArray(data) ? data : data.gallery || [];
+        setGallery(galleryArray);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -38,7 +41,6 @@ const CreateGallery = () => {
 
     try {
       if (editingPhoto) {
-        // Update existing photo
         const response = await axios.put(
           `https://kivu-back-end.onrender.com/api/gallery/${editingPhoto._id}`,
           formData,
@@ -55,7 +57,6 @@ const CreateGallery = () => {
         );
         setResponseMessage("Photo updated successfully!");
       } else {
-        // Create new photo
         const response = await axios.post(
           "https://kivu-back-end.onrender.com/api/gallery",
           formData,
@@ -66,6 +67,7 @@ const CreateGallery = () => {
           }
         );
         setGallery([...gallery, response.data]);
+        console.log("response is ", response.data);
         setResponseMessage("Photo uploaded successfully!");
       }
       setTimeout(() => {
@@ -148,6 +150,7 @@ const CreateGallery = () => {
           {editingPhoto ? "Update" : "Upload"}
         </button>
       </form>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto">
         {gallery.map((photo) => (
           <div key={photo._id} className="bg-white p-4 rounded-lg shadow-lg">

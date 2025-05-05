@@ -16,18 +16,22 @@
 }
 
 .skeletonLoader {
-  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
-  background-size: 200% 100%;
-  animation: pulse 1.5s infinite;
+  /* background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%); */
+  background-size: 100% 100%;
+  animation: pulse 10s infinite;
 }
 
 @keyframes pulse {
   0% {
-    background-position: 200% 0;
-    scale: 1;
+    background-position: 100% 0;
+    scale: .75;
+  }
+  60% {
+    background-position: 50% 0;
+    scale: 1.5;
   }
   100% {
-    background-position: -200% 0;
-    scale: 2.5;
+    background-position: -100% 0;
+    scale: 1;
   }
 }

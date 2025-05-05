@@ -15,6 +15,7 @@ const GalleryContainer = () => {
           "https://kivu-back-end.onrender.com/api/gallery"
         );
         const data = response.data.data || []; // Ensure data is an array
+        console.log("response is ", data); // Debugging
         if (!Array.isArray(data)) {
           console.error("Unexpected response format:", response.data);
           setLoading(false);

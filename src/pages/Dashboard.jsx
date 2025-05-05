@@ -18,6 +18,7 @@ import axios from "axios";
 import SearchBar from "../components/SearchBar";
 import Gallery from "../admin-dashboard/Gallery";
 import ServicesList from "../components/ServicesList";
+import GalleryList from "../components/GalleryLists";
 
 export function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -359,6 +360,7 @@ export function Dashboard() {
               ))}
         </div>
         <ServicesList services={filteredServices} />
+        <GalleryList />
         <Gallery gallery={filteredGallery} />
       </main>
     </div>

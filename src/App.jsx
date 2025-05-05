@@ -24,6 +24,7 @@ import Trends from "./components/Trends";
 import News from "./components/News";
 import Settings from "./components/Settings";
 import "./App.css";
+import GalleryList from "./components/GalleryLists";
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
             <Route path="/create-service" element={<CreateServices />} />
             <Route path="/tour-services" element={<Services />} />
             <Route path="/admin-service-list" element={<ServicesList />} />
+            <Route path="/admin-gallery-list" element={<GalleryList />} />
             <Route path="/update-service/:id" element={<UpdateService />} />
             <Route
               path="/contact-information"
