@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
+import Navbar from "./Navbar";
 
 export const SignIn = ({ onSwitchToCreate }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -53,6 +54,8 @@ export const SignIn = ({ onSwitchToCreate }) => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-6">
         <div className="flex justify-between border-b border-gray-200 pb-3">
@@ -124,6 +127,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

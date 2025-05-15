@@ -64,22 +64,6 @@ const GalleryContainer = () => {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Gallery</h1>
       <Gallery gallery={currentImages} />
-      <div className="flex justify-around mt-6">
-        <button
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-1"
-        >
-          Prev img
-        </button>
-        <button
-          onClick={() => paginate(currentPage + 1)}
-          disabled={indexOfLastImage >= gallery.length}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-1"
-        >
-          Next img
-        </button>
-      </div>
     </div>
   );
 };

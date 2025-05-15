@@ -14,12 +14,17 @@ const UpdateGallery = () => {
   useEffect(() => {
     const fetchPhoto = async () => {
       try {
-        const response = await axios.get(`/api/gallery/${id}`);
+        const response = await axios.get(`https://kivu-back-end.onrender.com/api/gallery/${id}`);
         const photo = response.data;
-        setTitle(photo.title);
-        setLoading(false);
+        console.log('Photo images data from updates',photo);
+        if (photo && typeof photo === "object") {
+          setTitle(photo.title || "");
+        } else {
+          setError(new Error("Invalid photo data received"));
+        }
       } catch (error) {
         setError(error);
+      } finally {
         setLoading(false);
       }
     };
@@ -36,31 +41,35 @@ const UpdateGallery = () => {
     }
 
     try {
-      const response = await axios.put(`/api/gallery/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.put(
+        `https://kivu-back-end.onrender.com/api/gallery/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       if (response.status === 200) {
         setResponseMessage("Gallery card updated successfully!");
         setTimeout(() => {
           navigate("/gallery");
         }, 2000);
+      } else {
+        setResponseMessage("Failed to update gallery card.");
       }
     } catch (error) {
       console.error("Error updating gallery card:", error);
-      setResponseMessage("Error updating gallery card");
+      setResponseMessage(
+        "Error: " +
+          (error.response?.data?.message || "Something went wrong")
+      );
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error fetching photo: {error.message}</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error fetching photo: {error.message}</div>;
 
   return (
     <div className="bg-gray-100 p-6">

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 export const CreateAccount = ({ onSwitchToSignIn }) => {
   const [formData, setFormData] = useState({
     email: "",
@@ -45,6 +46,8 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-4">
         <div className="flex justify-center mb-4 flex-col items-center">
@@ -137,6 +140,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

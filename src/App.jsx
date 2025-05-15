@@ -4,7 +4,6 @@ import { Home } from "./pages/Home";
 import { GalleryServices } from "./pages/GalleryServices";
 import { About } from "./pages/About";
 import { ExploreRwanda } from "./pages/ExploreRwanda";
-import { Navbar } from "./components/Navbar";
 import { Join } from "./components/Join";
 import { Contacts } from "./pages/Contacts";
 import { ServiceDetail } from "./components/ServiceDetail";
@@ -20,10 +19,11 @@ import UpdateGallery from "./admin-dashboard/UpdateGallery";
 import UpdateService from "./admin-dashboard/UpdateService";
 import Services from "./components/Services";
 import TourInquiriesDashboard from "./components/TourInquiriesDashboard";
-import Trends from "./components/Trends";
-import News from "./components/News";
 import Settings from "./components/Settings";
 import "./App.css";
+import GalleryList from "./components/GalleryLists";
+import Gallery from "./pages/Gallery";
+import SingleGalleryView from "./admin-dashboard/SingleGalleryView";
 
 function App() {
   return (
@@ -34,7 +34,6 @@ function App() {
             path="/*"
             element={
               <div className="flex flex-col min-h-screen">
-                <Navbar />
                 <div className="flex-grow">
                   <Routes>
                     <Route path="/" element={<Home />} />
@@ -64,6 +63,7 @@ function App() {
             <Route path="/create-service" element={<CreateServices />} />
             <Route path="/tour-services" element={<Services />} />
             <Route path="/admin-service-list" element={<ServicesList />} />
+            <Route path="/admin-gallery-list" element={<GalleryList />} />
             <Route path="/update-service/:id" element={<UpdateService />} />
             <Route
               path="/contact-information"
@@ -75,8 +75,8 @@ function App() {
             />
             <Route path="/create-gallery" element={<CreateGallery />} />
             <Route path="/update-gallery/:id" element={<UpdateGallery />} />
-            <Route path="/trends" element={<Trends />} />
-            <Route path="/news" element={<News />} />
+            <Route path="/gallery/:id" element={<SingleGalleryView />} />
+            <Route path="/gallery" element={<Gallery />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
           <Route

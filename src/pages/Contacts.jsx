@@ -54,7 +54,7 @@ export const Contacts = () => {
   };
 
   return (
-    <div className="bg-gray-100 p-6 mt-10 min-h-[100vh]">
+    <div className="bg-gray-100 p-6 mt-4 min-h-[100vh]">
       <Navbar />
       <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-4">Contact Us</h1>

@@ -145,24 +145,6 @@ const ReviewForm = () => {
         </form>
       </div>
 
-      {/* Section: Workflow */}
-      <div className="mt-16 border-t pt-8">
-        <h3 className="text-2xl font-bold mb-6 text-center">Our Workflow</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {[
-            { step: "1", title: "Submit Review", desc: "Users leave honest feedback." },
-            { step: "2", title: "Review Moderation", desc: "Content is checked for quality." },
-            { step: "3", title: "Display on Site", desc: "Approved reviews are shown publicly." },
-            { step: "4", title: "Analyze Feedback", desc: "Used to improve future services." },
-          ].map(({ step, title, desc }) => (
-            <div key={step} className="bg-gray-50 border border-gray-200 rounded-lg p-4 hover:bg-white transition">
-              <div className="text-2xl font-bold text-blue-600 mb-2">Step {step}</div>
-              <div className="font-semibold">{title}</div>
-              <p className="text-sm text-gray-600 mt-1">{desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };

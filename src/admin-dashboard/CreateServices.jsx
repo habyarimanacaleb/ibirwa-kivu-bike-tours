@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Home } from "lucide-react";
 
 export const CreateServices = () => {
   const [title, setTitle] = useState("");
@@ -104,6 +105,14 @@ export const CreateServices = () => {
   };
 
   return (
+    <>
+    <div className="navigations-across flex space-x-4 p-6 bg-gray-100">
+      <Link to="/admin">
+     <Home className="w-5 h-5 text-gray-500" />
+      </Link>
+      <p className="text-gray-500">/</p>
+      <p className="text-gray-500 hover:text-blue-600">Create New Service</p>      
+    </div>
     <div className="bg-gray-100 p-6">
       <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-4">Create New Service</h1>
@@ -284,5 +293,6 @@ export const CreateServices = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
