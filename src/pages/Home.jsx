@@ -7,6 +7,7 @@ import { Footer } from "../components/Footer";
 import ChevronButton from "../components/ChevronButton";
 import TourInquiryForm from "../components/TourInquiryForm";
 import WhatsAppChat from "../components/WhatsAppChat";
+import Navbar from "../components/Navbar";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -21,7 +22,6 @@ export const Home = () => {
         const response = await axios.get(
           "https://kivu-back-end.onrender.com/api/services/images"
         );
-        console.log("response is ", response.data); // Debugging
         setServices(response.data.data || []); // Update to use `data` array directly
       } catch (error) {
         setError(error);
@@ -43,6 +43,7 @@ export const Home = () => {
 
   return (
     <>
+    <Navbar />
       <div className="bg-gray-200">
         <section className="relative home-hello-section lg:h-screen h-auto py-6 text-white">
           <div className="services-images relative h-80 w-full overflow-hidden">
@@ -175,8 +176,8 @@ export const Home = () => {
         
         <ChevronButton />
         <WhatsAppChat />
-        <Footer />
       </div>
+        <Footer />
     </>
   );
 };

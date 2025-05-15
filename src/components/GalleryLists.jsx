@@ -2,13 +2,13 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const GalleryList = ({ galleryItems, setGalleryItems }) => {
+const GalleryList = ({ galleryData, setGalleryData }) => {
   const navigate = useNavigate();
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`https://kivu-back-end.onrender.com/api/gallery/${id}`);
-      setGalleryItems(galleryItems.filter((item) => item._id !== id));
+      galleryData.filter((item) => item._id !== id);
     } catch (error) {
       console.error("Error deleting gallery item:", error);
     }
@@ -18,13 +18,11 @@ const GalleryList = ({ galleryItems, setGalleryItems }) => {
     navigate(`/update-gallery/${id}`);
   };
 
-  if (!Array.isArray(galleryItems)) {
-    return <div className="text-center text-gray-500">Loading gallery items...</div>;
-  }
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {galleryItems.map((item) => (
+      <h1 className="text-2xl font-bold my-4 pl-4 col-span-full">Gallery List</h1>
+
+      {galleryData.map((item) => (
         <div
           key={item._id}
           className="bg-white p-4 rounded-lg shadow-lg w-full min-h-[400px] flex flex-col overflow-hidden"
@@ -41,7 +39,6 @@ const GalleryList = ({ galleryItems, setGalleryItems }) => {
           <div className="p-4 flex-grow flex flex-col justify-between">
             <div>
               <h2 className="text-xl font-bold">{item.title}</h2>
-              <p className="text-sm text-gray-500">{item.description}</p>
             </div>
             <div className="flex justify-around pt-4">
               <Link

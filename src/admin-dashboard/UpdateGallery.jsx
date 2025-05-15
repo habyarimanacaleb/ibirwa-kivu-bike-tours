@@ -16,7 +16,7 @@ const UpdateGallery = () => {
       try {
         const response = await axios.get(`https://kivu-back-end.onrender.com/api/gallery/${id}`);
         const photo = response.data;
-
+        console.log('Photo images data from updates',photo);
         if (photo && typeof photo === "object") {
           setTitle(photo.title || "");
         } else {

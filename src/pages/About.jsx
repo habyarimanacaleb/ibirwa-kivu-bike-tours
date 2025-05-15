@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import ReviewForm from "../components/ReviewForm";
+import Navbar from "../components/Navbar";
+import { Footer } from "../components/Footer";
 
 export const About = () => {
   const [testimonials, setTestimonials] = useState([
@@ -38,6 +40,8 @@ export const About = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="about fade-in mx-auto w-full  lg:max-w-[1200px] flex flex-col py-10 px-4 mt-8 ">
       <motion.div
         initial="hidden"
@@ -220,5 +224,7 @@ export const About = () => {
         </p>
       </motion.div>
     </div>
+    <Footer />
+    </>
   );
 };

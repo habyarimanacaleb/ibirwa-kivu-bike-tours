@@ -16,9 +16,9 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 import SearchBar from "../components/SearchBar";
-import Gallery from "../admin-dashboard/Gallery";
 import ServicesList from "../components/ServicesList";
 import GalleryList from "../components/GalleryLists";
+import DasboardQuickActions from "../components/DasboardQuickActions";
 
 export function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -110,7 +110,6 @@ export function Dashboard() {
   const filteredGallery = gallery.filter((photo) =>
     photo.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
   if (error) {
     return <div>Error: {error.message}</div>;
   }
@@ -130,7 +129,7 @@ export function Dashboard() {
           isSidebarOpen ? "block" : "hidden"
         }`}
       >
-        <h1 className="text-xl font-bold mb-6">Dashboard</h1>
+        <h1 className="text-xl font-bold mb-6">Admin Panel</h1>
         <nav>
           <ul className="space-y-4">
             <li>
@@ -138,7 +137,7 @@ export function Dashboard() {
                 to="/admin"
                 className="flex items-center hover:text-blue-300"
               >
-                <Home className="mr-2" /> Home
+                <Home className="mr-2" /> Admin Panel
               </Link>
             </li>
             <li>
@@ -197,29 +196,13 @@ export function Dashboard() {
                 <Cog className="mr-2" /> Settings
               </Link>
             </li>
-            <li>
-              <Link
-                to="/trends"
-                className="flex items-center hover:text-blue-300"
-              >
-                <ChartLine className="mr-2" /> Trends
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/news"
-                className="flex items-center hover:text-blue-300"
-              >
-                <Newspaper className="mr-2" /> News
-              </Link>
-            </li>
           </ul>
         </nav>
       </aside>
 
       {/* Mobile Navigation */}
       <div className="md:hidden bg-blue-800 text-white p-4 flex justify-between items-center w-full">
-        <h1 className="text-xl font-bold">Dashboard</h1>
+        <h1 className="text-xl font-bold">Admin Panel</h1>
         <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -236,7 +219,7 @@ export function Dashboard() {
             <ul className="space-y-4">
               <li>
                 <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)}>
-                  Home
+                  Admin Panel
                 </Link>
               </li>
               <li>
@@ -257,27 +240,20 @@ export function Dashboard() {
               </li>
               <li>
                 <Link
-                  to="/update-service"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Update Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/update-gallery"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Update Gallery
-                </Link>
-              </li>
-              <li>
-                <Link
                   to="/contact-information"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center hover:text-blue-300"
                 >
                   Client Queries
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/user-information"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center hover:text-blue-300"
+                >
+                  Users
                 </Link>
               </li>
               <li>
@@ -296,24 +272,6 @@ export function Dashboard() {
                   className="flex items-center hover:text-blue-300"
                 >
                   Settings
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/trends"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center hover:text-blue-300"
-                >
-                  Trends
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/news"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center hover:text-blue-300"
-                >
-                  News
                 </Link>
               </li>
             </ul>
@@ -359,9 +317,13 @@ export function Dashboard() {
                 </div>
               ))}
         </div>
+        <DasboardQuickActions />
+        <div className="our-services">
         <ServicesList services={filteredServices} />
-        <GalleryList />
-        <Gallery gallery={filteredGallery} />
+        </div>
+        <div className="gallery mt-6">
+        <GalleryList gallery={filteredGallery} galleryData={gallery}/>
+        </div>
       </main>
     </div>
   );

@@ -7,9 +7,6 @@ import {
   FaPlus,
   FaEdit,
   FaCog,
-  FaChartLine,
-  FaNewspaper,
-  FaEnvelope,
 } from "react-icons/fa";
 import { FaMessage, FaRegMessage } from "react-icons/fa6";
 
@@ -32,8 +29,6 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
       icon: <FaRegMessage />,
     },
     { name: "Settings", path: "/settings", icon: <FaCog /> },
-    { name: "Trends", path: "/trends", icon: <FaChartLine /> },
-    { name: "News", path: "/news", icon: <FaNewspaper /> },
   ];
 
   return (

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { FaWhatsapp, FaEnvelope, FaChevronDown } from "react-icons/fa";
 import { Footer } from "./Footer";
+import Navbar from "./Navbar";
 
 export const ServiceDetail = () => {
   const { id } = useParams();
@@ -40,6 +41,8 @@ export const ServiceDetail = () => {
     return <div>Service not found</div>;
   }
   return (
+    <>
+    <Navbar />
     <div className="service-detail">
       <section className="content py-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="initial-content mt-4">
@@ -117,7 +120,8 @@ export const ServiceDetail = () => {
           </div>
         </div>
       </section>
-      <Footer />
     </div>
+      <Footer />
+    </>
   );
 };
