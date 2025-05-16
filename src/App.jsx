@@ -14,6 +14,8 @@ import { Dashboard } from "./pages/Dashboard";
 import ServicesList from "./components/ServicesList";
 import { CreateServices } from "./admin-dashboard/CreateServices";
 import ContactInformation from "./admin-dashboard/ContactInformation";
+import UpdateUser from "./admin-dashboard/UpdateUser";
+import Users from "./admin-dashboard/Users";
 import CreateGallery from "./admin-dashboard/CreateGallery";
 import UpdateGallery from "./admin-dashboard/UpdateGallery";
 import UpdateService from "./admin-dashboard/UpdateService";
@@ -68,6 +70,11 @@ function App() {
             <Route
               path="/contact-information"
               element={<ContactInformation />}
+            />
+            <Route path="//user/update/:id" element={<UpdateUser />} />
+            <Route
+              path="/user-information"
+              element={<Users />}
             />
             <Route
               path="/inquiries-information"

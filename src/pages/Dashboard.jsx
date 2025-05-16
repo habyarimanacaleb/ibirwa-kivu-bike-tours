@@ -12,6 +12,7 @@ import {
   MessageSquare,
   Bell,
   User,
+  UserCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -156,28 +157,20 @@ export function Dashboard() {
                 <Plus className="mr-2" /> Create Gallery
               </Link>
             </li>
-            <li>
-              <Link
-                to="/update-service"
-                className="flex items-center hover:text-blue-300"
-              >
-                <Edit className="mr-2" /> Update Services
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/update-gallery"
-                className="flex items-center hover:text-blue-300"
-              >
-                <Edit className="mr-2" /> Update Gallery
-              </Link>
-            </li>
-            <li>
+              <li>
               <Link
                 to="/contact-information"
                 className="flex items-center hover:text-blue-300"
               >
                 <MessageSquare className="mr-2" /> Client Queries
+              </Link>
+            </li>
+              <li>
+              <Link
+                to="/user-information"
+                className="flex items-center hover:text-blue-300"
+              >
+                <UserCircle className="mr-2" /> Users
               </Link>
             </li>
             <li>
