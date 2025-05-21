@@ -70,6 +70,14 @@ const TourInquiriesDashboard = () => {
     }
   };
 
+if(!inquiries.length) {
+  return (
+    <div className="p-5 flex flex-col items-center justify-center h-screen bg-gray-500">
+      <h1 className="text-2xl font-bold mb-4">Tour Inquiries Inform</h1>
+      <p className="text-white">No inquiries available.</p>
+    </div>
+  );}
+
   return (
     <div className="p-5">
       <h1 className="text-2xl font-bold mb-4">Tour Inquiries Dashboard</h1>
