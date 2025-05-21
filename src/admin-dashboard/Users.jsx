@@ -9,8 +9,6 @@ const UsersPage = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
-  // 1. Fetch all users when page loads
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -25,13 +23,9 @@ const UsersPage = () => {
     };
     fetchUsers();
   }, []);
-
-  // 2. Handler to navigate to your update form/page
   const handleUpdate = (userId) => {
     navigate(`/user/update/${userId}`);
   };
-
-  // 3. Handler to block (or unblock) a user
   const handleBlock = async (userId, shouldBlock = true) => {
     try {
       await axios.patch(`https://kivu-back-end.onrender.com/api/ibirwa-clients/user/${userId}/block`, {

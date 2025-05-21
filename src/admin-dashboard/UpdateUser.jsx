@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const UpdateUserForm = () => {
-  const { userId } = useParams();            // match your route: /users/update/:userId
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -15,14 +15,12 @@ const UpdateUserForm = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // 1. Fetch the existing user
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(
-          `https://kivu-back-end.onrender.com/api/ibirwa-clients/user/${userId}`
-        );
+        const res = await axios.get(`https://kivu-back-end.onrender.com/api/ibirwa-clients/user/${id}`);
         const user = res.data.user;
+        console.log('Fetched user:', user);
         setFormData({
           username: user.username || '',
           email: user.email || '',
@@ -36,9 +34,8 @@ const UpdateUserForm = () => {
       }
     };
     fetchUser();
-  }, [userId]);
+  }, [id]);
 
-  // 2. Handle form changes
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -46,15 +43,14 @@ const UpdateUserForm = () => {
     }));
   };
 
-  // 3. Submit updates
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.put(
-        `https://kivu-back-end.onrender.com/api/ibirwa-clients/user/${userId}`,
+        `https://kivu-back-end.onrender.com/api/ibirwa-clients/user/${id}`,
         formData
       );
-      navigate('/users'); // back to UsersPage
+      navigate('/users');
     } catch (err) {
       console.error(err);
       setError('Failed to update user.');
@@ -68,7 +64,6 @@ const UpdateUserForm = () => {
     <div className="max-w-xl mx-auto p-6 bg-white rounded shadow">
       <h2 className="text-2xl font-bold mb-4">Update User</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Username */}
         <div>
           <label className="block font-medium">Username</label>
           <input
@@ -80,8 +75,6 @@ const UpdateUserForm = () => {
             required
           />
         </div>
-
-        {/* Email */}
         <div>
           <label className="block font-medium">Email</label>
           <input
@@ -93,8 +86,6 @@ const UpdateUserForm = () => {
             required
           />
         </div>
-
-        {/* Role (optional) */}
         <div>
           <label className="block font-medium">Role</label>
           <input
@@ -105,8 +96,6 @@ const UpdateUserForm = () => {
             className="w-full border px-3 py-2 rounded"
           />
         </div>
-
-        {/* Submit */}
         <div className="flex justify-end">
           <button
             type="submit"

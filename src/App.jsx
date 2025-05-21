@@ -71,7 +71,7 @@ function App() {
               path="/contact-information"
               element={<ContactInformation />}
             />
-            <Route path="//user/update/:id" element={<UpdateUser />} />
+            <Route path="/user/update/:id" element={<UpdateUser />} />
             <Route
               path="/user-information"
               element={<Users />}
