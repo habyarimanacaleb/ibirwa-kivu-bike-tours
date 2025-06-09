@@ -202,7 +202,7 @@ export const About = () => {
       >
         <div className="min-h-screen bg-gray-50 py-10 px-4">
       <h1 className="text-center text-3xl font-bold">Kivu Tour Reviews</h1>
-      <ReviewForm />
+      <ReviewForm  />
     </div>
       </motion.div>
 

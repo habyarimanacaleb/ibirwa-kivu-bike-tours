@@ -17,7 +17,7 @@ const ReviewForm = () => {
 
   const fetchReviews = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/api/reviews");
+      const res = await axios.get("https://kivu-back-end.onrender.com/api/reviews");
       setReviews(res.data);
     } catch (err) {
       console.error("Error fetching reviews:", err);
@@ -27,7 +27,7 @@ const ReviewForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3001/api/reviews", {
+      await axios.post("https://kivu-back-end.onrender.com/api/reviews", {
         name,
         email,
         rating,
