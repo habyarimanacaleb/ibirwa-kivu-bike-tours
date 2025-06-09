@@ -14,18 +14,14 @@ const WhatsAppChat = () => {
   const handleSend = () => {
     if (!input.trim()) return;
 
-    const phoneNumber = "250728680460"; // Your actual WhatsApp number
+    const phoneNumber = "250784606393"; 
     const encodedMessage = encodeURIComponent(input);
     const waUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-
-    // Optional: Add to UI
     setMessages([...messages, { text: input, sender: "user" }]);
     setInput("");
 
-    // Close the chat
     setIsOpen(false);
 
-    // Open WhatsApp with message
     window.open(waUrl, "_blank");
 
   };
@@ -36,7 +32,6 @@ const WhatsAppChat = () => {
 
   return (
     <>
-      {/* Floating WhatsApp Button */}
       <div className="fixed bottom-14 right-4 z-50">
         <button
           onClick={toggleChat}
@@ -45,8 +40,6 @@ const WhatsAppChat = () => {
           <MessageCircle className="text-white" />
         </button>
       </div>
-
-      {/* Chat Container */}
       {isOpen && (
         <div className="fixed bottom-20 right-6 w-80 bg-white rounded-xl shadow-xl border border-gray-300 flex flex-col overflow-hidden z-50">
           {/* Header */}
