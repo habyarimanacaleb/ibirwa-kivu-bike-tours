@@ -77,7 +77,6 @@ const ReviewForm = () => {
           <p className="text-gray-500">No ratings yet.</p>
         )}
       </div>
-
       {/* Section: Review Cards */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-12">
         {reviews.length === 0 ? (

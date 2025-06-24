@@ -22,10 +22,12 @@ import UpdateService from "./admin-dashboard/UpdateService";
 import Services from "./components/Services";
 import TourInquiriesDashboard from "./components/TourInquiriesDashboard";
 import Settings from "./components/Settings";
+import AdminSettings from "./admin-panel/Settings";
 import "./App.css";
 import GalleryList from "./components/GalleryLists";
 import Gallery from "./pages/Gallery";
 import SingleGalleryView from "./admin-dashboard/SingleGalleryView";
+import {MainDashboardLout} from "./admin-panel/MainDashboardLout";
 
 function App() {
   return (
@@ -53,6 +55,8 @@ function App() {
                       element={<ExploreRwanda />}
                     />
                     <Route path="/contact" element={<Contacts />} />
+                    <Route path="/admin-panel" element={<MainDashboardLout />} />
+
                     
                   </Routes>
                 </div>
@@ -85,6 +89,7 @@ function App() {
             <Route path="/gallery/:id" element={<SingleGalleryView />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/admin-settings" element={<AdminSettings />} />
           </Route>
           <Route
             path="*"
