@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import MainLayout from "./MainLayout";
 
 const TourInquiriesDashboard = () => {
   const [inquiries, setInquiries] = useState([]);
@@ -72,13 +73,16 @@ const TourInquiriesDashboard = () => {
 
 if(!inquiries.length) {
   return (
-    <div className="p-5 flex flex-col items-center justify-center h-screen bg-gray-500">
+    <MainLayout>
+    <div className="p-2 flex flex-col items-center justify-center">
       <h1 className="text-2xl font-bold mb-4">Tour Inquiries Inform</h1>
-      <p className="text-white">No inquiries available.</p>
+      <p className="text-gray-400">No inquiries available.</p>
     </div>
+    </MainLayout>
   );}
 
   return (
+    <MainLayout>
     <div className="p-5">
       <h1 className="text-2xl font-bold mb-4">Tour Inquiries Dashboard</h1>
       <div className="space-y-4">
@@ -153,6 +157,7 @@ if(!inquiries.length) {
         </div>
       )}
     </div>
+    </MainLayout>
   );
 };
 

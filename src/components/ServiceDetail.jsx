@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { FaWhatsapp, FaEnvelope, FaChevronDown } from "react-icons/fa";
 import { Footer } from "./Footer";
@@ -110,6 +110,7 @@ export const ServiceDetail = () => {
             </div>
           </div>
           <div className="image-slider w-full lg:w-1/3 max-w-lg mx-auto overflow-hidden mt-10 lg:mt-0">
+           <Link to="/gallery">
             <div className="flex transition-transform duration-500">
               <img
                 src={service.imageFile}
@@ -117,6 +118,7 @@ export const ServiceDetail = () => {
                 className="w-full sm:w-auto rounded-md h-[400px] object-cover"
               />
             </div>
+           </Link>
           </div>
         </div>
       </section>

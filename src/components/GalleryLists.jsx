@@ -2,7 +2,9 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const GalleryList = ({ galleryData, setGalleryData }) => {
+const GalleryList = ({ galleryData, gallery }) => {
+  console.log("GalleryList rendered with galleryData:", galleryData);
+  console.log("GalleryList rendered with gallery:", gallery);
   const navigate = useNavigate();
 
   const handleDelete = async (id) => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import MainLayout from "../admin-panel/MainLayout";
 
 const UpdateGallery = () => {
   const { id } = useParams();
@@ -72,6 +73,8 @@ const UpdateGallery = () => {
   if (error) return <div>Error fetching photo: {error.message}</div>;
 
   return (
+
+    <MainLayout>
     <div className="bg-gray-100 p-6">
       <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-4">Update Gallery Card</h1>
@@ -126,6 +129,7 @@ const UpdateGallery = () => {
         )}
       </div>
     </div>
+    </MainLayout>
   );
 };
 

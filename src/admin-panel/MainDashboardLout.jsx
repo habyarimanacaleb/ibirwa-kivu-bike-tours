@@ -3,25 +3,25 @@ import MainLayout from "./MainLayout";
 import ServicesList from "../components/ServicesList";
 import GalleryList from "../components/GalleryLists";
 import DasboardQuickActions from "../components/DasboardQuickActions";
+import SearchBar from "./SearchBar";
 import axios from "axios";
+import { Bell } from "lucide-react";
 
-export function MainDashboardLout({ searchTerm }) {
+export function MainDashboardLout() {
 
-  console.log("MainDashboardLout rendered with searchTerm:", searchTerm);
     const [analytics, setAnalytics] = useState({
       users: 0,
       contacts: 0,
       services: 0,
       gallery: 0,
     });
+    const [searchTerm, setSearchTerm] = useState("");
     const [loading, setLoading] = useState(true);
-    // const [searchTerm, setsearchTerm] = useState("");
     const [services, setServices] = useState([]);
     const [gallery, setGallery] = useState([]);
     const [error, setError] = useState(null);
     const [notifications, setNotifications] = useState(0);
 
-  //fetch analytics data here if needed
    useEffect(() => {
       async function fetchAnalytics() {
         try {
@@ -62,8 +62,6 @@ export function MainDashboardLout({ searchTerm }) {
   
       fetchAnalytics();
     }, []);
-
- // gallery and services fetching
  useEffect(() => {
     const fetchData = async () => {
       try {
@@ -81,28 +79,20 @@ export function MainDashboardLout({ searchTerm }) {
     };
     fetchData();
   }, []);
-  // Normalize the searchTerm safely
-const normalizedSearchTerm = (searchTerm || "").toLowerCase();
-console.log("Search term:", normalizedSearchTerm);
-// Filter only if search term exists, otherwise return all
-const filteredServices = normalizedSearchTerm
-  ? services.filter(s =>
-      s.title.toLowerCase().includes(normalizedSearchTerm)
-    )
-  : services;
 
-const filteredGallery = normalizedSearchTerm
-  ? gallery.filter(g =>
-      g.title.toLowerCase().includes(normalizedSearchTerm)
-    )
-  : gallery;
+const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
-// Handle error display
-if (error) {
-  return <div className="text-red-500">Error: {error.message}</div>;
-}
-
-
+  const filteredServices = services.filter((service) =>
+    service.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const filteredGallery = gallery.filter((photo) =>
+    photo.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
   const SkeletonCard = () => (
     <div className="bg-gray-200 p-4 shadow rounded-lg animate-pulse transition-all duration-500 ease-in-out text-center h-24">
       <div className="h-6 bg-gray-300 rounded w-3/4 mx-auto mb-4"></div>
@@ -115,6 +105,14 @@ if (error) {
       <div className="welcome-back-admin">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-3xl font-bold mb-6">Welcome back Admin,</h2>
+           <div className="relative flex items-center" title="Messages">
+              <Bell className="mr-2" />
+              {notifications > 0 && (
+                <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                  {notifications}
+                </span>
+              )}
+            </div>
         </ div>
          {/* Analytics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
@@ -135,12 +133,15 @@ if (error) {
               ))}
         </div>
 
-        <div className="quick-action">
+        <div className="quick-action mb-6">
           <DasboardQuickActions />
         </div>
-
+        {/* Search Bar */}
+        <div className="search-bar mb-6">
+                    <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
+        </div>
         {/*services and gallery lists */}
-        <div className="our-services">
+        <div className="our-services mb-6">
         <ServicesList services={filteredServices} />
         </div>
         <div className="gallery mt-6">

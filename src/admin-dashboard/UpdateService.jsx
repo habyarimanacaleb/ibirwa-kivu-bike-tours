@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import MainLayout from "../admin-panel/MainLayout";
 
 const UpdateService = () => {
   const { id } = useParams();
@@ -108,6 +109,7 @@ const UpdateService = () => {
   };
 
   return (
+    <MainLayout>
     <div className="bg-gray-100 p-6">
       <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-4">Update Service</h1>
@@ -271,6 +273,7 @@ const UpdateService = () => {
         )}
       </div>
     </div>
+    </MainLayout>
   );
 };
 

@@ -1,12 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import { FaHome, FaTools, FaImages, FaBook, FaEnvelope, FaUsers, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { FaHome, FaTools, FaImages, FaBook, FaEnvelope, FaUsers, FaCog, FaSignOutAlt,FaStar } from "react-icons/fa";
 import { FiMenu, FiX } from "react-icons/fi";
 
 export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
-
-
+    const navigate = useNavigate();
+    const handleLogout = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    navigate("/");
+  };
     return (
         <>
             {/* Mobile overlay */}
@@ -26,42 +30,46 @@ export default function Sidebar() {
 
                 <nav className="mt-6">
                     <div className="flex flex-col space-y-1 text-white">
-                        <Link href="/admin-panel"  className="flex items-center px-4 py-3 hover:bg-gray-700">
+                        <Link href="/admin-panel"  className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
                             <FaHome className="mr-3" />
                             <span>Home</span>
                         </Link>
 
-                        <Link to="/create-service" className="flex items-center px-4 py-3 hover:bg-gray-700">
+                        <Link to="/create-service" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
                             <FaTools className="mr-3" />
                             <span>Create Service</span>
                         </Link>
 
-                        <Link to="/create-gallery" className="flex items-center px-4 py-3 hover:bg-gray-700">
+                        <Link to="/create-gallery" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
                             <FaImages className="mr-3" />
                             <span>Create Gallery</span>
                         </Link>
 
-                        <Link to="/inquiries-information" className="flex items-center px-4 py-3 hover:bg-gray-700">
+                        <Link to="/inquiries-information" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
                             <FaBook className="mr-3" />
                             <span>View Bookings</span>
                         </Link>
 
-                        <Link to="/contact-information" className="flex items-center px-4 py-3 hover:bg-gray-700">
+                        <Link to="/contact-information" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
                             <FaEnvelope className="mr-3" />
                             <span>View Messages</span>
                         </Link>
+                        <Link to="/admin-panel/reviews" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
+                            <FaStar  className="mr-3" />
+                            <span>Review Management</span>
+                        </Link>
 
-                        <Link to="/user-information" className="flex items-center px-4 py-3 hover:bg-gray-700">
+                        <Link to="/user-information" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
                             <FaUsers className="mr-3" />
                             <span>Our Users/Clients</span>
                         </Link>
 
-                        <Link to="/admin-settings" className="flex items-center px-4 py-3 hover:bg-gray-700">
+                        <Link to="/admin-settings" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
                             <FaCog className="mr-3" />
                             <span>Settings</span>
                         </Link>
 
-                        <div className="flex items-center px-4 py-3 hover:bg-gray-700 text-red-400 hover:text-red-300">
+                        <div className="flex items-center px-4 py-3 hover:bg-gray-700 text-red-400 hover:text-red-600" onClick={handleLogout}>
                             <FaSignOutAlt className="mr-3" />
                             <span>Logout</span>
                         </div>

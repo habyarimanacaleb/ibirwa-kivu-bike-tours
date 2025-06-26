@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import MainLayout from "../admin-panel/MainLayout";
 
 const SingleGalleryView = () => {
   const { id } = useParams();
@@ -28,6 +29,7 @@ const SingleGalleryView = () => {
   if (error) return <div className="text-center mt-10 text-red-600">{error}</div>;
 
   return (
+    <MainLayout>
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6 text-center">Gallery Item Details</h1>
       {galleryItem && (
@@ -45,7 +47,7 @@ const SingleGalleryView = () => {
              {/* Static Description Section */}
             <section className="bg-gray-100 p-4 rounded-md border">
               <h3 className="text-lg font-semibold mb-2">Gallery Description</h3>
-              <p className="text-gray-700 w-full lg:w-[900px] mx-auto p-4 rounded-md border hover:bg-gray-200 hover:shadow-md hover:transition-all hover:duration-300 hover:scale-105 hover:cursor-pointer hover: motiion-safe">
+              <p className="text-gray-700 w-full lg:w-a mx-auto p-4 rounded-md border hover:bg-gray-200 hover:shadow-md hover:transition-all hover:duration-300 hover:scale-105 hover:cursor-pointer hover: motiion-safe">
                 Welcome to our beautiful gallery collection. Each image showcases the natural wonders,
                 cultural landmarks, and scenic beauty that define the Kivu region. Enjoy the visual journey!
               </p>
@@ -61,6 +63,7 @@ const SingleGalleryView = () => {
         </div>
       )}
     </div>
+    </MainLayout>
   );
 };
 

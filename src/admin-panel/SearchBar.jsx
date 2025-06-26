@@ -3,11 +3,11 @@ import { FaSearch } from "react-icons/fa";
 
 const SearchBar = ({ searchTerm, handleSearch }) => {
   return (
-    <div className="flex justify-between items-center py-4 w-full">
-      <FaSearch className="text-gray-500" />
+    <div className="flex justify-between items-center py-1 w-full max-w-md mx-auto bg-white shadow-md rounded-lg px-4">
+      <FaSearch className="text-gray-400" />
       <input
         type="text"
-        placeholder="Search here"
+        placeholder="Search your services..."
         value={searchTerm}
         onChange={handleSearch}
         className="p-2 w-full rounded-lg border-none outline-none"
@@ -15,5 +15,4 @@ const SearchBar = ({ searchTerm, handleSearch }) => {
     </div>
   );
 };
-
 export default SearchBar;
