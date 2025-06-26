@@ -1,7 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route,Outlet } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import { Home } from "./pages/Home";
-import { GalleryServices } from "./pages/GalleryServices";
 import { About } from "./pages/About";
 import { ExploreRwanda } from "./pages/ExploreRwanda";
 import { Join } from "./components/Join";
@@ -10,7 +9,6 @@ import { ServiceDetail } from "./components/ServiceDetail";
 import { SignIn } from "./components/SignIn";
 import { UserProvider } from "./context/UserContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { Dashboard } from "./pages/Dashboard";
 import ServicesList from "./components/ServicesList";
 import { CreateServices } from "./admin-dashboard/CreateServices";
 import ContactInformation from "./admin-dashboard/ContactInformation";
@@ -20,14 +18,14 @@ import CreateGallery from "./admin-dashboard/CreateGallery";
 import UpdateGallery from "./admin-dashboard/UpdateGallery";
 import UpdateService from "./admin-dashboard/UpdateService";
 import Services from "./components/Services";
-import TourInquiriesDashboard from "./components/TourInquiriesDashboard";
-import Settings from "./components/Settings";
+import TourInquiriesDashboard from "./admin-panel/TourInquiriesDashboard";
 import AdminSettings from "./admin-panel/Settings";
 import "./App.css";
 import GalleryList from "./components/GalleryLists";
-import Gallery from "./pages/Gallery";
 import SingleGalleryView from "./admin-dashboard/SingleGalleryView";
-import {MainDashboardLout} from "./admin-panel/MainDashboardLout";
+import { MainDashboardLout } from "./admin-panel/MainDashboardLout";
+import GalleryPage from "./pages/GalleryPage";
+import DashboardReviews from "./admin-panel/DashboardReviews";
 
 function App() {
   return (
@@ -41,12 +39,9 @@ function App() {
                 <div className="flex-grow">
                   <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route
-                      path="/services-gallery"
-                      element={<GalleryServices />}
-                    />
                     <Route path="/services" element={<Services />} />
                     <Route path="/service/:id" element={<ServiceDetail />} />
+                    <Route path="/gallery" element={<GalleryPage />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/login" element={<SignIn />} />
                     <Route path="/join" element={<Join />} />
@@ -55,9 +50,6 @@ function App() {
                       element={<ExploreRwanda />}
                     />
                     <Route path="/contact" element={<Contacts />} />
-                    <Route path="/admin-panel" element={<MainDashboardLout />} />
-
-                    
                   </Routes>
                 </div>
               </div>
@@ -65,7 +57,7 @@ function App() {
           />
           <Route element={<ProtectedRoute />}>
             {/* <Route path="/admin" element={<DashboardHome />} /> */}
-            <Route path="/admin" element={<Dashboard />} />
+            <Route path="/admin-panel" element={<MainDashboardLout />} />
             <Route path="/create-service" element={<CreateServices />} />
             <Route path="/tour-services" element={<Services />} />
             <Route path="/admin-service-list" element={<ServicesList />} />
@@ -87,9 +79,8 @@ function App() {
             <Route path="/create-gallery" element={<CreateGallery />} />
             <Route path="/update-gallery/:id" element={<UpdateGallery />} />
             <Route path="/gallery/:id" element={<SingleGalleryView />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/settings" element={<Settings />} />
             <Route path="/admin-settings" element={<AdminSettings />} />
+            <Route path="/admin-panel/reviews" element={<DashboardReviews />} />
           </Route>
           <Route
             path="*"

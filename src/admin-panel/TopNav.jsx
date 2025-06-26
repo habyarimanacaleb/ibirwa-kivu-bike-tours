@@ -1,8 +1,7 @@
-import React from "react"; 
+import React from "react";
 import { FiSearch } from "react-icons/fi";
 
-export default function TopNav({searchTerm,handleSearch}) {
-  console.log("TopNav rendered with searchTerm:", searchTerm);
+export default function TopNav() {
   return (
     <header className="fixed w-full bg-white shadow px-6 py-4 flex justify-between items-center h-16 z-30">
       {/* Hide on mobile, show on sm+ */}
@@ -12,16 +11,23 @@ export default function TopNav({searchTerm,handleSearch}) {
 
       <div className="flex items-center space-x-4 mr-0 ml-40 sm:mr-60">
         {/* Search bar */}
-        <div className="relative flex items-center bg-gray-100 rounded-full px-3 py-1.5 shadow-sm w-64">
+        <form
+          action="https://www.google.com/search"
+          method="GET"
+          target="_blank"
+          className="relative flex items-center bg-gray-100 rounded-full px-3 py-1.5 shadow-sm w-64"
+        >
           <input
             type="text"
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={handleSearch}
-            className=" w-full bg-transparent outline-none text-sm pr-6 text-gray-700 placeholder-gray-500"
+            name="q"
+            placeholder="Search on Google..."
+            className="w-full bg-transparent outline-none text-sm pr-6 text-gray-700 placeholder-gray-500"
           />
-          <FiSearch className="w-5 h-5 text-gray-500 absolute right-2" />
-        </div>
+          <button type="submit">
+            <FiSearch className="w-5 h-5 text-gray-500 absolute right-2 top-2" />
+          </button>
+        </form>
+
 
         {/* User avatar */}
         <img

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import MainLayout from "../admin-panel/MainLayout";
 
 const CreateGallery = () => {
   const [title, setTitle] = useState("");
@@ -109,6 +110,7 @@ const CreateGallery = () => {
   }
 
   return (
+    <MainLayout>
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6 text-center">
         {editingPhoto ? "Update Photo" : "Create Gallery"}
@@ -188,6 +190,7 @@ const CreateGallery = () => {
         </p>
       )}
     </div>
+    </MainLayout>
   );
 };
 

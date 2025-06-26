@@ -36,7 +36,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
         updateUser(data.user);
         setFormData({ email: "", password: "" });
 
-        navigate(data.user.role === "admin" ? "/admin" : "/services-gallery");
+        navigate(data.user.role === "admin" ? "/admin-panel" : "/gallery");
       } else {
         setError(data.message || "Login failed. Please try again.");
       }

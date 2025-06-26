@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import MainLayout from '../admin-panel/MainLayout';
 
 const UpdateUserForm = () => {
   const { id } = useParams();
@@ -61,6 +62,7 @@ const UpdateUserForm = () => {
   if (error)   return <div className="p-6 text-red-600">{error}</div>;
 
   return (
+    <MainLayout>
     <div className="max-w-xl mx-auto p-6 bg-white rounded shadow">
       <h2 className="text-2xl font-bold mb-4">Update User</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -106,6 +108,7 @@ const UpdateUserForm = () => {
         </div>
       </form>
     </div>
+    </MainLayout>
   );
 };
 

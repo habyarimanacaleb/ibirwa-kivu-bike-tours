@@ -39,7 +39,7 @@ export const Footer = () => {
               <ul className="text-gray-300 space-y-2 text-sm">
                 <li>
                   <FaEnvelopeOpen className="mr-2" />
-                  jeandamourrwibutso@gmail.com
+                  ibirwakivubiketours@gmail.com
                 </li>
                 <li>
                   <FaPhone className="mr-2" /> +250784606393

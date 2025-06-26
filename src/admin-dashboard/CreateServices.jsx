@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { Home } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import MainLayout from "../admin-panel/MainLayout";
 
 export const CreateServices = () => {
   const [title, setTitle] = useState("");
@@ -22,7 +22,6 @@ export const CreateServices = () => {
           "https://kivu-back-end.onrender.com/api/services/67c0f47f02c5888782662aca"
         );
         const service = response.data;
-        console.log("Fetched service details:", service);
         setTitle(service.title);
         setDescription(service.description);
         setDetailPage(service.detailPage);
@@ -85,214 +84,164 @@ export const CreateServices = () => {
       );
 
       if (response.status === 200 || response.status === 201) {
-        setResponseMessage("Service created successfully!");
+        setResponseMessage("✅ Service created successfully!");
         setTimeout(() => {
           navigate("/tour-services");
         }, 2000);
       }
     } catch (error) {
-      console.error("Error response:", error.response);
-      if (error.response) {
-        console.error("Error data:", error.response.data);
-        console.error("Error status:", error.response.status);
-        console.error("Error headers:", error.response.headers);
-      }
       setResponseMessage(
-        "Error: " + (error.response?.data?.message || "Failed to submit data")
+        "❌ " + (error.response?.data?.message || "Failed to submit data.")
       );
-      console.error("Error:", error);
     }
   };
 
   return (
-    <>
-    <div className="navigations-across flex space-x-4 p-6 bg-gray-100">
-      <Link to="/admin">
-     <Home className="w-5 h-5 text-gray-500" />
-      </Link>
-      <p className="text-gray-500">/</p>
-      <p className="text-gray-500 hover:text-blue-600">Create New Service</p>      
-    </div>
-    <div className="bg-gray-100 p-6">
-      <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold mb-4">Create New Service</h1>
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
-          {/* Title Field */}
-          <div className="mb-4">
-            <label htmlFor="title" className="block text-gray-700 font-bold">
-              Title:
-            </label>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded"
-              required
-            />
-          </div>
+    <MainLayout>
+      <div className="bg-gray-100 min-h-screen p-6">
+        <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">
+          <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+            ✨ Create New Service
+          </h1>
 
-          {/* Description Field */}
-          <div className="mb-4">
-            <label
-              htmlFor="description"
-              className="block text-gray-700 font-bold"
-            >
-              Description:
-            </label>
-            <textarea
-              name="description"
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded"
-              required
-            />
-          </div>
-
-          {/* Detail Page Field */}
-          <div className="mb-4">
-            <label
-              htmlFor="detailPage"
-              className="block text-gray-700 font-bold"
-            >
-              Detail Page URL:
-            </label>
-            <input
-              type="text"
-              name="detailPage"
-              id="detailPage"
-              value={detailPage}
-              onChange={(e) => setDetailPage(e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded"
-              required
-            />
-          </div>
-
-          {/* Highlights Field */}
-          <div className="mb-4">
-            <label
-              htmlFor="highlights"
-              className="block text-gray-700 font-bold"
-            >
-              Highlights:
-            </label>
-            {highlights.map((highlight, index) => (
+          <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-6">
+            {/* Title */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
               <input
-                key={index}
                 type="text"
-                value={highlight}
-                onChange={(e) => handleHighlightChange(index, e.target.value)}
-                className="w-full border border-gray-300 p-2 rounded mb-2"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 required
+                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
               />
-            ))}
-            <button
-              type="button"
-              onClick={handleAddHighlight}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              Add Highlight
-            </button>
-          </div>
+            </div>
 
-          {/* Tips Field */}
-          <div className="mb-4">
-            <label htmlFor="tips" className="block text-gray-700 font-bold">
-              Tips:
-            </label>
-            {tips.map((tip, index) => (
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows={4}
+                required
+                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+
+            {/* Detail Page URL */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Detail Page URL</label>
               <input
-                key={index}
                 type="text"
-                value={tip}
-                onChange={(e) => handleTipChange(index, e.target.value)}
-                className="w-full border border-gray-300 p-2 rounded mb-2"
+                value={detailPage}
+                onChange={(e) => setDetailPage(e.target.value)}
                 required
+                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
               />
-            ))}
-            <button
-              type="button"
-              onClick={handleAddTip}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              Add Tip
-            </button>
-          </div>
+            </div>
 
-          {/* Whatsapp Field */}
-          <div className="mb-4">
-            <label htmlFor="whatsapp" className="block text-gray-700 font-bold">
-              Whatsapp:
-            </label>
-            <input
-              type="text"
-              name="whatsapp"
-              id="whatsapp"
-              value={whatsapp}
-              onChange={(e) => setWhatsapp(e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded"
-              required
-            />
-          </div>
+            {/* Highlights */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Highlights</label>
+              {highlights.map((h, i) => (
+                <input
+                  key={i}
+                  type="text"
+                  value={h}
+                  onChange={(e) => handleHighlightChange(i, e.target.value)}
+                  className="w-full mb-2 p-2 border rounded-lg focus:ring-1 focus:ring-blue-400"
+                />
+              ))}
+              <button
+                type="button"
+                onClick={handleAddHighlight}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                + Add Highlight
+              </button>
+            </div>
 
-          {/* Email Field */}
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-bold">
-              Email:
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded"
-              required
-            />
-          </div>
+            {/* Tips */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Tips</label>
+              {tips.map((t, i) => (
+                <input
+                  key={i}
+                  type="text"
+                  value={t}
+                  onChange={(e) => handleTipChange(i, e.target.value)}
+                  className="w-full mb-2 p-2 border rounded-lg focus:ring-1 focus:ring-blue-400"
+                />
+              ))}
+              <button
+                type="button"
+                onClick={handleAddTip}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                + Add Tip
+              </button>
+            </div>
 
-          {/* Image Upload */}
-          <div className="mb-4">
-            <label
-              htmlFor="imageFile"
-              className="block text-gray-700 font-bold"
-            >
-              Upload Image:
-            </label>
-            <input
-              type="file"
-              name="imageFile"
-              id="imageFile"
-              onChange={(e) => setImageFile(e.target.files[0])}
-              className="w-full border border-gray-300 p-2 rounded"
-            />
-          </div>
+            {/* Whatsapp */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Whatsapp</label>
+              <input
+                type="text"
+                value={whatsapp}
+                onChange={(e) => setWhatsapp(e.target.value)}
+                required
+                className="w-full p-2 border rounded-lg"
+              />
+            </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Create Service
-          </button>
-        </form>
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full p-2 border rounded-lg"
+              />
+            </div>
 
-        {/* Response Message */}
-        {responseMessage && (
-          <p
-            className={`mt-4 font-bold ${
-              responseMessage.includes("Error")
-                ? "text-red-600"
-                : "text-green-600"
-            }`}
-          >
-            {responseMessage}
-          </p>
-        )}
+            {/* Image Upload */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
+              <input
+                type="file"
+                onChange={(e) => setImageFile(e.target.files[0])}
+                className="w-full p-2 border rounded-lg"
+              />
+            </div>
+
+            {/* Submit */}
+            <div className="pt-4">
+              <button
+                type="submit"
+                className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+              >
+                Create Service
+              </button>
+            </div>
+
+            {/* Response Message */}
+            {responseMessage && (
+              <p
+                className={`text-center font-medium mt-4 ${
+                  responseMessage.includes("Error")
+                    ? "text-red-500"
+                    : "text-green-600"
+                }`}
+              >
+                {responseMessage}
+              </p>
+            )}
+          </form>
+        </div>
       </div>
-    </div>
-    </>
+    </MainLayout>
   );
 };

@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import UserManagement from '../admin-dashboard/UserManagement';
+import UserManagement from '../components/UserManagement';
+import MainLayout from '../admin-panel/MainLayout';
 
 const UsersPage = () => {
   const navigate = useNavigate();
@@ -42,6 +43,7 @@ const UsersPage = () => {
   if (error)   return <div className="p-6 text-red-600 text-center">{error}</div>;
 
   return (
+    <MainLayout>
     <div className="max-w-5xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-4">User Management</h1>
 
@@ -51,6 +53,7 @@ const UsersPage = () => {
         onBlock={handleBlock}
       />
     </div>
+    </MainLayout>
   );
 };
 
