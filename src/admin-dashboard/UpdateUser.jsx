@@ -21,7 +21,7 @@ const UpdateUserForm = () => {
       try {
         const res = await axios.get(`https://kivu-back-end.onrender.com/api/ibirwa-clients/user/${id}`);
         const user = res.data.user;
-        console.log('Fetched user:', user);
+        // console.log('Fetched user:', user);
         setFormData({
           username: user.username || '',
           email: user.email || '',

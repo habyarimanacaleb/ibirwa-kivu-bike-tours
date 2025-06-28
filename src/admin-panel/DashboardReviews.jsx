@@ -16,7 +16,7 @@ const DashboardReviews = () => {
 
       );
       setReviews(response.data || []);
-      console.log("Fetched reviews:", response.data);
+      // console.log("Fetched reviews:", response.data);
       setError(null);
     } catch (err) {
       setError(err.message || "Error fetching reviews");
