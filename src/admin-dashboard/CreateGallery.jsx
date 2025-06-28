@@ -19,7 +19,6 @@ const CreateGallery = () => {
         const response = await axios.get(
           "https://kivu-back-end.onrender.com/api/gallery"
         );
-        console.log("Fetched gallery data:", response.data);
         const data = response.data;
         const galleryArray = Array.isArray(data) ? data : data.gallery || [];
         setGallery(galleryArray);
@@ -68,7 +67,6 @@ const CreateGallery = () => {
           }
         );
         setGallery([...gallery, response.data]);
-        console.log("response is ", response.data);
         setResponseMessage("Photo uploaded successfully!");
       }
       setTimeout(() => {

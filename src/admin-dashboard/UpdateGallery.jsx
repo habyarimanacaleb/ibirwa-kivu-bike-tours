@@ -17,7 +17,7 @@ const UpdateGallery = () => {
       try {
         const response = await axios.get(`https://kivu-back-end.onrender.com/api/gallery/${id}`);
         const photo = response.data;
-        console.log('Photo images data from updates',photo);
+        // console.log('Photo images data from updates',photo);
         if (photo && typeof photo === "object") {
           setTitle(photo.title || "");
         } else {
@@ -55,7 +55,7 @@ const UpdateGallery = () => {
       if (response.status === 200) {
         setResponseMessage("Gallery card updated successfully!");
         setTimeout(() => {
-          navigate("/gallery");
+          navigate("/admin-panel");
         }, 2000);
       } else {
         setResponseMessage("Failed to update gallery card.");

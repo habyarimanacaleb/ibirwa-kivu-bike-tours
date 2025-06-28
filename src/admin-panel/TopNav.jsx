@@ -9,13 +9,13 @@ export default function TopNav() {
         Dashboard
       </h1>
 
-      <div className="flex items-center space-x-4 mr-0 ml-40 sm:mr-60">
+      <div className="flex items-center space-x-4 mr-0 ml-40 sm:mr-64">
         {/* Search bar */}
         <form
           action="https://www.google.com/search"
           method="GET"
           target="_blank"
-          className="relative flex items-center bg-gray-100 rounded-full px-3 py-1.5 shadow-sm w-64"
+          className="relative flex items-center bg-gray-100 rounded-full px-3 py-1.5 shadow-sm w-56"
         >
           <input
             type="text"
