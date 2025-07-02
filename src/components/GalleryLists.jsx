@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+//     formData.append("detailPage", detailPage);
 const GalleryList = ({ galleryData }) => {
   const [galleries, setGalleries] = useState(galleryData || []);
   const navigate = useNavigate();
