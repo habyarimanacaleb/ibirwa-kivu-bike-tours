@@ -4,6 +4,7 @@ import axios from "axios";
 import { FaWhatsapp, FaEnvelope, FaChevronDown } from "react-icons/fa";
 import { Footer } from "./Footer";
 import Navbar from "./Navbar";
+import WhatsAppChat from "./WhatsapMeInService";
 
 export const ServiceDetail = () => {
   const { id } = useParams();
@@ -123,6 +124,9 @@ export const ServiceDetail = () => {
         </div>
       </section>
     </div>
+    <aside>
+      <WhatsAppChat introMessage = {service.title} />
+    </aside>
       <Footer />
     </>
   );
