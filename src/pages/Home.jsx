@@ -52,7 +52,8 @@ export const Home = () => {
     return () => clearInterval(interval);
   }, [services.length]);
 
-  return (
+
+    return (
     <>
       <Navbar />
       <div className="bg-gray-200 pt-2">
@@ -76,6 +77,8 @@ export const Home = () => {
                     src={imageUrl}
                     alt={`Service ${index + 1}`}
                     className="w-full min-w-full h-full object-cover"
+                    loading="lazy"
+                    style={{ objectPosition: "center" }}
                   />
                 </div>
               ))
