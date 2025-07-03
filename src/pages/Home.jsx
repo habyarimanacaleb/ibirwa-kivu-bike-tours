@@ -6,7 +6,7 @@ import Services from "../components/Services";
 import { Footer } from "../components/Footer";
 import ChevronButton from "../components/ChevronButton";
 import TourInquiryForm from "../components/TourInquiryForm";
-import WhatsAppChat from "../components/WhatsAppChat";
+// import WhatsAppChat from "../components/WhatsAppChat";
 import Navbar from "../components/Navbar";
 import ReviewForm from "../components/ReviewForm";
 
@@ -193,7 +193,8 @@ export const Home = () => {
         </section>
 
         <ChevronButton />
-        <WhatsAppChat />
+        {/* Uncomment the line below to enable WhatsApp chat feature */}
+        {/* <WhatsAppChat /> */}
       </div>
       <Footer />
     </>
