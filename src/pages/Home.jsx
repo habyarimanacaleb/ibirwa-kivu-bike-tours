@@ -193,6 +193,7 @@ export const Home = () => {
         </section>
 
         <ChevronButton />
+        {/* Uncomment the line below to enable WhatsApp chat feature */}
         {/* <WhatsAppChat /> */}
       </div>
       <Footer />
