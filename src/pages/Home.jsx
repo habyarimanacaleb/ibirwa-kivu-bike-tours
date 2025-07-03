@@ -168,8 +168,7 @@ export const Home = () => {
                 aria-label="Click to connect with our support team"
                 title="Reach Out to Us"
               >
-                <i className="fa-solid fa-envelope mr-2"></i> Start Chat with
-                Our Team
+                <i className="fa-solid fa-envelope mr-2"></i> Contact Us
               </button>
             </div>
             <p className="mt-4 text-gray-600 text-sm italic">
