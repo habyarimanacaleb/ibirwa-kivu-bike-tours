@@ -72,6 +72,7 @@ const Services = () => {
                     <img
                       src={service.imageFile}
                       alt={service.title}
+                      loading="lazy"
                       className="w-full h-auto object-contain transition-transform duration-300 ease-in-out hover:scale-110"
                     />
                   </div>
