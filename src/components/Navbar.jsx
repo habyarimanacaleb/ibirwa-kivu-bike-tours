@@ -88,7 +88,6 @@ export const Navbar = () => {
                 Sign up
               </NavLink>
             </li>
-            
           </ul>
         </div>
       </nav>
