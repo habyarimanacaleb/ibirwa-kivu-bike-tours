@@ -27,7 +27,7 @@ export const Footer = () => {
               onClick={() => {
                 navigate("/contact");
               }}
-              className="inline-block mt-4 text-blue-900 hover:text-blue-200 cursor-pointer"
+              className="inline-block mt-4 text-blue-600 hover:text-blue-200 cursor-pointer"
             >
               Contact Us
             </span>
@@ -72,9 +72,8 @@ export const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="mt-2 lg:mt-8 text-center border-t border-blue-600 pt-4 text-sm text-gray-400">
-          &copy; {new Date().getFullYear()} Ibirwa Kivu Bike. All rights
-          reserved.
+        <div className="mt-2 lg:mt-8 text-center border-t border-blue-200 pt-4 text-sm text-gray-400">
+          &copy; {new Date().getFullYear()} Ibirwa Kivu Bike. All rights reserved.
         </div>
       </div>
       <button
