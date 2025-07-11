@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa"; // Icons for menu
+import { FaBars, FaTimes } from "react-icons/fa";
 import { DropdownMenu } from "./dropdawn/DropdownMenu";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -14,17 +13,14 @@ export const Navbar = () => {
       document.body.style.overflow = "auto";
     }
   }, [isOpen]);
-
   const closeMenu = () => {
     setIsOpen(false);
   };
-
   return (
     <>
       {/* Navbar */}
       <nav className="bg-black h-20 fixed w-full top-0 left-0 z-50 shadow-md px-2 items-center justify-center">
         <div className="container mx-auto flex justify-between items-center py-4 ">
-          {/* Logo */}
           <div
             className="app-logo cursor-pointer flex items-center"
             onClick={() => navigate("/")}
