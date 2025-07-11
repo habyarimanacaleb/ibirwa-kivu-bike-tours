@@ -59,7 +59,7 @@ const TourInquiryForm = () => {
   };
 
   return (
-    <div className="text-white pt-10 pb-2 px-5 md:px-20 mt-[-15px] z-10">
+    <div className="text-white py-1 px-5 md:px-20 mt-[-15px] z-10">
       <div className="w-full lg:max-w-3xl mx-auto bg-gray-900 p-6 rounded-lg shadow-lg mb-2">
         <h2 className="text-2xl font-semibold text-center mb-4">
           Plan Your Tour

@@ -119,7 +119,7 @@ const ReviewForm = () => {
               onChange={(e) => setComment(e.target.value)}
               required
             ></textarea>
-            <button className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 shadow rounded-md">
+            <button className="bg-gray-600 text-white px-4 py-2 hover:bg-gray-700 shadow rounded-md">
               Submit Review
             </button>
             {success && <p className="text-green-600 text-sm">{success}</p>}
@@ -152,7 +152,7 @@ const ReviewForm = () => {
             .slice()
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
             .map((rev) => (
-              <div  className="bg-white border rounded-lg shadow-sm p-4">
+              <div key={rev.rating} className="bg-white border rounded-lg shadow-sm p-4">
                 <div className="flex justify-between items-center mb-2">
                   <p key={rev._id} className="font-semibold text-lg">{rev.name}</p>
                   {renderStars(rev.rating)}

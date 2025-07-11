@@ -20,12 +20,12 @@ import UpdateService from "./admin-dashboard/UpdateService";
 import Services from "./components/Services";
 import TourInquiriesDashboard from "./admin-panel/TourInquiriesDashboard";
 import AdminSettings from "./admin-panel/Settings";
-import "./App.css";
 import GalleryList from "./components/GalleryLists";
 import SingleGalleryView from "./admin-dashboard/SingleGalleryView";
 import { MainDashboardLout } from "./admin-panel/MainDashboardLout";
 import GalleryPage from "./pages/GalleryPage";
 import DashboardReviews from "./admin-panel/DashboardReviews";
+import "./App.css";
 
 function App() {
   return (

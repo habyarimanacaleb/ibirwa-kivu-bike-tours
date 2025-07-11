@@ -64,6 +64,12 @@ export const Navbar = () => {
                 Home
               </NavLink>
             </li>
+            <li className="flex">
+              <span className="text-white text-md font-bold pr-2 mt-[-5px]">
+                Services
+              </span>
+              <DropdownMenu closeMenu={closeMenu} />
+            </li>
             <li className="pb-2">
               <NavLink
                 to="/contact"
@@ -75,23 +81,18 @@ export const Navbar = () => {
                 Contact
               </NavLink>
             </li>
-            <li className="pb-2">
+            <li className="py-0 px-3 border-2 border-yellow-300 rounded-md">
               <NavLink
                 to="/join"
                 className={({ isActive }) =>
-                  isActive ? "text-yellow-400" : "text-white"
+                  isActive ? "text-yellow-400" : "text-white " 
                 }
                 onClick={closeMenu}
               >
                 Sign up
               </NavLink>
             </li>
-            <li className="flex">
-              <span className="text-white text-md font-bold pr-2 mt-[-5px]">
-                Services
-              </span>
-              <DropdownMenu closeMenu={closeMenu} />
-            </li>
+            
           </ul>
         </div>
       </nav>

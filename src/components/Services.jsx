@@ -81,7 +81,7 @@ const Services = () => {
                   {service.title}
                 </h2>
                 <p className="text-sm text-gray-500 mt-2">
-                  {service.description}
+                  {service.description.slice(0, 200)}...
                 </p>
                 <Link
                   to={`/service/${service._id}`}

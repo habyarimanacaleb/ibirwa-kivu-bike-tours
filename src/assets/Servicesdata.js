@@ -1,3 +1,4 @@
+import extraimage from "/hello-image/six-island-image.jpg"
 //assets/
 const servicesData = [
   {
@@ -458,4 +459,99 @@ const servicesData = [
   },
 ];
 
+/// Function to compress an image
+const compressImage = (url, quality = 0.5) => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            const compressedUrl = URL.createObjectURL(blob);
+            resolve(compressedUrl);
+          } else {
+            reject("Compression failed");
+          }
+        },
+        "image/jpeg",
+        quality
+      );
+    };
+
+    img.onerror = reject;
+    img.src = url;
+  });
+};
+
+export const helloImagesData = [
+  "/hello-image/bird-watching.jpg",
+  "/hello-image/coffee-macadamia.jpg",
+  "/hello-image/coffee.jpg",
+  "/hello-image/congi-nile-tailler.jpg",
+  "/hello-image/Dawn-dust-insect.jpg",
+  "/hello-image/Dawn-insect.jpg",
+  "/hello-image/eco-tourism.jpg",
+  "/hello-image/flying-image.jpg",
+  "/hello-image/kayaki-image.jpg",
+  "/hello-image/local-culture.jpg",
+  "/hello-image/long-trip.jpg",
+  "/hello-image/luxury.jpg",
+  "/hello-image/mtb-image.jpg",
+  "/hello-image/night-ampibians-2.jpg",
+  "/hello-image/night-ampibians.jpg",
+  "/hello-image/night-fishing.jpg",
+  "/hello-image/nyakiriba-swamp.jpg",
+  "/hello-image/plantation.jpg",
+  "/hello-image/six-island-image.jpg",
+  "/hello-image/swimming-cow.jpg"
+];
+
+// Compress all service images in parallel and export a promise
+export const  getCompressedServicesImages = async () => {
+  const compressedImages = await Promise.all(
+    servicesData.map(async (service) => {
+      try {
+        const compressedUrl = await compressImage(service.image, 0.5);
+        return {
+          id: service.id,
+          image: compressedUrl,
+          title: service.title,
+          description: service.description,
+        };
+      } catch (error) {
+        console.error(`Compression failed for ${service.image}:`, error);
+        // fallback to original image
+        return {
+          id: service.id,
+          image: service.image,
+          title: service.title,
+          description: service.description,
+        };
+      }
+    })
+  );
+
+  return compressedImages;
+};
+
+// Slider data for welcome page
+export const imageData = servicesData
+  .map((service) => ({
+    id: service.id,
+    image: service.image,
+    title: service.title,
+    extraimage: extraimage,
+  }))
+  .slice(0, 10);
+
 export default servicesData;
+

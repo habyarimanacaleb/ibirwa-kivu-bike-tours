@@ -1,18 +1,64 @@
 <!DOCTYPE html>
-<html lang="en" aria-details="Ibirwa Kivu Bike Tours">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="/kivu-image/kivu-bt-logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Ibirwa Kivu Bike Tours - Explore the beauty of Kivu on two wheels!" />
-    <meta name="keywords" content="Kivu, Bike Tours, Ibirwa, Adventure, Cycling, Tours,kigali" />
+    <meta
+      name="description"
+      content="Explore the beauty of Lake Kivu with Ibirwa Bike Tours. Enjoy cycling adventures, cultural experiences, and scenic landscapes in Rwanda."
+    />
+    <meta
+      name="keywords"
+      content="Kivu, Bike Tours, Ibirwa, Adventure, Cycling, Tours, Kigali"
+    />
     <meta name="author" content="Ibirwa Kivu Bike Tours" />
-    <meta name="theme-color" content="#4CAF50" />
-    <script src="//code.tidio.co/ldu1i1cyjp1ukolerdriocnmy3r2bpgc.js" async></script>
-    <title>Ibirwa Kivu Bike Tours</title>
+
+    <link
+      rel="preload"
+      href="/fonts/mulish.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+
+    <title>Ibirwa Kivu Bike Tours | Adventure Cycling in Rwanda</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <script>
+      (function () {
+        let tidioLoaded = false;
+
+        function loadTidio() {
+          if (tidioLoaded) return;
+          tidioLoaded = true;
+
+          const script = document.createElement("script");
+          script.src = "//code.tidio.co/ldu1i1cyjp1ukolerdriocnmy3r2bpgc.js";
+          script.async = true;
+          document.body.appendChild(script);
+          // console.log("✅ Tidio Chat Widget Loaded");
+        }
+
+        // Load on scroll past 75%
+        window.addEventListener("scroll", () => {
+          const scrollPosition = window.scrollY + window.innerHeight;
+          const pageHeight = document.documentElement.scrollHeight;
+          if (pageHeight > 0 && scrollPosition / pageHeight > 0.75) {
+            loadTidio();
+          }
+        });
+
+        // Load after 2 seconds (delayed load so it doesn't block)
+        setTimeout(loadTidio, 2000);
+
+        // Load on first mouse move or touch start (user interaction)
+        window.addEventListener("mousemove", loadTidio, { once: true });
+        window.addEventListener("touchstart", loadTidio, { once: true });
+      })();
+    </script>
   </body>
 </html>
