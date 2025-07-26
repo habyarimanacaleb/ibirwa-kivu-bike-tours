@@ -76,7 +76,7 @@ export const Navbar = () => {
                 Contact
               </NavLink>
             </li>
-            <li className="py-0 px-3 border-2 border-yellow-300 rounded-md">
+            <li className="pb-2 hover:text-yellow-400">
               <NavLink
                 to="/join"
                 className={({ isActive }) =>
