@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import ReviewForm from "../components/ReviewForm";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import GoogleReviewWidget from "../components/GoogleReviewWidget";
 
 export const About = () => {
   const [testimonials, setTestimonials] = useState([
@@ -110,35 +111,6 @@ export const About = () => {
           </div>
         </motion.div>
 
-        {/* Review Section */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={fadeInVariants}
-          transition={{ duration: 0.5, delay: 1.4 }}
-        >
-          <div className="bg-gradient-to-r from-blue-50 to-white border border-blue-200 rounded-lg p-6 mt-10 shadow">
-            <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">
-              Kivu Tour Reviews
-            </h2>
-            <div className="space-y-4">
-              {testimonials.map((review) => (
-                <div
-                  key={review.id}
-                  className="bg-white border-l-4 border-blue-500 shadow p-4 rounded-md"
-                >
-                  <p className="text-gray-800 italic">"{review.text}"</p>
-                  <p className="text-sm text-gray-600 text-right mt-2">— {review.name}</p>
-                </div>
-              ))}
-            </div>
-            <ReviewForm
-              newTestimonial={newTestimonial}
-              setNewTestimonial={setNewTestimonial}
-              handleSubmit={handleSubmit}
-            />
-          </div>
-        </motion.div>
 
         {/* CTA */}
         <motion.div
@@ -155,7 +127,15 @@ export const About = () => {
           </p>
         </motion.div>
       </div>
-      <Footer />
+      {/* Reviews Section */}
+        <section className="py-6 bg-white">
+          <h1 className="text-3xl font-bold text-center mb-8">
+            What Our Visitors Say
+          </h1>
+          <div className="w-full max-w-5xl mx-auto p-2">
+            <GoogleReviewWidget />
+          </div>
+        </section>
     </>
   );
 };
