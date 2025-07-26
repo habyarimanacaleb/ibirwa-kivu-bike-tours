@@ -8,6 +8,7 @@ import TourInquiryForm from "../components/TourInquiryForm";
 import WhatsAppChat from "../components/WhatsAppChat";
 import Navbar from "../components/Navbar";
 import { helloImagesData as localImages } from "../assets/Servicesdata";
+import GoogleReviewWidget from "../components/GoogleReviewWidget";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ export const Home = () => {
 
         <section id="mtb-tours" className="py-10 bg-gray-100">
           <div className="mx-auto px-6 flex flex-col justify-center items-center">
-            <h2 className="text-2xl font-bold text-black text-center mb-8">
+            <h2 className="headings text-center text-5xl my-10 font-bold">
               6-Day MTB Adventure Through Rwanda
             </h2>
             <p className="text-xl pt-2 pb-6 text-gray-700 text-justify">
@@ -90,6 +91,8 @@ export const Home = () => {
             </div>
           </div>
         </section>
+
+
 
         <section id="contactus">
           <div className="text-center py-6 bg-gray-100 rounded-lg shadow-md">
@@ -112,12 +115,14 @@ export const Home = () => {
             </p>
           </div>
         </section>
-
-      
+      <section className="google-review-widget py-10 bg-white relative z-20">
+        <h1 className="headings text-center text-5xl my-10 font-bold">What Our Customer Says</h1>
+        <GoogleReviewWidget />
+      </section>
         <ChevronButton />
         <WhatsAppChat />
       </main>
-      <Footer />
+        <Footer />
     </>
   );
 };
