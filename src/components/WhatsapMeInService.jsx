@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Send, MessageCircle } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 
 const WhatsAppChat = ({introMessage}) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +38,7 @@ const WhatsAppChat = ({introMessage}) => {
           onClick={toggleChat}
           className="bg-[#45e367] p-3 rounded-full shadow-lg hover:bg-[#20b359] transition"
         >
-          <MessageCircle className="text-white" />
+          <FaWhatsapp className="text-white text-3xl" />
         </button>
       </div>
       {isOpen && (

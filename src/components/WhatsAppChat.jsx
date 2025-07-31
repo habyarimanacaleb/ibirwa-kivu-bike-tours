@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Send, MessageCircle } from "lucide-react";
+import { Send} from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 
 const WhatsAppChat = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +15,7 @@ const WhatsAppChat = () => {
   const handleSend = () => {
     if (!input.trim()) return;
 
-    const phoneNumber = "250784606393"; 
+    const phoneNumber = "250784606393";
     const encodedMessage = encodeURIComponent(input);
     const waUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     setMessages([...messages, { text: input, sender: "user" }]);
@@ -23,7 +24,6 @@ const WhatsAppChat = () => {
     setIsOpen(false);
 
     window.open(waUrl, "_blank");
-
   };
 
   useEffect(() => {
@@ -32,12 +32,12 @@ const WhatsAppChat = () => {
 
   return (
     <>
-      <div className="fixed bottom-14 right-4 z-50">
+      <div className="fixed bottom-16 right-3 z-50" title="Open chat">
         <button
           onClick={toggleChat}
           className="bg-[#25D366] p-3 rounded-full shadow-lg hover:bg-[#20b358] transition"
         >
-          <MessageCircle className="text-white" />
+          <FaWhatsapp className="text-white text-3xl" />
         </button>
       </div>
       {isOpen && (
