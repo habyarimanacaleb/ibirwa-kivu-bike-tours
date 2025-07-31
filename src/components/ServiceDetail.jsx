@@ -31,7 +31,12 @@ export const ServiceDetail = () => {
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return ( 
+      <div className="flex flex-col font-semibold text-3xl text-gray-100 justify-center items-center justify-items-center h-screen">
+       <p>Loading...</p>
+        <p className="text-xl text-amber-100">Please wait</p>
+      </div>
+    ) 
   }
 
   if (error) {
