@@ -27,7 +27,7 @@ const ChevronButton = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-24 lg:bottom-4 right-4 z-50" title="Scroll to top">
+    <div className="fixed bottom-32 lg:bottom-4 right-6 z-50" title="Scroll to top">
       {isVisible && (
         <button
           onClick={scrollToTop}
