@@ -1,41 +1,26 @@
-import React, { useEffect, useRef } from 'react';
+import React,{ useEffect } from "react";
 
-const GoogleReviewWidget = () => {
-  const widgetRef = useRef(null);
-
+const GoogleReviews = () => {
   useEffect(() => {
-    // Avoid adding the script multiple times
-    const existingScript = document.getElementById("trustindex-script");
+    // Check if Elfsight script is already added
+    const existingScript = document.querySelector('script[src="https://static.elfsight.com/platform/platform.js"]');
 
     if (!existingScript) {
       const script = document.createElement("script");
-      script.src = "https://cdn.trustindex.io/loader.js?68d88a15062878948c96a514e38";
+      script.src = "https://static.elfsight.com/platform/platform.js";
       script.async = true;
-      script.defer = true;
-      script.id = "trustindex-script";
-
-      if (widgetRef.current) {
-        widgetRef.current.appendChild(script);
-      }
+      document.body.appendChild(script);
     }
-
-    // Optional: Clean up (if needed)
-    // return () => {
-    //   const script = document.getElementById("trustindex-script");
-    //   if (script && script.parentNode) {
-    //     script.parentNode.removeChild(script);
-    //   }
-    // };
   }, []);
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-2" ref={widgetRef}>
-      <h2 className="text-2xl font-bold text-center mb-4">Visitor Reviews</h2>
-
-      {/* Trustindex will inject reviews here */}
-      <div className="ti-widget ti-widget--68d88a15062878948c96a514e38"></div>
+    <div className="w-full max-w-5xl mx-auto my-12 px-4">
+      <div
+        className="elfsight-app-3a7db855-6986-417c-bc2e-9255df41903e"
+        data-elfsight-app-lazy
+      ></div>
     </div>
   );
 };
 
-export default GoogleReviewWidget;
+export default GoogleReviews;
