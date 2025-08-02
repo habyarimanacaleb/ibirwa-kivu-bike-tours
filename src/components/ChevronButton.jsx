@@ -3,16 +3,14 @@ import { FaChevronUp } from "react-icons/fa";
 
 const ChevronButton = () => {
   const [isVisible, setIsVisible] = useState(false);
-
-  // Show button when page is scrolled down 30%
+  // Show button when page is scrolled down 60%
   const toggleVisibility = () => {
-    if (window.scrollY > window.innerHeight * 0.3) {
+    if (window.scrollY > window.innerHeight * 0.6) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
     }
   };
-
   // Scroll to top smoothly
   const scrollToTop = () => {
     window.scrollTo({
@@ -27,7 +25,7 @@ const ChevronButton = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-32 lg:bottom-4 right-6 z-50" title="Scroll to top">
+    <div className="fixed bottom-32 lg:bottom-4 right-4 z-50" title="Scroll to top">
       {isVisible && (
         <button
           onClick={scrollToTop}

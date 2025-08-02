@@ -7,8 +7,8 @@ import TourInquiryForm from "../components/TourInquiryForm";
 import WhatsAppChat from "../components/WhatsAppChat";
 import Navbar from "../components/Navbar";
 import { helloImagesData as localImages } from "../assets/Servicesdata";
-import GoogleReviewWidget from "../components/GoogleReviewWidget";
 import Button from "../components/common/Button";
+import GoogleReviews from "../components/GoogleReviewWidget";
 
 export const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -40,7 +40,6 @@ export const Home = () => {
                   className="w-full h-80 object-cover"
                   style={{ objectPosition: "center" }}
                 />
-                
               </div>
             ))}
           </div>
@@ -64,13 +63,10 @@ export const Home = () => {
               </p>
             </div>
           </article>
-      
+
           <div className="mt-5">
-              <Button
-                label="Learn More"
-                to="/about"
-              />
-            </div>
+            <Button label="Learn More" to="/about" />
+          </div>
         </section>
 
         <section className="service fade-in" id="service">
@@ -89,12 +85,9 @@ export const Home = () => {
               Rwanda, known as the "Land of a Thousand Hills," offers a unique
               and thrilling destination for mountain biking enthusiasts...
             </p>
-            
+
             <div className="mt-5">
-              <Button
-                label="Explore More"
-                to="/explore-more-to-Rwanda"
-              />
+              <Button label="Explore More" to="/explore-more-to-Rwanda" />
             </div>
           </div>
         </section>
@@ -110,10 +103,7 @@ export const Home = () => {
               away.
             </p>
             <div className="mt-5">
-              <Button
-                label="Contact Us"
-                to="/contact"
-              />
+              <Button label="Contact Us" to="/contact" />
             </div>
             <p className="mt-4 text-gray-600 text-sm italic">
               <i className="fa-solid fa-clock mr-2"></i> Monday to Friday, 9 AM
@@ -121,11 +111,11 @@ export const Home = () => {
             </p>
           </div>
         </section>
-        <section className="google-review-widget py-10 bg-gray-200 relative z-20">
-          <h1 className="headings text-center text-5xl my-10 font-bold">
-            What Our Customer Says
+        <section className="flex flex-col items-center">
+          <h1 className="text-5xl font-bold mt-6 mb-3 text-center">
+            Our Google Reviews
           </h1>
-          <GoogleReviewWidget />
+          <GoogleReviews />
         </section>
         <ChevronButton />
         <WhatsAppChat />

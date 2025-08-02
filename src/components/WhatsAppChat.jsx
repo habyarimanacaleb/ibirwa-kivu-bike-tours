@@ -29,10 +29,9 @@ const WhatsAppChat = () => {
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
   return (
     <>
-      <div className="fixed bottom-16 right-3 z-50" title="Open chat">
+      <div className="fixed bottom-16 right-2 z-50" title="Open chat">
         <button
           onClick={toggleChat}
           className="bg-[#25D366] p-3 rounded-full shadow-lg hover:bg-[#20b358] transition"
@@ -50,7 +49,6 @@ const WhatsAppChat = () => {
               <p className="text-xs text-gray-200">Online</p>
             </div>
           </div>
-
           {/* Messages Area */}
           <div className="flex-1 p-3 space-y-2 bg-gray-100 overflow-y-auto text-sm">
             {messages.map((msg, i) => (
@@ -67,7 +65,6 @@ const WhatsAppChat = () => {
             ))}
             <div ref={chatEndRef}></div>
           </div>
-
           {/* Input Box */}
           <div className="flex items-center p-2 border-t bg-white">
             <input
@@ -90,5 +87,4 @@ const WhatsAppChat = () => {
     </>
   );
 };
-
 export default WhatsAppChat;
