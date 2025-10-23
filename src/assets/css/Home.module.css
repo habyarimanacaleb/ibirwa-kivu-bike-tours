@@ -1,0 +1,37 @@
+.bgImage {
+  background-image: url("../bg-2.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.85;
+  background-size: cover;
+  background-attachment: fixed;
+}
+.aboutBg {
+  background-image: url("../about-bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: scroll;
+  background-origin: border-box;
+}
+
+.skeletonLoader {
+  /* background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%); */
+  background-size: 100% 100%;
+  animation: pulse 10s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-position: 100% 0;
+    scale: .75;
+  }
+  60% {
+    background-position: 50% 0;
+    scale: 1.5;
+  }
+  100% {
+    background-position: -100% 0;
+    scale: 1;
+  }
+}

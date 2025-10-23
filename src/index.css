@@ -1,0 +1,16 @@
+@import "tailwindcss";
+body,
+html {
+  font-family: "work";
+  scroll-behavior: smooth;
+}
+
+
+.contact-left{
+  background-image: url("/kivu-image/trip-image.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  opacity: 1;
+}

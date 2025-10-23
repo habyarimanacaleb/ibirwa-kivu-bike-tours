@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/kivu-image/kivu-bt-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Explore the beauty of Lake Kivu with Ibirwa Bike Tours. Enjoy cycling adventures, cultural experiences, and scenic landscapes in Rwanda."
+    />
+    <meta
+      name="keywords"
+      content="Kivu, Bike Tours, Ibirwa, Adventure, Cycling, Tours, Kigali"
+    />
+    <meta name="author" content="Ibirwa Kivu Bike Tours" />
+
+    <link
+      rel="preload"
+      href="/fonts/mulish.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+
+    <title>Ibirwa Kivu Bike Tours | Adventure Cycling in Rwanda</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+
+    <script>
+      (function () {
+        let tidioLoaded = false;
+
+        function loadTidio() {
+          if (tidioLoaded) return;
+          tidioLoaded = true;
+
+          const script = document.createElement("script");
+          script.src = "//code.tidio.co/ldu1i1cyjp1ukolerdriocnmy3r2bpgc.js";
+          script.async = true;
+          document.body.appendChild(script);
+          // console.log("✅ Tidio Chat Widget Loaded");
+        }
+
+        // Load on scroll past 75%
+        window.addEventListener("scroll", () => {
+          const scrollPosition = window.scrollY + window.innerHeight;
+          const pageHeight = document.documentElement.scrollHeight;
+          if (pageHeight > 0 && scrollPosition / pageHeight > 0.75) {
+            loadTidio();
+          }
+        });
+
+        // Load after 2 seconds (delayed load so it doesn't block)
+        setTimeout(loadTidio, 2000);
+
+        // Load on first mouse move or touch start (user interaction)
+        window.addEventListener("mousemove", loadTidio, { once: true });
+        window.addEventListener("touchstart", loadTidio, { once: true });
+      })();
+    </script>
+
+
+<script>
+  //preloading.gif creation content
+  // This script creates a preloader that displays a loading GIF until the page is fully loaded
+  const preloader = document.createElement("div");
+
+  preloader.id = "preloader";
+  preloader.style.position = "fixed";
+  preloader.style.top = "0";
+  preloader.style.left = "0";
+  preloader.style.width = "100%";
+  preloader.style.height = "100%";
+  preloader.style.backgroundColor = "rgba(255, 255, 255, 0.95)";
+  preloader.style.display = "flex";
+  preloader.style.justifyContent = "center";
+  preloader.style.alignItems = "center";
+  preloader.style.zIndex = "9999";
+  preloader.innerHTML = `
+    <img src="/kivu-image/loading.gif" alt="Loading..." style="width: 100px; height: 100px;" />
+  `;
+  document.body.appendChild(preloader);
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      preloader.style.display = "none";
+    }, 1000); // Adjust the timeout as needed
+  });
+</script>
+  </body>
+</html>

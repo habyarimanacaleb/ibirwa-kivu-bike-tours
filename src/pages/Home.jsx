@@ -1,0 +1,96 @@
+
+import React from "react";
+import homeBg from "../assets/css/Home.module.css";
+import Services from "../components/Services";
+import { Footer } from "../components/Footer";
+import ChevronButton from "../components/ChevronButton";
+import WhatsAppChat from "../components/WhatsAppChat";
+import Navbar from "../components/Navbar";
+import { helloImagesData as localImages } from "../assets/Servicesdata";
+import Button from "../components/common/Button";
+import GoogleReviews from "../components/GoogleReviewWidget";
+import Hero from "../components/home/Hero";
+
+export const Home = () => {
+  return (
+    <>
+      <Navbar />
+      <main className="bg-gray-200 pt-2">
+        <Hero localImages={localImages}/>
+        <section
+          className={`about fade-in mx-auto flex flex-col items-center mt-[-12px] justify-center ${homeBg.aboutBg} p-6 lg:h-screen h-auto`}
+        >
+          <article className="about-content py-6">
+            <h1 className="headings mb-12 text-7xl text-gray-900 text-center font-bold">
+              About Us
+            </h1>
+            <div className="about-content px-3 max-w-[900px]">
+              <p className="lg:text-3xl sm:text-sm md:text-xl pb-2">
+                Welcome to IBIRWA KIVU BIKE TOURS, your premier travel partner
+                for exploring the beauty, culture, and adventure of Rwanda...
+              </p>
+            </div>
+          </article>
+
+          <div className="mt-5">
+            <Button label="Learn More" to="/about" />
+          </div>
+        </section>
+
+        <section className="service fade-in" id="service">
+          <h1 className="headings text-center text-7xl my-10 font-bold">
+            Our Services/Tours
+          </h1>
+          <Services />
+        </section>
+
+        <section id="mtb-tours" className="py-10 bg-gray-100">
+          <div className="mx-auto px-4 flex flex-col justify-center items-center">
+            <h2 className="headings text-center text-5xl my-10 font-bold">
+              6-Day MTB Adventure Through Rwanda
+            </h2>
+            <p className="text-xl pt-2 text-gray-700 text-justify">
+              Rwanda, known as the "Land of a Thousand Hills," offers a unique
+              and thrilling destination for mountain biking enthusiasts...
+            </p>
+
+            <div className="mt-5">
+              <Button label="Explore More" to="/explore-more-to-Rwanda" />
+            </div>
+          </div>
+        </section>
+
+        <section id="contactus">
+          <div className="text-center py-6 bg-gray-100 rounded-lg shadow-md">
+            <h1 className="text-3xl sm:text-xl font-extrabold text-black">
+              Need Assistance?{" "}
+              <span className="text-black-600">We’re Here!</span>
+            </h1>
+            <p className="text-lg mt-3 text-gray-700">
+              Questions, feedback, or just saying hello? We’re only one click
+              away.
+            </p>
+            <div className="mt-5">
+              <Button label="Contact Us" to="/contact" />
+            </div>
+            <p className="mt-4 text-gray-600 text-sm italic">
+              <i className="fa-solid fa-clock mr-2"></i> Monday to Friday, 9 AM
+              - 6 PM
+            </p>
+          </div>
+        </section>
+        <section className="flex flex-col items-center">
+          <h1 className="text-5xl font-bold mt-6 mb-3 text-center">
+            Our Google Reviews
+          </h1>
+          <GoogleReviews />
+        </section>
+        <ChevronButton />
+        <WhatsAppChat />
+      </main>
+      <Footer />
+    </>
+  );
+};
+
+export default Home;
