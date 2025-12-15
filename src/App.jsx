@@ -26,6 +26,9 @@ import { MainDashboardLout } from "./admin-panel/MainDashboardLout";
 import GalleryPage from "./pages/GalleryPage";
 import DashboardReviews from "./admin-panel/DashboardReviews";
 import "./App.css";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+
 
 function App() {
   return (

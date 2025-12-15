@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import homeBg from "../assets/css/Home.module.css";
 import Services from "../components/Services";
 import { Footer } from "../components/Footer";
@@ -6,8 +6,7 @@ import ChevronButton from "../components/ChevronButton";
 import TourInquiryForm from "../components/TourInquiryForm";
 import WhatsAppChat from "../components/WhatsAppChat";
 import Navbar from "../components/Navbar";
-import { helloImagesData as localImages } from "../assets/Servicesdata";
-import Button from "../components/common/Button";
+// import { helloImagesData as localImages } from "../assets/Servicesdata";
 import GoogleReviews from "../components/GoogleReviewWidget";
 import Hero from "../components/Home/Hero";
 import About from "../components/Home/About";
@@ -18,12 +17,11 @@ export const Home = () => {
   return (
     <>
       <Navbar />
-
        {/*Main section*/}
       <main className="bg-gray-200 pt-2">
         {/*Hero section*/}
         <section className="relative home-hello-section lg:h-screen h-auto py-6 text-white">
-         <Hero localImages={localImages}/>
+         <Hero />
           <div className="flex flex-col justify-center text-center bg-gray-200 bg-opacity-70 z-10">
             <TourInquiryForm />
           </div>
