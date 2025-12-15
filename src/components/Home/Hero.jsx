@@ -54,7 +54,7 @@ function Hero() {
 
   if (images.length === 0) {
     return (
-      <div className="h-96 flex items-center justify-center">
+      <div className="h-96 border-b-2 border-gray-100 flex items-center justify-center">
         <p className="text-gray-500">No image available yet</p>
       </div>
     );
@@ -73,7 +73,7 @@ function Hero() {
 
             {/* Overlay text */}
             <div className="absolute inset-0 bg-black/30 flex items-end">
-              <h2 className="text-white text-2xl font-bold p-6">
+              <h2 className="text-white lg:text-4xl  text-2xlfont-bold p-8">
                 {item.title}
               </h2>
             </div>

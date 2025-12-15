@@ -109,86 +109,102 @@ const CreateGallery = () => {
 
   return (
     <MainLayout>
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6 text-center">
-        {editingPhoto ? "Update Photo" : "Create Gallery"}
-      </h1>
-      <form onSubmit={handleSubmit} className="mb-6 max-w-1/2 mx-auto">
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="title"
-          >
-            Title
+  <div className="h-screen bg-gray-100 flex items-center justify-center p-6">
+    <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-gray-200">
+      
+      {/* Header */}
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-t-2xl px-6 py-4">
+        <h1 className="text-xl md:text-2xl font-bold text-white text-center">
+          {editingPhoto ? "Update Gallery Photo" : "Create Gallery"}
+        </h1>
+        <p className="text-blue-100 text-sm text-center mt-1">
+          Upload high-quality images for your website gallery
+        </p>
+      </div>
+
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        
+        {/* Title */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">
+            Photo Title
           </label>
           <input
             type="text"
-            id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="e.g. Sunset at Lake Kivu"
+            required
+            className="w-full rounded-lg border border-gray-300 px-4 py-2
+              focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+              transition"
           />
         </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="imageFile"
-          >
-            Image
+
+        {/* File Upload */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Upload Image
           </label>
-          <input
-            type="file"
-            id="imageFile"
-            onChange={(e) => setImageFile(e.target.files[0])}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
+
+          <div className="flex items-center justify-center w-full">
+            <label className="flex flex-col items-center justify-center w-full h-36
+              border-2 border-dashed border-gray-300 rounded-xl cursor-pointer
+              hover:border-blue-500 hover:bg-blue-50 transition">
+              
+              <span className="text-gray-500 text-sm">
+                Click to upload or drag & drop
+              </span>
+              <span className="text-xs text-gray-400 mt-1">
+                JPG, PNG (Max 5MB)
+              </span>
+
+              <input
+                type="file"
+                className="hidden"
+                onChange={(e) => setImageFile(e.target.files[0])}
+                required={!editingPhoto}
+              />
+            </label>
+          </div>
+
+          {imageFile && (
+            <p className="mt-2 text-sm text-green-600 font-medium">
+              Selected: {imageFile.name}
+            </p>
+          )}
         </div>
+
+        {/* Submit Button */}
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="w-full bg-blue-600 hover:bg-blue-700
+            text-white font-semibold py-3 rounded-xl
+            transition transform hover:scale-[1.02]
+            focus:ring-2 focus:ring-blue-400"
         >
-          {editingPhoto ? "Update" : "Upload"}
+          {editingPhoto ? "Update Photo" : "Upload Photo"}
         </button>
       </form>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto">
-        {gallery.map((photo) => (
-          <div key={photo._id} className="bg-white p-4 rounded-lg shadow-lg">
-            <img
-              src={photo.imageFile}
-              alt={photo.title}
-              className="w-full h-48 object-cover rounded-lg"
-            />
-            <h2 className="text-xl font-bold mt-4">{photo.title}</h2>
-            <button
-              onClick={() => handleEdit(photo)}
-              className="text-yellow-500 mt-2 inline-block"
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => handleDelete(photo._id)}
-              className="text-red-500 mt-2 inline-block"
-            >
-              Delete
-            </button>
-          </div>
-        ))}
-      </div>
-
+      {/* Response Message */}
       {responseMessage && (
-        <p
-          className={`mt-4 font-bold ${
+        <div
+          className={`mx-6 mb-6 rounded-lg px-4 py-3 text-sm font-semibold
+          ${
             responseMessage.includes("Error")
-              ? "text-red-600"
-              : "text-green-600"
+              ? "bg-red-50 text-red-700 border border-red-200"
+              : "bg-green-50 text-green-700 border border-green-200"
           }`}
         >
           {responseMessage}
-        </p>
+        </div>
       )}
     </div>
-    </MainLayout>
+  </div>
+</MainLayout>
+
   );
 };
 
