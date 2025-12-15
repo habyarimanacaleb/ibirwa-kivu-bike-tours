@@ -61,32 +61,5 @@
       })();
     </script>
 
-
-<script>
-  //preloading.gif creation content
-  // This script creates a preloader that displays a loading GIF until the page is fully loaded
-  const preloader = document.createElement("div");
-
-  preloader.id = "preloader";
-  preloader.style.position = "fixed";
-  preloader.style.top = "0";
-  preloader.style.left = "0";
-  preloader.style.width = "100%";
-  preloader.style.height = "100%";
-  preloader.style.backgroundColor = "rgba(255, 255, 255, 0.95)";
-  preloader.style.display = "flex";
-  preloader.style.justifyContent = "center";
-  preloader.style.alignItems = "center";
-  preloader.style.zIndex = "9999";
-  preloader.innerHTML = `
-    <img src="/kivu-image/loading.gif" alt="Loading..." style="width: 100px; height: 100px;" />
-  `;
-  document.body.appendChild(preloader);
-  window.addEventListener("load", () => {
-    setTimeout(() => {
-      preloader.style.display = "none";
-    }, 1000); // Adjust the timeout as needed
-  });
-</script>
   </body>
 </html>
