@@ -124,6 +124,7 @@ const CreateGallery = () => {
           <input
             type="text"
             id="title"
+            name="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -139,6 +140,7 @@ const CreateGallery = () => {
           <input
             type="file"
             id="imageFile"
+            name="imageFile"
             onChange={(e) => setImageFile(e.target.files[0])}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
