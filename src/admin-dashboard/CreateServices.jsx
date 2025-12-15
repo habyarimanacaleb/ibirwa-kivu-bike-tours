@@ -14,7 +14,6 @@ export const CreateServices = () => {
   const [imageFile, setImageFile] = useState(null);
   const [responseMessage, setResponseMessage] = useState("");
   const navigate = useNavigate();
-
   useEffect(() => {
     const fetchServiceDetails = async () => {
       try {

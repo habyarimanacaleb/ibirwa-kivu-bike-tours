@@ -98,7 +98,7 @@ const UpdateService = () => {
       );
       setResponseMessage("Service updated successfully!");
       setTimeout(() => {
-        navigate("/admin");
+        navigate("/admin-panel");
       }, 2000);
     } catch (error) {
       console.error("Error updating service:", error);
