@@ -1,22 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import MainLayout from "../admin-panel/MainLayout";
 
-//     formData.append("detailPage", detailPage);
-const GalleryList = ({ galleryData }) => {
-  const [galleries, setGalleries] = useState(galleryData || []);
+const GalleryList = () => {
+  const [galleries, setGalleries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState(null);
   const navigate = useNavigate();
 
-  const handleDelete = async (id) => {
-    try {
-      const response = await axios.delete(`https://kivu-back-end.onrender.com/api/gallery/${id}`);
-      if (response.status === 200 || response.status === 204) {
-        setGalleries(galleries.filter((item) => item._id !== id));
-      } else {
-        console.error("Failed to delete: Unexpected response", response);
+  // Fetch gallery data
+  useEffect(() => {
+    const fetchGalleries = async () => {
+      try {
+        const response = await axios.get(
+          "https://kivu-back-end.onrender.com/api/gallery"
+        );
+      
+        const data = await response.data.data
+        // IMPORTANT: adjust if your API wraps data
+        setGalleries(data);
+      } catch (error) {
+        console.error(
+          "Failed to fetch galleries:",
+          error.response?.data || error.message
+        );
+      } finally {
+        setLoading(false);
       }
+    };
+
+    fetchGalleries();
+  }, []);
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this gallery image?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      setDeletingId(id);
+
+      await axios.delete(
+        `https://kivu-back-end.onrender.com/api/gallery/${id}`
+      );
+
+      setGalleries((prev) => prev.filter((item) => item._id !== id));
     } catch (error) {
-      console.error("Error deleting gallery item:", error.response?.data || error.message);
+      console.error("Delete failed:", error.response?.data || error.message);
+      alert("Failed to delete image. Try again.");
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -24,56 +59,93 @@ const GalleryList = ({ galleryData }) => {
     navigate(`/update-gallery/${id}`);
   };
 
+  if (loading) {
+    return (
+      <div className="text-center py-20 text-gray-500">
+        Loading gallery...
+      </div>
+    );
+  }
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <h1 className="text-2xl font-bold my-4 pl-4 col-span-full">Gallery List</h1>
+    <MainLayout>
+    <div className="p-4">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">
+        📸 Gallery Management
+      </h1>
 
       {galleries.length === 0 ? (
-        <p className="text-gray-500 col-span-full">No gallery items available.</p>
+        <div className="text-center py-20 text-gray-500">
+          No gallery items available.
+        </div>
       ) : (
-        galleries.map((item) => (
-          <div
-            key={item._id}
-            className="bg-white p-4 rounded-lg shadow-lg w-full min-h-[400px] flex flex-col overflow-hidden"
-          >
-            {item.imageFile && (
-              <div className="w-full max-h-[40vh] bg-white flex justify-center items-center rounded-lg overflow-hidden">
-                <img
-                  src={item.imageFile}
-                  alt={item.title}
-                  className="w-full h-auto object-contain"
-                />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {galleries.map((item) => (
+            <div
+              key={item._id}
+              className="bg-white rounded-xl shadow-md overflow-hidden
+              transition transform hover:-translate-y-1 hover:shadow-xl"
+            >
+              {/* Image */}
+              <div className="relative h-56 overflow-hidden group">
+                {item.imageFile ? (
+                  <img
+                    src={item.imageFile}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform
+                    duration-300 group-hover:scale-110"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                    <span className="text-gray-400">No Image</span>
+                  </div>
+                )}
+
+                {/* Title overlay */}
+                <div className="absolute bottom-0 left-0 right-0
+                bg-gradient-to-t from-black/70 to-transparent p-3">
+                  <h2 className="text-white font-semibold truncate">
+                    {item.title}
+                  </h2>
+                </div>
               </div>
-            )}
-            <div className="p-4 flex-grow flex flex-col justify-between">
-              <div>
-                <h2 className="text-xl font-bold">{item.title}</h2>
-              </div>
-              <div className="flex justify-around pt-4">
+
+              {/* Actions */}
+              <div className="p-4 flex justify-between items-center">
                 <Link
                   to={`/gallery/${item._id}`}
-                  className="text-blue-500 border-2 border-blue-500 hover:bg-blue-500 hover:text-white rounded-md py-2 px-3"
+                  className="text-blue-600 text-sm font-medium hover:underline"
                 >
                   View
                 </Link>
-                <button
-                  onClick={() => handleUpdate(item._id)}
-                  className="text-yellow-500 border-2 border-yellow-500 hover:bg-yellow-500 hover:text-white rounded-md py-2 px-3"
-                >
-                  Update
-                </button>
-                <button
-                  onClick={() => handleDelete(item._id)}
-                  className="text-red-500 border-2 border-red-500 hover:bg-red-500 hover:text-white rounded-md py-2 px-3"
-                >
-                  Delete
-                </button>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => handleUpdate(item._id)}
+                    className="text-yellow-600 text-sm font-medium hover:text-yellow-700"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    disabled={deletingId === item._id}
+                    onClick={() => handleDelete(item._id)}
+                    className={`text-sm font-medium ${
+                      deletingId === item._id
+                        ? "text-gray-400 cursor-not-allowed"
+                        : "text-red-600 hover:text-red-700"
+                    }`}
+                  >
+                    {deletingId === item._id ? "Deleting..." : "Delete"}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))
+          ))}
+        </div>
       )}
     </div>
+    </MainLayout>
   );
 };
 

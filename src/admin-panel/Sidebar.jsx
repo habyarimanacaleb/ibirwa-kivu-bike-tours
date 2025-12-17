@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import { FaHome, FaTools, FaImages, FaBook, FaEnvelope, FaUsers, FaCog, FaSignOutAlt,FaStar } from "react-icons/fa";
+import { FaHome, FaTools, FaImages, FaBook, FaEnvelope, FaUsers, FaCog, FaSignOutAlt,FaStar, FaRegImages } from "react-icons/fa";
 import { FiMenu, FiX } from "react-icons/fi";
 
 export default function Sidebar() {
@@ -43,6 +43,10 @@ export default function Sidebar() {
                         <Link to="/create-gallery" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
                             <FaImages className="mr-3" />
                             <span>Create Gallery</span>
+                        </Link>
+                        <Link to="/admin-gallery-list" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
+                            <FaRegImages className="mr-3" />
+                            <span>Manage Gallery</span>
                         </Link>
 
                         <Link to="/inquiries-information" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">

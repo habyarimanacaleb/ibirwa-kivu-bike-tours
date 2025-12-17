@@ -24,13 +24,13 @@ const PrevArrow = ({ onClick }) => (
 function Hero() {
   const [images, setImages] = useState([]);
   // const API_URI = import.meta.env.REACT_SERVER_URL;
-  // console.log("uri",API_URI)
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const res = await fetch('https://kivu-back-end.onrender.com/api/gallery');
+        const res = await fetch(
+          "https://kivu-back-end.onrender.com/api/gallery"
+        );
         const data = await res.json();
-        console.log("data", data)
         setImages(data.data || []);
       } catch (error) {
         console.error("Failed to fetch gallery:", error);
@@ -38,7 +38,7 @@ function Hero() {
     };
 
     fetchGallery();
-  }, [ ]);
+  }, []);
 
   const settings = {
     dots: true,
@@ -47,33 +47,33 @@ function Hero() {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 3000,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
 
   if (images.length === 0) {
     return (
-      <div className="h-96 border-b-2 border-gray-100 flex items-center justify-center">
+      <div className="h-[480px] border-b-2 border-gray-50 flex items-center justify-center">
         <p className="text-gray-500">No image available yet</p>
       </div>
     );
   }
 
   return (
-    <div className="relative h-96 w-full overflow-hidden">
+    <div className="relative h-[480px] w-full overflow-hidden">
       <Slider {...settings}>
         {images.map((item) => (
           <div key={item._id} className="relative">
             <img
               src={item.imageFile}
               alt={item.title}
-              className="w-full h-96 object-cover"
+              className="w-full h-[480px] object-cover bg-black"
             />
 
             {/* Overlay text */}
             <div className="absolute inset-0 bg-black/30 flex items-end">
-              <h2 className="text-white lg:text-4xl  text-2xlfont-bold p-8">
+              <h2 className="text-white lg:text-4xl text-center lg:text-left  text-2xl font-bold p-8">
                 {item.title}
               </h2>
             </div>

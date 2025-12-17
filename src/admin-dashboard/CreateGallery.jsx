@@ -1,6 +1,10 @@
 import React, { useState,} from "react";
+import MainLayout from "../admin-panel/MainLayout";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CreateGallery = () => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -25,6 +29,7 @@ const CreateGallery = () => {
       setResponseMessage("✅ Photo uploaded successfully!");
       setTitle("");
       setImageFile(null);
+      navigate('/admin-gallery-list')
     } catch (err) {
       setError(err);
       setResponseMessage(
