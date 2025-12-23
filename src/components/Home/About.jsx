@@ -1,5 +1,5 @@
 import React from "react";
-import { WhyChooseUs, OurValue, OurTeam } from "../../constants";
+import { WhyChooseUs, OurValue} from "../../constants";
 
 const AboutUs = ({ homeBg }) => {
   const bgClass = homeBg ? homeBg["home-about-section"] : "";
@@ -69,30 +69,6 @@ const AboutUs = ({ homeBg }) => {
           </div>
         </div>
       </section>
-
-      {/* TEAM */}
-      {/* <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Meet Our Team</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {OurTeam.map((member, i) => (
-              <div key={i} className="bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition">
-                <div className="h-44 bg-gray-200 overflow-hidden">
-                  <img
-                    src={member.image || "/placeholder.png"}
-                    alt={member.name || "Team member"}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-4 text-center">
-                  <h3 className="font-semibold text-lg">{member.name}</h3>
-                  <p className="text-sm text-gray-500">{member.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
 
       {/* CTA */}
       <section className="bg-blue-700 text-white py-16 text-center">
