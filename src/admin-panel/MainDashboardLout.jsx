@@ -144,9 +144,6 @@ const handleSearch = (e) => {
         <div className="our-services mb-6">
         <ServicesList services={filteredServices} />
         </div>
-        <div className="gallery mt-6">
-        <GalleryList gallery={filteredGallery} galleryData={gallery}/>
-        </div>
       </div>
 
     </MainLayout>

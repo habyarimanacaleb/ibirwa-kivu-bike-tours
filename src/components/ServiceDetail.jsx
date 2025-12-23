@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { FaWhatsapp, FaEnvelope, FaChevronDown } from "react-icons/fa";
-import { Footer } from "./Footer";
+import {
+  FaWhatsapp,
+  FaEnvelope,
+  FaCheckCircle,
+  FaLightbulb,
+} from "react-icons/fa";
 import Navbar from "./Navbar";
+import { Footer } from "./Footer";
 import WhatsAppChat from "./WhatsapMeInService";
 
 export const ServiceDetail = () => {
@@ -15,15 +20,13 @@ export const ServiceDetail = () => {
   useEffect(() => {
     const fetchService = async () => {
       try {
-        const response = await axios.get(
+        const res = await axios.get(
           `https://kivu-back-end.onrender.com/api/services/${id}`
         );
-        const data = response.data;
-        console.log("response is from detail ", data); // Debugging
-        setService(data);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
+        setService(res.data);
+      } catch (err) {
+        setError(err);
+      } finally {
         setLoading(false);
       }
     };
@@ -31,107 +34,125 @@ export const ServiceDetail = () => {
   }, [id]);
 
   if (loading) {
-    return ( 
-      <div className="flex flex-col font-semibold text-3xl text-gray-100 justify-center items-center justify-items-center h-screen">
-       <p>Loading...</p>
-        <p className="text-xl text-amber-100">Please wait</p>
+    return (
+      <div className="h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-800 to-indigo-900 text-white">
+        <p className="text-3xl font-bold">Loading...</p>
+        <p className="text-blue-200 mt-2">Preparing your experience</p>
       </div>
-    ) 
+    );
   }
 
-  if (error) {
-    return <div>Error fetching service details: {error.message}</div>;
+  if (error || !service) {
+    return (
+      <div className="h-screen flex items-center justify-center text-red-600">
+        Failed to load service details.
+      </div>
+    );
   }
 
-  if (!service) {
-    return <div>Service not found</div>;
-  }
   return (
     <>
-    <Navbar />
-    <div className="service-detail">
-      <section className="content py-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="initial-content mt-4">
-          <h1 className="heading lg:text-5xl text-2xl font-bold text-center mx-auto text-blue-800 mb-2">
+      <Navbar />
+
+      {/* HERO */}
+      <section className="relative h-[100vh]  py-20 flex items-center justify-center ">
+        <img
+          src={service.imageFile}
+          alt={service.title}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/60" />
+
+        <div className="relative z-10 max-w-8xl mx-auto px-6 h-full flex flex-col justify-center items-center text-white">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">
             {service.title}
           </h1>
-          <p className="text-xl md:text-xl text-gray-700 mt-2 text-center">
+          <p className="text-lg md:text-xl text-gray-200 max-w-5xl">
             {service.description}
           </p>
         </div>
-        <div className="main-content mt-10 flex flex-col lg:flex-row">
-          <div className="main-content-left lg:w-2/3 p-6">
-            <h2 className="heading text-2xl font-bold text-center text-blue-800 mb-6">
-              Services Description
-            </h2>
-            <p className="text-lg text-gray-700 mb-6">{service.description}</p>
-            <div className="additional">
-              <h3 className="text-2xl font-semibold text-blue-800 mb-4">
-                Highlights
-              </h3>
-              <ul className="list-disc list-inside text-lg text-gray-700 mb-6">
-                {service.details.highlights &&
-                  service.details.highlights.map((highlight, index) => (
-                    <li key={index}>{highlight}</li>
-                  ))}
-              </ul>
-              <h3 className="text-2xl font-semibold text-blue-800 mb-4">
-                Additional Tips
-              </h3>
-              <ul className="list-disc list-inside text-lg text-gray-700 mb-6">
-                {service.details.tips &&
-                  service.details.tips.map((tip, index) => (
-                    <li key={index}>{tip}</li>
-                  ))}
+      </section>
+
+      {/* CONTENT */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-3 gap-10">
+
+          {/* LEFT CONTENT */}
+          <div className="lg:col-span-2 space-y-10">
+
+            {/* HIGHLIGHTS */}
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <h2 className="text-2xl font-bold text-blue-800 mb-6">
+                Experience Highlights
+              </h2>
+              <ul className="space-y-4">
+                {service.details.highlights.map((h, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <FaCheckCircle className="text-green-500 mt-1" />
+                    <span className="text-gray-700">{h}</span>
+                  </li>
+                ))}
               </ul>
             </div>
-            <div className="bookings bg-gray-100 p-6 rounded-lg shadow-md mt-6">
-              <h2 className="text-xl font-semibold mb-4 text-blue-800">
-                Bookings and More Information
+
+            {/* TIPS */}
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <h2 className="text-2xl font-bold text-blue-800 mb-6">
+                Helpful Tips
               </h2>
-              <h4 className="text-xl font-semibold mb-6 flex items-center text-gray-700">
-                Contact Us Via
-                <FaChevronDown className="text-2xl ml-2 relative bottom-0.5 cursor-pointer" />
-              </h4>
-              <div className="call-actions flex gap-4" id="contact-via">
-                <a
-                  href={`https://wa.me/${service.details.whatsapp}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-3 text-lg font-medium text-green-600 hover:underline"
-                  style={{ textDecoration: "none", marginRight: "20px" }}
-                >
-                  <FaWhatsapp className="text-2xl" />
-                  Whatsapp
-                </a>
-                <a
-                  href={`mailto:${service.details.email}`}
-                  className="flex items-center gap-3 text-lg font-medium text-blue-600 hover:underline"
-                  style={{ textDecoration: "none", marginRight: "20px" }}
-                >
-                  <FaEnvelope className="text-2xl" />
-                  Email
-                </a>
-              </div>
+              <ul className="space-y-4">
+                {service.details.tips.map((tip, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <FaLightbulb className="text-yellow-500 mt-1" />
+                    <span className="text-gray-700">{tip}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-          <div className="image-slider w-full lg:w-1/3 max-w-lg mx-auto overflow-hidden mt-10 lg:mt-0">
-           <Link to="/gallery">
-            <div className="flex transition-transform duration-500">
-              <img
-                src={service.imageFile}
-                alt={service.title}
-                className="w-full sm:w-auto rounded-md h-[400px] object-cover"
-              />
+
+          {/* RIGHT CTA */}
+          <div className="sticky top-24 h-fit bg-white rounded-2xl shadow-xl p-8">
+            <h3 className="text-xl font-bold text-blue-800 mb-4">
+              Book or Ask More
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Reach us instantly to customize your experience.
+            </p>
+
+            <div className="space-y-4">
+              <a
+                href={`https://wa.me/${service.details.whatsapp}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center gap-3 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"
+              >
+                <FaWhatsapp className="text-xl" />
+                WhatsApp Us
+              </a>
+
+              <a
+                href={`mailto:${service.details.email}`}
+                className="flex items-center justify-center gap-3 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+              >
+                <FaEnvelope className="text-xl" />
+                Send Email
+              </a>
             </div>
-           </Link>
+
+            <Link
+              to="/gallery"
+              className="block text-center mt-6 text-blue-600 font-medium hover:underline"
+            >
+              View Gallery →
+            </Link>
           </div>
         </div>
       </section>
-    </div>
-    <aside>
-      <WhatsAppChat introMessage = {service.title} />
-    </aside>
+
+      {/* FLOATING WHATSAPP */}
+      <WhatsAppChat introMessage={service.title} />
+
       <Footer />
     </>
   );

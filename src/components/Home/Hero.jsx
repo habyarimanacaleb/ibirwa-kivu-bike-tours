@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import Skeleton from "react-loading-skeleton";
 
 // Custom arrows
 const NextArrow = ({ onClick }) => (
@@ -54,9 +55,12 @@ function Hero() {
 
   if (images.length === 0) {
     return (
+      <>
       <div className="h-[480px] border-b-2 border-gray-50 flex items-center justify-center">
-        <p className="text-gray-500">No image available yet</p>
+        {/* <p className="text-gray-500">No image available yet</p> */}
+        <Skeleton height={480} width={"100%"} className="absolute top-0 left-0 bg-gradient-to-r from-black to-transparent" />
       </div>
+      </>
     );
   }
 

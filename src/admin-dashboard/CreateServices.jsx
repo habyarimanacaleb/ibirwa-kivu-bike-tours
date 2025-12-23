@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../admin-panel/MainLayout";
 
 export const CreateServices = () => {
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [detailPage, setDetailPage] = useState("");
@@ -13,228 +15,159 @@ export const CreateServices = () => {
   const [email, setEmail] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [responseMessage, setResponseMessage] = useState("");
-  const navigate = useNavigate();
-  useEffect(() => {
-    const fetchServiceDetails = async () => {
-      try {
-        const response = await axios.get(
-          "https://kivu-back-end.onrender.com/api/services/67c0f47f02c5888782662aca"
-        );
-        const service = response.data;
-        setTitle(service.title);
-        setDescription(service.description);
-        setDetailPage(service.detailPage);
-        setHighlights(service.details.highlights);
-        setTips(service.details.tips);
-        setWhatsapp(service.details.whatsapp);
-        setEmail(service.details.email);
-      } catch (error) {
-        console.error("Error fetching service details:", error);
-      }
-    };
-
-    fetchServiceDetails();
-  }, []);
 
   const handleAddHighlight = () => setHighlights([...highlights, ""]);
   const handleAddTip = () => setTips([...tips, ""]);
 
-  const handleHighlightChange = (index, value) => {
-    const newHighlights = [...highlights];
-    newHighlights[index] = value;
-    setHighlights(newHighlights);
+  const handleArrayChange = (setter, index, value) => {
+    setter(prev => {
+      const updated = [...prev];
+      updated[index] = value;
+      return updated;
+    });
   };
 
-  const handleTipChange = (index, value) => {
-    const newTips = [...tips];
-    newTips[index] = value;
-    setTips(newTips);
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const cleanHighlights = highlights.filter(h => h.trim() !== "");
+  const cleanTips = tips.filter(t => t.trim() !== "");
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("detailPage", detailPage);
-    formData.append(
-      "details",
-      JSON.stringify({
-        highlights,
-        tips,
-        whatsapp,
-        email,
-      })
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("description", description);
+  formData.append("detailPage", detailPage);
+
+  // ✅ SEND ARRAYS DIRECTLY (as JSON strings)
+  formData.append("highlights", JSON.stringify(cleanHighlights));
+  formData.append("tips", JSON.stringify(cleanTips));
+
+  // ✅ SEND CONTACT FIELDS DIRECTLY
+  formData.append("whatsapp", whatsapp);
+  formData.append("email", email);
+
+  if (imageFile) {
+    formData.append("imageFile", imageFile); // MUST match multer field name
+  }
+
+  try {
+    await axios.post(
+      "https://kivu-back-end.onrender.com/api/services",
+      formData
     );
-    if (imageFile) {
-      formData.append("imageFile", imageFile);
-    }
 
-    try {
-      const response = await axios.post(
-        "https://kivu-back-end.onrender.com/api/services",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+    setResponseMessage("✅ Service created successfully!");
+    setTimeout(() => navigate("/admin-panel"), 1500);
+  } catch (error) {
+    console.error(error);
+    setResponseMessage(
+      "❌ " + (error.response?.data?.message || "Failed to create service")
+    );
+  }
+};
 
-      if (response.status === 200 || response.status === 201) {
-        setResponseMessage("✅ Service created successfully!");
-        setTimeout(() => {
-          navigate("/tour-services");
-        }, 2000);
-      }
-    } catch (error) {
-      setResponseMessage(
-        "❌ " + (error.response?.data?.message || "Failed to submit data.")
-      );
-    }
-  };
 
   return (
     <MainLayout>
       <div className="bg-gray-100 min-h-screen p-6">
         <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">
-          <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
-            ✨ Create New Service
+          <h1 className="text-3xl font-bold text-center mb-6">
+            Create New Service
           </h1>
 
-          <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-6">
-            {/* Title */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <input
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              className="w-full p-2 border rounded"
+            />
 
-            {/* Description */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                rows={4}
-                required
-                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
+            <textarea
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+              className="w-full p-2 border rounded"
+            />
 
-            {/* Detail Page URL */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Detail Page URL</label>
-              <input
-                type="text"
-                value={detailPage}
-                onChange={(e) => setDetailPage(e.target.value)}
-                required
-                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
+            <input
+              placeholder="Detail Page"
+              value={detailPage}
+              onChange={(e) => setDetailPage(e.target.value)}
+              required
+              className="w-full p-2 border rounded"
+            />
 
             {/* Highlights */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Highlights</label>
+              <p className="font-semibold mb-2">Highlights</p>
               {highlights.map((h, i) => (
                 <input
                   key={i}
-                  type="text"
                   value={h}
-                  onChange={(e) => handleHighlightChange(i, e.target.value)}
-                  className="w-full mb-2 p-2 border rounded-lg focus:ring-1 focus:ring-blue-400"
+                  onChange={(e) =>
+                    handleArrayChange(setHighlights, i, e.target.value)
+                  }
+                  className="w-full p-2 border rounded mb-2"
                 />
               ))}
-              <button
-                type="button"
-                onClick={handleAddHighlight}
-                className="text-sm text-blue-600 hover:underline"
-              >
+              <button type="button" onClick={handleAddHighlight} className="text-blue-600">
                 + Add Highlight
               </button>
             </div>
 
             {/* Tips */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Tips</label>
+              <p className="font-semibold mb-2">Tips</p>
               {tips.map((t, i) => (
                 <input
                   key={i}
-                  type="text"
                   value={t}
-                  onChange={(e) => handleTipChange(i, e.target.value)}
-                  className="w-full mb-2 p-2 border rounded-lg focus:ring-1 focus:ring-blue-400"
+                  onChange={(e) =>
+                    handleArrayChange(setTips, i, e.target.value)
+                  }
+                  className="w-full p-2 border rounded mb-2"
                 />
               ))}
-              <button
-                type="button"
-                onClick={handleAddTip}
-                className="text-sm text-blue-600 hover:underline"
-              >
+              <button type="button" onClick={handleAddTip} className="text-blue-600">
                 + Add Tip
               </button>
             </div>
 
-            {/* Whatsapp */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Whatsapp</label>
-              <input
-                type="text"
-                value={whatsapp}
-                onChange={(e) => setWhatsapp(e.target.value)}
-                required
-                className="w-full p-2 border rounded-lg"
-              />
-            </div>
+            <input
+              placeholder="Whatsapp"
+              value={whatsapp}
+              onChange={(e) => setWhatsapp(e.target.value)}
+              required
+              className="w-full p-2 border rounded"
+            />
 
-            {/* Email */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full p-2 border rounded-lg"
-              />
-            </div>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full p-2 border rounded"
+            />
 
-            {/* Image Upload */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
-              <input
-                type="file"
-                onChange={(e) => setImageFile(e.target.files[0])}
-                className="w-full p-2 border rounded-lg"
-              />
-            </div>
+            <input
+              type="file"
+              onChange={(e) => setImageFile(e.target.files[0])}
+              className="w-full p-2 border rounded"
+            />
 
-            {/* Submit */}
-            <div className="pt-4">
-              <button
-                type="submit"
-                className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
-              >
-                Create Service
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 rounded"
+            >
+              Create Service
+            </button>
 
-            {/* Response Message */}
             {responseMessage && (
-              <p
-                className={`text-center font-medium mt-4 ${
-                  responseMessage.includes("Error")
-                    ? "text-red-500"
-                    : "text-green-600"
-                }`}
-              >
+              <p className="text-center mt-3 font-semibold">
                 {responseMessage}
               </p>
             )}
@@ -244,3 +177,4 @@ export const CreateServices = () => {
     </MainLayout>
   );
 };
+export default CreateServices;

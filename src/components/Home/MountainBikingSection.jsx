@@ -3,9 +3,9 @@ import Button from '../common/Button'
 
 function MountainBikingSection() {
   return (
-<section id="mtb-tours" className="py-10 bg-gray-100">
+<section id="mtb-tours" className="p-10 bg-gray-100">
           <div className="mx-auto px-4 flex flex-col justify-center items-center">
-            <h2 className="headings text-center text-5xl my-10 font-bold">
+            <h2 className="text-center text-4xl md:text-5xl my-10 font-bold">
               6-Day MTB Adventure Through Rwanda
             </h2>
             <p className="text-xl pt-2 text-gray-700 text-justify">

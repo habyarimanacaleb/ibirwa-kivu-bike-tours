@@ -17,36 +17,34 @@ export const Home = () => {
   return (
     <>
       <Navbar />
-       {/*Main section*/}
+      {/*Main section*/}
       <main className="bg-gray-200 pt-2">
         {/*Hero section*/}
-        <section className="relative home-hello-section lg:h-screen h-auto py-6 text-white">
-         <Hero />
+        <section className="relative home-hello-section  h-auto py-6 text-white">
+          <Hero />
           <div className="flex flex-col justify-center text-center bg-gray-200 bg-opacity-70 z-10">
             <TourInquiryForm />
           </div>
         </section>
 
-         {/*About section*/}
-        <About  homeBg={homeBg}/>
-
-         {/*Services sectio*/}
-        <section className="service fade-in" id="service">
+        {/*Services sectio*/}
+        <section className="service fade-in mb-6" id="service">
           <h1 className="headings text-center text-5xl my-10 font-bold">
-            Our Services/Tours
+            Our Tours
           </h1>
           <Services />
         </section>
 
+        {/*About section*/}
+        <About homeBg={homeBg} />
 
-        
-         {/*Mountyain bikings  sectio*/}
-         <MountainBikingSection />
+        {/*Mountyain bikings  sectio*/}
+        <MountainBikingSection />
 
-         {/*Contact section*/}
-         <Contact />
+        {/*Contact section*/}
+        <Contact />
 
-          {/*Review From GoogleMap section sectio*/}
+        {/*Review From GoogleMap section sectio*/}
         <section className="flex flex-col items-center">
           <h1 className="text-5xl font-bold mt-6 mb-3 text-center">
             Our Google Reviews

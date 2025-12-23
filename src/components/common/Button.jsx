@@ -28,9 +28,9 @@ const Button = ({
         'px-6 py-3 rounded-lg text-white shadow-lg',
         'transition-all duration-200 ease-in-out',
         'hover:scale-105 hover:brightness-110 active:scale-100',
-        'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400',
+        'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400',
         {
-          'bg-gradient-to-r from-gray-600 to-gray-500': variant === 'gray',
+          'bg-gradient-to-r from-blue-600 to-blue-500': variant === 'gray',
         },
         className
       )}

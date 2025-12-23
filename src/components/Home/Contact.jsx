@@ -3,8 +3,8 @@ import Button from '../common/Button'
 
 function Contact() {
   return (
- <section id="contactus">
-          <div className="text-center py-6 bg-gray-100 rounded-lg shadow-md">
+ <section id="contactus" className='pb-10'>
+          <div className="text-center py-16 bg-gray-100 rounded-lg shadow-md">
             <h1 className="text-3xl sm:text-xl font-extrabold text-black">
               Need Assistance?{" "}
               <span className="text-black-600">We’re Here!</span>
@@ -17,8 +17,8 @@ function Contact() {
               <Button label="Contact Us" to="/contact" />
             </div>
             <p className="mt-4 text-gray-600 text-sm italic">
-              <i className="fa-solid fa-clock mr-2"></i> Monday to Friday, 9 AM
-              - 6 PM
+              <i className="fa-solid fa-clock mr-2"></i> Monday to Friday, 8 AM
+              - 5 PM
             </p>
           </div>
         </section>  )
