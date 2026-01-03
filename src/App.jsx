@@ -25,6 +25,7 @@ import SingleGalleryView from "./admin-dashboard/SingleGalleryView";
 import { MainDashboardLout } from "./admin-panel/MainDashboardLout";
 import GalleryPage from "./pages/GalleryPage";
 import DashboardReviews from "./admin-panel/DashboardReviews";
+import ServicesListPage from "./pages/ServiceList";
 import "./App.css";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -42,7 +43,7 @@ function App() {
                 <div className="flex-grow">
                   <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/services" element={<Services />} />
+                    <Route path="/services" element={<ServicesListPage />} />
                     <Route path="/service/:id" element={<ServiceDetail />} />
                     <Route path="/gallery" element={<GalleryPage />} />
                     <Route path="/about" element={<About />} />
