@@ -38,7 +38,7 @@ export const Home = () => {
         {/*About section*/}
         <About homeBg={homeBg} />
 
-        {/*Mountyain bikings  sectio*/}
+        {/*Mountyain bikings  section*/}
         <MountainBikingSection />
 
         {/*Contact section*/}
