@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import homeBg from "../assets/css/Home.module.css";
 import Services from "../components/Services";
 import { Footer } from "../components/Footer";
@@ -6,54 +6,63 @@ import ChevronButton from "../components/ChevronButton";
 import TourInquiryForm from "../components/TourInquiryForm";
 import WhatsAppChat from "../components/WhatsAppChat";
 import Navbar from "../components/Navbar";
-// import { helloImagesData as localImages } from "../assets/Servicesdata";
 import GoogleReviews from "../components/GoogleReviewWidget";
 import Hero from "../components/Home/Hero";
 import About from "../components/Home/About";
 import MountainBikingSection from "../components/Home/MountainBikingSection";
 import Contact from "../components/Home/Contact";
+import SectionReveal from "../components/common/SectionReveal";
 
 export const Home = () => {
   return (
     <>
       <Navbar />
-      {/*Main section*/}
       <main className="bg-gray-200 pt-2">
-        {/*Hero section*/}
-        <section className="relative home-hello-section  h-auto py-6 text-white">
+        {/* HERO (no animation — LCP safe) */}
+        <section className="relative py-6">
           <Hero />
-          <div className="flex flex-col justify-center text-center bg-gray-200 bg-opacity-70 z-10">
+          <div className="flex justify-center bg-gray-200 bg-opacity-70">
             <TourInquiryForm />
           </div>
         </section>
 
-        {/*Services sectio*/}
-        <section className="service fade-in mb-6" id="service">
-          <h1 className="headings text-center text-5xl my-10 font-bold">
-            Our Tours
-          </h1>
-          <Services />
-        </section>
+        {/* SERVICES */}
+        <SectionReveal>
+          <section className="mb-6" id="service">
+            <h1 className="text-center text-5xl my-10 font-bold">Our Tours</h1>
+            <Services />
+          </section>
+        </SectionReveal>
 
-        {/*About section*/}
-        <About homeBg={homeBg} />
+        {/* ABOUT */}
+        <SectionReveal delay={0.1}>
+          <About homeBg={homeBg} />
+        </SectionReveal>
 
-        {/*Mountyain bikings  section*/}
-        <MountainBikingSection />
+        {/* MOUNTAIN BIKING */}
+        <SectionReveal delay={0.15}>
+          <MountainBikingSection />
+        </SectionReveal>
 
-        {/*Contact section*/}
-        <Contact />
+        {/* CONTACT */}
+        <SectionReveal delay={0.2}>
+          <Contact />
+        </SectionReveal>
 
-        {/*Review From GoogleMap section sectio*/}
-        <section className="flex flex-col items-center">
-          <h1 className="text-5xl font-bold mt-6 mb-3 text-center">
-            Our Google Reviews
-          </h1>
-          <GoogleReviews />
-        </section>
+        {/* GOOGLE REVIEWS */}
+        <SectionReveal>
+          <section className="flex flex-col items-center">
+            <h1 className="text-5xl font-bold mt-6 mb-3 text-center">
+              Our Google Reviews
+            </h1>
+            <GoogleReviews />
+          </section>
+        </SectionReveal>
+
         <ChevronButton />
         <WhatsAppChat />
       </main>
+
       <Footer />
     </>
   );

@@ -9,10 +9,8 @@ export const ExploreRwanda = () => {
     <div className="bg-white text-gray-800">
       {/* Top Navigation */}
       <Navbar />
-
       {/* Hero Section */}
       <Hero />
-
       {/* Introduction Section */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
         <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-6">

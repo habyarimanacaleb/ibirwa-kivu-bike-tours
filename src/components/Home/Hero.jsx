@@ -3,13 +3,29 @@ import { motion, useReducedMotion } from "framer-motion";
 import Slider from "react-slick";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
+/* ---------------- Fallback slides (instant playback) ---------------- */
+const fallbackSlides = [
+  {
+    _id: "fallback-1",
+    title: "Discover Kivu",
+    imageFile: "/hello-image/eco-tourism.jpg",
+  },
+  {
+    _id: "fallback-2",
+    title: "Nature & Experience",
+    imageFile: "/hello-image/flying-image.jpg",
+  },
+  {
+    _id: "fallback-3",
+    title: "Explore Rwanda",
+    imageFile: "/hello-image/long-trip.jpg",
+  },
+];
+
 /* ---------------- Motion variants ---------------- */
 const imageVariants = {
   initial: { scale: 1.1 },
-  animate: {
-    scale: 1,
-    transition: { duration: 6, ease: "easeOut" },
-  },
+  animate: { scale: 1, transition: { duration: 6, ease: "easeOut" } },
 };
 
 const overlayVariants = {
@@ -47,18 +63,17 @@ const PrevArrow = memo(({ onClick }) => (
 
 /* ---------------- Hero ---------------- */
 function Hero() {
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(fallbackSlides);
+  const [isLoading, setIsLoading] = useState(true);
   const prefersReducedMotion = useReducedMotion();
 
-  /* ---- Preload first image (LCP) ---- */
+  /* ---- Preload LCP image ---- */
   useEffect(() => {
-    if (images.length > 0) {
-      const link = document.createElement("link");
-      link.rel = "preload";
-      link.as = "image";
-      link.href = images[0].imageFile;
-      document.head.appendChild(link);
-    }
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = images[0].imageFile;
+    document.head.appendChild(link);
   }, [images]);
 
   /* ---- Fetch images ---- */
@@ -69,15 +84,21 @@ function Hero() {
           "https://kivu-back-end.onrender.com/api/gallery"
         );
         const data = await res.json();
-        setImages(data.data || []);
+
+        if (data?.data?.length) {
+          setImages(data.data);
+        }
       } catch (error) {
         console.error("Failed to fetch gallery:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
+
     fetchGallery();
   }, []);
 
-  /* ---- Slick optimizations ---- */
+  /* ---- Slick settings ---- */
   const settings = {
     dots: true,
     infinite: true,
@@ -86,7 +107,7 @@ function Hero() {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
-    lazyLoad: "ondemand", // 🚀 BIG scripting win
+    lazyLoad: "ondemand",
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
@@ -96,7 +117,7 @@ function Hero() {
       <Slider {...settings}>
         {images.map((item, index) => (
           <div key={item._id} className="relative">
-            {/* -------- LCP IMAGE (NO MOTION) -------- */}
+            {/* -------- LCP IMAGE -------- */}
             {index === 0 ? (
               <img
                 src={item.imageFile}
@@ -134,6 +155,11 @@ function Hero() {
                 animate="animate"
               >
                 {item.title}
+                {isLoading && (
+                  <span className="block text-sm opacity-70 mt-2">
+                    Loading experience…
+                  </span>
+                )}
               </motion.h2>
             </motion.div>
           </div>
