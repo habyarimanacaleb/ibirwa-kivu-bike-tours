@@ -31,12 +31,12 @@ const ServiceCard = ({ service, index }) => {
       className="bg-white p-4 rounded-lg shadow-lg flex flex-col overflow-hidden"
     >
       {service.imageFile && (
-        <div className="w-full max-h-[40vh] rounded-lg overflow-hidden">
+        <div className="w-full max-h-[600px] rounded-lg overflow-hidden">
           <motion.img
             src={service.imageFile}
             alt={service.title}
             loading="lazy"
-            className="w-full h-auto object-contain"
+            className="w-full h-[60vh] object-cover"
             whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.4 }}
           />
