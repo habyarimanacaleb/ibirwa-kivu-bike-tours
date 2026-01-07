@@ -15,7 +15,7 @@ const UpdateGallery = () => {
   useEffect(() => {
     const fetchPhoto = async () => {
       try {
-        const response = await axios.get(`https://kivu-back-end.onrender.com/api/gallery/${id}`);
+        const response = await axios.get(`https://v2.ibirwakivubiketours.com/api/gallery/${id}`);
         const photo = response.data;
         // console.log('Photo images data from updates',photo);
         if (photo && typeof photo === "object") {
@@ -43,7 +43,7 @@ const UpdateGallery = () => {
 
     try {
       const response = await axios.put(
-        `https://kivu-back-end.onrender.com/api/gallery/${id}`,
+        `https://v2.ibirwakivubiketours.com/api/gallery/${id}`,
         formData,
         {
           headers: {

@@ -25,7 +25,7 @@ const GalleryPage = () => {
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const response = await axios.get("https://kivu-back-end.onrender.com/api/gallery");
+        const response = await axios.get("https://v2.ibirwakivubiketours.com/api/gallery");
         setGallery(response.data.data || []);
       } catch (err) {
         setError(err.message || "Failed to fetch gallery.");

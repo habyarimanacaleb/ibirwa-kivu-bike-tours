@@ -15,7 +15,7 @@ const TourInquiriesDashboard = () => {
   const fetchInquiries = async () => {
     try {
       const response = await axios.get(
-        "https://kivu-back-end.onrender.com/api/inquiries"
+        "https://v2.ibirwakivubiketours.com/api/inquiries"
       );
       setInquiries(response.data);
     } catch (error) {
@@ -33,7 +33,7 @@ const TourInquiriesDashboard = () => {
 
     try {
       await axios.post(
-        `https://kivu-back-end.onrender.com/api/inquiries/respond/${id}`,
+        `https://v2.ibirwakivubiketours.com/api/inquiries/respond/${id}`,
         { responseMessage }
       );
       alert("Response sent successfully!");
@@ -57,7 +57,7 @@ const TourInquiriesDashboard = () => {
 
     try {
       await axios.delete(
-        `https://kivu-back-end.onrender.com/api/inquiries/${id}`
+        `https://v2.ibirwakivubiketours.com/api/inquiries/${id}`
       );
       alert("Inquiry deleted successfully!");
       fetchInquiries();

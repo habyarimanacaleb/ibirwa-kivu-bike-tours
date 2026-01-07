@@ -8,7 +8,7 @@ const ServicesList = ({ services, setServices }) => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(
-        `https://kivu-back-end.onrender.com/api/services/${id}`
+        `https://v2.ibirwakivubiketours.com/api/services/${id}`
       );
       setServices(services.filter((service) => service._id !== id));
     } catch (error) {
@@ -21,6 +21,7 @@ const ServicesList = ({ services, setServices }) => {
   };
 
   return (
+    <>
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {services.map((service) => (
         <div
@@ -65,6 +66,8 @@ const ServicesList = ({ services, setServices }) => {
         </div>
       ))}
     </div>
+  
+    </>
   );
 };
 

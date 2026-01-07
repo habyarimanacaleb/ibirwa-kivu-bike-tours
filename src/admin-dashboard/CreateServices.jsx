@@ -52,7 +52,7 @@ export const CreateServices = () => {
 
   try {
     await axios.post(
-      "https://kivu-back-end.onrender.com/api/services",
+      "https://v2.ibirwakivubiketours.com/api/services",
       formData
     );
 

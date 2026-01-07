@@ -81,7 +81,7 @@ function Hero() {
     const fetchGallery = async () => {
       try {
         const res = await fetch(
-          "https://kivu-back-end.onrender.com/api/gallery"
+          "https://v2.ibirwakivubiketours.com/api/gallery"
         );
         const data = await res.json();
 

@@ -13,7 +13,7 @@ const UsersPage = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get('https://kivu-back-end.onrender.com/api/ibirwa-clients/users');
+        const res = await axios.get('https://v2.ibirwakivubiketours.com/api/ibirwa-clients/users');
         setUsers(res.data);
       } catch (err) {
         console.error(err);
@@ -29,10 +29,10 @@ const UsersPage = () => {
   };
   const handleBlock = async (userId, shouldBlock = true) => {
     try {
-      await axios.patch(`https://kivu-back-end.onrender.com/api/ibirwa-clients/user/${userId}/block`, {
+      await axios.patch(`https://v2.ibirwakivubiketours.com/api/ibirwa-clients/user/${userId}/block`, {
         blocked: shouldBlock,
       });
-      const res = await axios.get('https://kivu-back-end.onrender.com/api/ibirwa-clients/users');
+      const res = await axios.get('https://v2.ibirwakivubiketours.com/api/ibirwa-clients/users');
       setUsers(res.data);
     } catch (err) {
       console.error('Block/unblock failed:', err);

@@ -5,11 +5,14 @@ import ServiceSkeleton from "../components/Home/ServiceSkeleton";
 import ServiceCard from "../components/common/ServiceCard";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import Pagination from "../components/common/PaginatedServices";
 /* ---------------------------------- */
 /* Main Page Component                 */
 /* ---------------------------------- */
 const ServicesPapeListings = () => {
   const [services, setServices] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -18,8 +21,11 @@ const ServicesPapeListings = () => {
     const fetchServices = async () => {
       try {
         const { data } = await axios.get(
-          "https://kivu-back-end.onrender.com/api/services"
+          `https://v2.ibirwakivubiketours.com/api/services?page=${page}`
         );
+
+        setServices(data.services || []);
+        setTotalPages(data.totalPages || 1);
 
         const list = Array.isArray(data?.services) ? data.services : [];
 
@@ -37,7 +43,7 @@ const ServicesPapeListings = () => {
     };
 
     fetchServices();
-  }, []);
+  }, [page]);
 
   /* -------- Error State -------- */
   if (error) {
@@ -47,8 +53,6 @@ const ServicesPapeListings = () => {
       </div>
     );
   }
-
-  /* -------- UI -------- */
   return (
     <>
     <Navbar />
@@ -75,6 +79,13 @@ const ServicesPapeListings = () => {
               />
             ))}
       </div>
+
+      {/* Pagination */}
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
+      />
     </article>
     <Footer />
     </>

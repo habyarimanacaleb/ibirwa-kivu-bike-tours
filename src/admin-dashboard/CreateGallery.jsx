@@ -21,7 +21,7 @@ const CreateGallery = () => {
 
     try {
       const response = await axios.post(
-        "https://kivu-back-end.onrender.com/api/gallery",
+        "https://v2.ibirwakivubiketours.com/api/gallery",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

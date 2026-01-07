@@ -26,7 +26,7 @@ export const DropdownMenu = ({ closeMenu }) => {
     const fetchServices = async () => {
       try {
         const response = await axios.get(
-          "https://kivu-back-end.onrender.com/api/services"
+          "https://v2.ibirwakivubiketours.com/api/services"
         );
         setServices(response.data.services || []); 
       } catch (error) {

@@ -24,7 +24,7 @@ const TourInquiryForm = () => {
 
     try {
       const response = await fetch(
-        "https://kivu-back-end.onrender.com/api/inquiries",
+        "https://v2.ibirwakivubiketours.com/api/inquiries",
         {
           method: "POST",
           headers: {

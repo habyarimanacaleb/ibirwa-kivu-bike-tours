@@ -17,7 +17,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
     setError("");
   
     try {
-      const response = await fetch("https://kivu-back-end.onrender.com/api/ibirwa-clients/signup", {
+      const response = await fetch("https://v2.ibirwakivubiketours.com/api/ibirwa-clients/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

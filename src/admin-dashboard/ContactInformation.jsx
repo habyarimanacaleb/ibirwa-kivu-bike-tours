@@ -13,7 +13,7 @@ const ContactInformation = () => {
     const fetchContacts = async () => {
       try {
         const response = await axios.get(
-          "https://kivu-back-end.onrender.com/api/contacts"
+          "https://v2.ibirwakivubiketours.com/api/contacts"
         );
         setContacts(response.data);
         setLoading(false);
@@ -32,7 +32,7 @@ const ContactInformation = () => {
 
     try {
       const response = await axios.post(
-        "https://kivu-back-end.onrender.com/api/respond",
+        "https://v2.ibirwakivubiketours.com/api/respond",
         {
           contactId: selectedContact._id,
           responseMessage,

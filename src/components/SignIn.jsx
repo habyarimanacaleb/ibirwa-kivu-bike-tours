@@ -20,7 +20,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
 
     try {
       const response = await fetch(
-        "https://kivu-back-end.onrender.com/api/ibirwa-clients/login",
+        "https://v2.ibirwakivubiketours.com/api/ibirwa-clients/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

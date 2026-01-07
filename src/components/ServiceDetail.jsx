@@ -22,7 +22,7 @@ export const ServiceDetail = () => {
     const fetchService = async () => {
       try {
         const res = await axios.get(
-          `https://kivu-back-end.onrender.com/api/services/${id}`
+          `https://v2.ibirwakivubiketours.com/api/services/${id}`
         );
         setService(res.data);
       } catch (err) {

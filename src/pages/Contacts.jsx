@@ -23,7 +23,7 @@ export const Contacts = () => {
 
     try {
       const response = await fetch(
-        "https://kivu-back-end.onrender.com/api/contact",
+        "https://v2.ibirwakivubiketours.com/api/contact",
         {
           method: "POST",
           body: JSON.stringify(formData),

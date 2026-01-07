@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import "react-loading-skeleton/dist/skeleton.css";
 import ServiceSkeleton from "./Home/ServiceSkeleton";
 import ServiceCard from "../components/common/ServiceCard";
+import ServiceCTACard from "./common/ServiceCTACard";
 
 const Services = () => {
   const [services, setServices] = useState([]);
@@ -14,7 +14,7 @@ const Services = () => {
     const fetchServices = async () => {
       try {
         const response = await axios.get(
-          "https://kivu-back-end.onrender.com/api/services"
+          "https://v2.ibirwakivubiketours.com/api/services"
         );
 
         const fetchedServices = response?.data?.services;
@@ -57,13 +57,13 @@ const Services = () => {
           ? Array.from({ length: 9 }).map((_, index) => (
               <ServiceSkeleton index={index} />
             ))
-          : services.map((service,idx) => (
-             <ServiceCard
-                key={service._id}
-                service={service}
-                index={idx}
-              />
+          : services.map((service, idx) => (
+              <ServiceCard key={service._id} service={service} index={idx} />
             ))}
+      </div>
+      <div className="mt-10 flex justify-center w-mdax mx-auto">
+        {/* CTA CARD */}
+        <ServiceCTACard />
       </div>
     </div>
   );

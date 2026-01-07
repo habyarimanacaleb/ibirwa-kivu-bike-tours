@@ -20,7 +20,7 @@ const ReviewForm = () => {
   const fetchReviews = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("https://kivu-back-end.onrender.com/api/reviews");
+      const res = await axios.get("https://v2.ibirwakivubiketours.com/api/reviews");
       setReviews(res.data);
     } catch (err) {
       console.error("Error fetching reviews:", err);
@@ -32,7 +32,7 @@ const ReviewForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://kivu-back-end.onrender.com/api/reviews", {
+      await axios.post("https://v2.ibirwakivubiketours.com/api/reviews", {
         name,
         email,
         rating,

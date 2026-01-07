@@ -1,151 +1,153 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainLayout from "./MainLayout";
 import ServicesList from "../components/ServicesList";
-import GalleryList from "../components/GalleryLists";
 import DasboardQuickActions from "../components/DasboardQuickActions";
 import SearchBar from "./SearchBar";
+import Pagination from "../components/common/PaginatedServices";
 import axios from "axios";
 import { Bell } from "lucide-react";
 
 export function MainDashboardLout() {
+  const [analytics, setAnalytics] = useState({
+    users: 0,
+    contacts: 0,
+    services: 0,
+    gallery: 0,
+  });
 
-    const [analytics, setAnalytics] = useState({
-      users: 0,
-      contacts: 0,
-      services: 0,
-      gallery: 0,
-    });
-    const [searchTerm, setSearchTerm] = useState("");
-    const [loading, setLoading] = useState(true);
-    const [services, setServices] = useState([]);
-    const [gallery, setGallery] = useState([]);
-    const [error, setError] = useState(null);
-    const [notifications, setNotifications] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [services, setServices] = useState([]);
+  const [gallery, setGallery] = useState([]);
+  const [error, setError] = useState(null);
+  const [notifications, setNotifications] = useState(0);
 
-   useEffect(() => {
-      async function fetchAnalytics() {
-        try {
-          const usersRes = await axios.get(
-            "https://kivu-back-end.onrender.com/api/ibirwa-clients/users"
-          );
-          const contactsRes = await axios.get(
-            "https://kivu-back-end.onrender.com/api/contacts"
-          );
-          const servicesRes = await axios.get(
-            "https://kivu-back-end.onrender.com/api/services"
-          );
-          const galleryRes = await axios.get(
-            "https://kivu-back-end.onrender.com/api/gallery"
-          );
-  
-          const usersData = usersRes.data;
-          const contactsData = contactsRes.data;
-          const servicesData = servicesRes.data.services;
-          const galleryData = galleryRes.data.data;
-  
-          setAnalytics({
-            users: usersData.length,
-            contacts: contactsData.length,
-            services: servicesData.length,
-            gallery: galleryData.length,
-          });
-  
-          // Assuming notifications are part of contacts data
-          setNotifications(contactsData.length);
-        } catch (error) {
-          console.error("Error fetching analytics:", error);
-          setError(error);
-        } finally {
-          setLoading(false);
-        }
-      }
-  
-      fetchAnalytics();
-    }, []);
- useEffect(() => {
-    const fetchData = async () => {
+  /* 🔹 Pagination state */
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  /* -------- Analytics -------- */
+  useEffect(() => {
+    async function fetchAnalytics() {
       try {
-        const [servicesResponse, galleryResponse] = await Promise.all([
-          axios.get("https://kivu-back-end.onrender.com/api/services"),
-          axios.get("https://kivu-back-end.onrender.com/api/gallery"),
+        const [usersRes, contactsRes, servicesRes, galleryRes] =
+          await Promise.all([
+            axios.get(
+              "https://v2.ibirwakivubiketours.com/api/ibirwa-clients/users"
+            ),
+            axios.get("https://v2.ibirwakivubiketours.com/api/contacts"),
+            axios.get("https://v2.ibirwakivubiketours.com/api/services"),
+            axios.get("https://v2.ibirwakivubiketours.com/api/gallery"),
+          ]);
+
+        setAnalytics({
+          users: usersRes.data.length,
+          contacts: contactsRes.data.length,
+          services: servicesRes.data.totalServices,
+          gallery: galleryRes.data.data.length,
+        });
+
+        setNotifications(contactsRes.data.length);
+      } catch (err) {
+        console.error(err);
+        setError(err);
+      }
+    }
+
+    fetchAnalytics();
+  }, []);
+
+  /* -------- Paginated services + gallery -------- */
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [servicesRes, galleryRes] = await Promise.all([
+          axios.get(
+            `https://v2.ibirwakivubiketours.com/api/services?page=${page}`
+          ),
+          axios.get("https://v2.ibirwakivubiketours.com/api/gallery"),
         ]);
-        setServices(servicesResponse.data.services || []);
-        setGallery(galleryResponse.data.data  || []);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
+
+        setServices(servicesRes.data.services || []);
+        setTotalPages(servicesRes.data.totalPages || 1);
+        setGallery(galleryRes.data.data || []);
+      } catch (err) {
+        setError(err);
+      } finally {
         setLoading(false);
       }
     };
+
     fetchData();
-  }, []);
+  }, [page]);
 
-const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
+  /* -------- Search -------- */
   const filteredServices = services.filter((service) =>
     service.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  const filteredGallery = gallery.filter((photo) =>
-    photo.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div className="text-red-600">Error: {error.message}</div>;
   }
-  const SkeletonCard = () => (
-    <div className="bg-gray-200 p-4 shadow rounded-lg animate-pulse transition-all duration-500 ease-in-out text-center h-24">
-      <div className="h-6 bg-gray-300 rounded w-3/4 mx-auto mb-4"></div>
-      <div className="h-8 bg-gray-300 rounded w-1/2 mx-auto"></div>
-    </div>
-  );
+
+  // get user information from local storage
+  const userData = localStorage.getItem("user");
+  const user = userData ? JSON.parse(userData) : null;
 
   return (
     <MainLayout>
       <div className="welcome-back-admin">
+        {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-3xl font-bold mb-6">Welcome back Admin,</h2>
-           <div className="relative flex items-center" title="Messages">
-              <Bell className="mr-2" />
-              {notifications > 0 && (
-                <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-                  {notifications}
-                </span>
-              )}
-            </div>
-        </ div>
-         {/* Analytics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-          {loading
-            ? Array.from({ length: 4 }).map((_, index) => (
-                <SkeletonCard key={index} />
-              ))
-            : Object.entries(analytics).map(([key, value], index) => (
-                <div
-                  key={index}
-                  className="bg-white p-4 shadow rounded-lg text-center"
-                >
-                  <h2 className="text-lg font-semibold">
-                    {key.replace(/_/g, " ").toUpperCase()}
-                  </h2>
-                  <p className="text-2xl font-bold">{value}</p>
-                </div>
-              ))}
+          <h2 className="text-3xl font-bold">{`Welcome back ${
+            user?.username || "Admin"
+          }!`}</h2>
+          <div className="relative">
+            <Bell />
+            {notifications > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                {notifications}
+              </span>
+            )}
+          </div>
         </div>
 
-        <div className="quick-action mb-6">
-          <DasboardQuickActions />
+        {/* Analytics */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+          {Object.entries(analytics).map(([key, value]) => (
+            <div
+              key={key}
+              className="bg-white p-4 shadow rounded-lg text-center"
+            >
+              <h2 className="text-lg font-semibold">{key.toUpperCase()}</h2>
+              <p className="text-2xl font-bold">{value}</p>
+            </div>
+          ))}
         </div>
-        {/* Search Bar */}
-        <div className="search-bar mb-6">
-                    <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
+
+        <DasboardQuickActions />
+
+        {/* Search */}
+        <div className="my-6">
+          <SearchBar
+            searchTerm={searchTerm}
+            handleSearch={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
-        {/*services and gallery lists */}
-        <div className="our-services mb-6">
-        <ServicesList services={filteredServices} />
+
+        {/* Services */}
+        <ServicesList services={filteredServices} loading={loading} />
+
+        {/* Pagination */}
+        <div className="flex justify-center mt-8">
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
         </div>
       </div>
-
     </MainLayout>
   );
 }

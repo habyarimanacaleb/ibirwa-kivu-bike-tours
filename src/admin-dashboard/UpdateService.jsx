@@ -26,7 +26,7 @@ const UpdateService = () => {
     const fetchService = async () => {
       try {
         const { data } = await axios.get(
-          `https://kivu-back-end.onrender.com/api/services/${id}`
+          `https://v2.ibirwakivubiketours.com/api/services/${id}`
         );
 
         setFormData({
@@ -95,7 +95,7 @@ const UpdateService = () => {
 
     try {
       await axios.put(
-        `https://kivu-back-end.onrender.com/api/services/${id}`,
+        `https://v2.ibirwakivubiketours.com/api/services/${id}`,
         data,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

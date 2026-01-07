@@ -14,7 +14,7 @@ const GalleryList = () => {
     const fetchGalleries = async () => {
       try {
         const response = await axios.get(
-          "https://kivu-back-end.onrender.com/api/gallery"
+          "https://v2.ibirwakivubiketours.com/api/gallery"
         );
       
         const data = await response.data.data
@@ -43,7 +43,7 @@ const GalleryList = () => {
       setDeletingId(id);
 
       await axios.delete(
-        `https://kivu-back-end.onrender.com/api/gallery/${id}`
+        `https://v2.ibirwakivubiketours.com/api/gallery/${id}`
       );
 
       setGalleries((prev) => prev.filter((item) => item._id !== id));
