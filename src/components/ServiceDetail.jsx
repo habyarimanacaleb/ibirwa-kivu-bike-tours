@@ -7,6 +7,7 @@ import {
   FaEnvelope,
   FaCheckCircle,
   FaLightbulb,
+  FaShoppingCart,
 } from "react-icons/fa";
 import Navbar from "./Navbar";
 import { Footer } from "./Footer";
@@ -153,7 +154,7 @@ export const ServiceDetail = () => {
             {/* RIGHT CTA */}
             <div className="sticky top-24 h-fit bg-white rounded-2xl shadow-xl p-8">
               <h3 className="text-xl font-bold text-blue-800 mb-4">
-                Book or Ask More
+                Booking or Ask More!
               </h3>
               <p className="text-gray-600 mb-6">
                 Reach us instantly to customize your experience.
@@ -161,6 +162,8 @@ export const ServiceDetail = () => {
 
               <div className="space-y-4">
                 <a
+                 aria-label="Whatsap Call to action Button"
+                  role="Button-link"
                   href={`https://wa.me/${service.details.whatsapp}`}
                   target="_blank"
                   rel="noreferrer"
@@ -171,11 +174,22 @@ export const ServiceDetail = () => {
                 </a>
 
                 <a
+                 aria-label="Email compose new Call to action Button"
+                 role="Button-link"
                   href={`mailto:${service.details.email}`}
                   className="flex items-center justify-center gap-3 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
                 >
                   <FaEnvelope className="text-xl" />
                   Send Email
+                </a>
+                <a
+                  href={`/`}
+                  aria-label="Booking Call to action Button"
+                  role="Button-link"
+                  className="flex items-center justify-center gap-3 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"
+                >
+                  <FaShoppingCart className="text-xl" />
+                 Book Now
                 </a>
               </div>
 

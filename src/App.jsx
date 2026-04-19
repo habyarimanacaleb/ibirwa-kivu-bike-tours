@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import { Home } from "./pages/Home";
-import { About } from "./pages/About";
+// import { About } from "./pages/About";
 import { ExploreRwanda } from "./pages/ExploreRwanda";
 import { Join } from "./components/Join";
 import { Contacts } from "./pages/Contacts";
@@ -29,6 +29,7 @@ import ServicesListPage from "./pages/ServiceList";
 import "./App.css";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import AboutPage from "./pages/AboutPage";
 
 
 function App() {
@@ -46,7 +47,7 @@ function App() {
                     <Route path="/services" element={<ServicesListPage />} />
                     <Route path="/service/:id" element={<ServiceDetail />} />
                     <Route path="/gallery" element={<GalleryPage />} />
-                    <Route path="/about" element={<About />} />
+                    <Route path="/about" element={<AboutPage />} />
                     <Route path="/login" element={<SignIn />} />
                     <Route path="/join" element={<Join />} />
                     <Route

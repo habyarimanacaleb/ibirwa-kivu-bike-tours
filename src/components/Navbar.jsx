@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { DropdownMenu } from "./dropdawn/DropdownMenu";
 
+
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -57,6 +58,17 @@ export const Navbar = () => {
                 onClick={closeMenu}
               >
                 Home
+              </NavLink>
+            </li>
+            <li className="pb-2">
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive ? "text-yellow-400" : "text-white"
+                }
+                onClick={closeMenu}
+              >
+                About Us
               </NavLink>
             </li>
             <li className="flex">
