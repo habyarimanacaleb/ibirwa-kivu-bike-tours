@@ -110,5 +110,5 @@ The main app focuses on delivering a smooth, user-friendly experience for end-us
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/your-project.git
-   cd your-project
+   git https://github.com/habyarimanacaleb/ibirwa-kivu-bike-tours.git
+   cd ibirwa-kivu-bike-tours
