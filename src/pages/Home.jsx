@@ -6,14 +6,15 @@ import ChevronButton from "../components/ChevronButton";
 import TourInquiryForm from "../components/TourInquiryForm";
 import WhatsAppChat from "../components/WhatsAppChat";
 import Navbar from "../components/Navbar";
-// import { helloImagesData as localImages } from "../assets/Servicesdata";
 import GoogleReviews from "../components/GoogleReviewWidget";
 import Hero from "../components/Home/Hero";
 import About from "../components/Home/About";
 import MountainBikingSection from "../components/Home/MountainBikingSection";
 import Contact from "../components/Home/Contact";
 
+
 export const Home = () => {
+  const [loading,setLoading] = useState(false);
   return (
     <>
       <Navbar />
@@ -21,14 +22,14 @@ export const Home = () => {
       <main className="bg-gray-200 pt-2">
         {/*Hero section*/}
         <section className="relative home-hello-section  h-auto py-6 text-white">
-          <Hero />
+          <Hero loading = { loading} setLoading={setLoading}/>
           <div className="flex flex-col justify-center text-center bg-gray-200 bg-opacity-70 z-10">
             <TourInquiryForm />
           </div>
         </section>
 
         {/*Services sectio*/}
-        <section className="service fade-in mb-6" id="service">
+        <section id="tours" className="service fade-in mb-6" id="service">
           <h1 className="headings text-center text-5xl my-10 font-bold">
             Our Tours
           </h1>
@@ -46,8 +47,8 @@ export const Home = () => {
 
         {/*Review From GoogleMap section sectio*/}
         <section className="flex flex-col items-center">
-          <h1 className="text-5xl font-bold mt-6 mb-3 text-center">
-            Our Google Reviews
+          <h1 className="text-5xl font-bold font-serif mt-6 mb-3 text-center capitalize">
+           What customer says
           </h1>
           <GoogleReviews />
         </section>

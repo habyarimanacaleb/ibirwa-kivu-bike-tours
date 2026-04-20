@@ -2,6 +2,10 @@ import React, { useEffect, useState, memo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Slider from "react-slick";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import HeroSkeleton from "./HeroSkeleton";
+import { ChevronDown } from "lucide-react";
+import { FaChevronDown } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 /* ---------------- Motion variants ---------------- */
 const imageVariants = {
@@ -46,7 +50,7 @@ const PrevArrow = memo(({ onClick }) => (
 ));
 
 /* ---------------- Hero ---------------- */
-function Hero() {
+function Hero({ loading, setLoading }) {
   const [images, setImages] = useState([]);
   const prefersReducedMotion = useReducedMotion();
 
@@ -66,12 +70,15 @@ function Hero() {
     const fetchGallery = async () => {
       try {
         const res = await fetch(
-          "https://kivu-back-end.onrender.com/api/gallery"
+          "https://kivu-back-end.onrender.com/api/gallery",
         );
+        setLoading(true)
         const data = await res.json();
         setImages(data.data || []);
       } catch (error) {
         console.error("Failed to fetch gallery:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchGallery();
@@ -90,6 +97,10 @@ function Hero() {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
+
+  if (loading){
+    return <HeroSkeleton />
+  }
 
   return (
     <div className="relative h-[480px] w-full overflow-hidden">
@@ -139,6 +150,13 @@ function Hero() {
           </div>
         ))}
       </Slider>
+      <div className="absolute top-40 right-50 flex flex-col items-center gap-10">
+
+      <span className=" border px-4 rounded-full  font-medium">We Travel in Comfort</span>
+      <Link to={'#tours'}>
+      <FaChevronDown  size={30} className="animate-bounce rounded-full bg-black/70 p-1"/>
+      </Link>
+      </div>
     </div>
   );
 }
