@@ -1,93 +1,110 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaChevronDown } from "react-icons/fa";
-import axios from "axios";
+import { FaChevronDown, FaCompass, FaArrowRight } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import useServiceStore from "../../store/useServiceStore";
 
 export const DropdownMenu = ({ closeMenu }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const { services, isLoading, fetchServices } = useServiceStore();
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await axios.get(
-          "https://kivu-back-end.onrender.com/api/services"
-        );
-        setServices(response.data.services || []); 
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchServices();
-  }, []);
+    const handleClick = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target))
+        setIsOpen(false);
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [fetchServices]);
 
-  const handleNavigation = (serviceId) => {
-    setIsOpen(false);
-    closeMenu();
-    navigate(`/service/${serviceId}`);
-  };
+  // Limit to top 6 services for a clean 2x3 grid
+  const displayedServices = services.slice(0, 6);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       <button
-        onClick={() => setIsOpen((prev) => !prev)}
-        className="text-white flex items-center text-xl cursor-pointer gap-2"
-        title="Services Menu"
-        aria-label="Services Menu"
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 text-white text-sm uppercase hover:text-yellow-400 transition-all font-bold py-2"
       >
+        <span>
+          Services
+        </span>
         <FaChevronDown
-          className={`transition-transform duration-200 ${
-            isOpen ? "rotate-180" : "rotate-0"
-          }`}
+          className={`text-sm transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
-      {/* Dropdown List */}
-      {isOpen && (
-        <ul
-          ref={dropdownRef}
-          className="absolute left-0 mt-[13px] bg-black z-10 px-2 w-[300px] py-4 rounded-t-md shadow-lg max-h-[360px] overflow-y-auto"
-        >
-          <li>
-            <h3 className="text-white font-bold text-[25px] mb-2">
-              Our Services
-            </h3>
-            {loading ? (
-              <div className="text-white">Loading...</div>
-            ) : error ? (
-              <div className="text-red-500">Error: {error.message}</div>
-            ) : (
-              services.map((service) => (
-                <div
-                  key={service._id}
-                  onClick={() => handleNavigation(service._id)}
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute left-1/2 -translate-x-1/2 md:left-auto md:right-0 mt-4 w-[90vw] md:w-[600px] bg-black/95 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl z-50 overflow-hidden"
+          >
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4 px-2">
+                <h3 className="text-yellow-500 text-[10px] uppercase tracking-[0.2em] font-black">
+                  Top Tours
+                </h3>
+                {/* Explore All Link */}
+                <button
+                  onClick={() => {
+                    navigate("/services");
+                    setIsOpen(false);
+                    closeMenu();
+                  }}
+                  className="text-[10px] text-gray-400 hover:text-white flex items-center gap-1 transition-colors uppercase font-bold"
                 >
-                  <button className="text-white p-2 hover:bg-gray-300 w-full text-left flex flex-col items-start gap-2 rounded-md transition duration-200 ease-in-out">
-                    {service.title}
+                  Explore All <FaArrowRight size={8} />
+                </button>
+              </div>
+
+              {/* Responsive Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {displayedServices.map((service) => (
+                  <button
+                    key={service._id}
+                    onClick={() => {
+                      setIsOpen(false);
+                      closeMenu();
+                      navigate(`/service/${service._id}`);
+                    }}
+                    className="flex items-start gap-3 p-3 rounded-2xl hover:bg-white/5 transition-all group border border-transparent hover:border-white/10"
+                  >
+                    <div className="bg-white/10 p-2 rounded-xl group-hover:bg-yellow-500 transition-colors">
+                      <FaCompass className="text-white group-hover:text-black text-sm" />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-white text-xs font-bold group-hover:text-yellow-400 transition-colors line-clamp-1">
+                        {service.title}
+                      </p>
+                      <p className="text-[9px] text-gray-500">Learn More</p>
+                    </div>
                   </button>
-                </div>
-              ))
-            )}
-          </li>
-        </ul>
-      )}
+                ))}
+              </div>
+
+              {/* Bottom CTA for Mobile Visibility */}
+              <div className="mt-4 pt-4 border-t border-white/5 md:hidden">
+                <button
+                  onClick={() => {
+                    navigate("/services");
+                    setIsOpen(false);
+                    closeMenu();
+                  }}
+                  className="w-full bg-yellow-500 text-black py-3 rounded-xl font-bold text-sm"
+                >
+                  See All Experiences
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

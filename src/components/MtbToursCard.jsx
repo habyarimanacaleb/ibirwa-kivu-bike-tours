@@ -8,13 +8,6 @@ export const MtbToursCard = () => {
       description:
         "Relax on a tranquil boat cruise along Lake Kivu, enjoying breathtaking views and serene waters.",
     },
-    // {
-    //   id: 2,
-    //   imgSrc: "kivu-image/mtb-image-02.jpg",
-    //   title: "Kayaking Adventure",
-    //   description:
-    //     "Paddle through scenic waters and connect with nature on an exciting kayaking experience.",
-    // },
     {
       id: 3,
       imgSrc: "kivu-image/mtb-image-03.jpg",

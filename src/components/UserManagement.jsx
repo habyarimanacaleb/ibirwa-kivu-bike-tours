@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserManagement = ({ users, onUpdate, onBlock }) => (
+const UserManagement = ({ users, onUpdate, onBlock, onDelete }) => (
   <div className="overflow-x-auto">
     <table className="min-w-full divide-y divide-gray-200 bg-white shadow rounded-lg">
       <thead className="bg-gray-100">
@@ -41,6 +41,12 @@ const UserManagement = ({ users, onUpdate, onBlock }) => (
                 }`}
               >
                 {user.blocked ? 'Unblock' : 'Block'}
+              </button>
+              <button
+                onClick={() => onDelete(user._id)}
+                className="ml-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+              >
+                Delete
               </button>
             </td>
           </tr>
