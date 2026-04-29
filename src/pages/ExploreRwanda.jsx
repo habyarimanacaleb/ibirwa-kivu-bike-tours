@@ -1,51 +1,57 @@
 import React from "react";
-import { Navbar } from "../components/Navbar";
-import { Hero } from "../components/Hero ";
-import { ExploreDescription } from "../components/ExploreDescription";
+import Navbar from "../components/Navbar";
+import Hero  from "../features/mtb/Hero ";
+import { ExploreDescription } from "../features/mtb/ExploreDescription";
 import { Footer } from "../components/Footer";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 export const ExploreRwanda = () => {
   return (
-    <div className="bg-white text-gray-800">
-      {/* Top Navigation */}
+    <div className="bg-white text-slate-900">
       <Navbar />
-
-      {/* Hero Section */}
       <Hero />
 
-      {/* Introduction Section */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-6">
-          Explore Rwanda: A Land of Wonders
-        </h1>
-        <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-          Known as the "Land of a Thousand Hills", Rwanda boasts breathtaking landscapes,
-          unique wildlife, and rich cultural traditions. Whether you’re seeking thrilling
-          adventure or peaceful nature, Rwanda offers an unforgettable experience.
+      {/* Introduction */}
+      <section className="max-w-4xl mx-auto px-6 py-24 text-center">
+        <motion.h2 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="text-4xl md:text-6xl font-black tracking-tighter leading-tight mb-8"
+        >
+          A Land of <span className="italic text-blue-600">Wonders.</span>
+        </motion.h2>
+        <p className="text-xl text-slate-500 font-medium leading-relaxed">
+          Rwanda boasts breathtaking landscapes, unique wildlife, and rich cultural traditions. 
+          Whether you’re seeking a high-altitude physical test or peaceful natural serenity, 
+          Ibirwa offers an expedition that transforms.
         </p>
       </section>
 
-      {/* Explore Description Section */}
-      <section className="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      {/* Main Content Section */}
+      <div className="bg-slate-50/50">
         <ExploreDescription />
-      </section>
+      </div>
 
-      {/* book you adventure */}
-      <div className="text-center mt-10 py-12">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">
-          Ready to Book Your Adventure?
+      {/* Final CTA Section */}
+      <div className="py-32 px-6 flex flex-col items-center justify-center text-center bg-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-blue-50/30 -z-10" />
+        <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
+          Ready for the <br /> <span className="text-blue-600">Next Peak?</span>
         </h2>
-        <p className="text-lg text-gray-600 mb-6">
-          Join us for an unforgettable journey through Rwanda’s stunning landscapes and vibrant culture.
+        <p className="text-lg text-slate-500 mb-10 max-w-md font-medium">
+          Join our elite team for an unforgettable journey through the heart of Africa.
         </p>
 
-        <a href="/" className="inline-block bg-black text-white px-6 py-3 rounded-lg shadow hover:bg-gray-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white ">
+        <a 
+          href="/contact" 
+          className="group flex items-center gap-3 bg-slate-900 text-white px-10 py-5 rounded-[2rem] font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-2xl shadow-slate-200"
+        >
           Book Your Adventure
+          <ArrowRight className="group-hover:translate-x-2 transition-transform" />
         </a>
       </div>
 
-
-      {/* Footer Section */}
       <Footer />
     </div>
   );

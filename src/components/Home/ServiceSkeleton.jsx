@@ -1,13 +1,21 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 
-function ServiceSkeleton({index}) {
+function ServiceSkeleton() {
   return (
-    <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-lg">
-      <Skeleton height={192} className="rounded-lg" />
-      <Skeleton height={24} width={`80%`} className="mt-4" />
-      <Skeleton height={16} width={`60%`} className="mt-2" />
-      <Skeleton height={16} width={`40%`} className="mt-2" />
+    <div className="bg-white p-0 rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+      {/* Aspect ratio box for image */}
+      <div className="aspect-[4/3]">
+        <Skeleton height="100%" borderRadius={0} />
+      </div>
+      <div className="p-6">
+        <Skeleton width="30%" height={12} className="mb-3" />
+        <Skeleton width="80%" height={24} className="mb-4" />
+        <Skeleton count={3} height={14} className="mb-2" />
+        <div className="mt-4 pt-4 border-t border-gray-50">
+           <Skeleton width="40%" height={20} />
+        </div>
+      </div>
     </div>
   );
 }

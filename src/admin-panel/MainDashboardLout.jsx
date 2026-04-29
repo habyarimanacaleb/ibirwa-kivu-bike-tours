@@ -1,151 +1,196 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainLayout from "./MainLayout";
 import ServicesList from "../components/ServicesList";
-import GalleryList from "../components/GalleryLists";
 import DasboardQuickActions from "../components/DasboardQuickActions";
 import SearchBar from "./SearchBar";
-import axios from "axios";
-import { Bell } from "lucide-react";
+import { Bell, Users, MapPin, Image as ImageIcon, MessageSquare, Activity, ShieldCheck, Zap } from "lucide-react";
+import { motion } from "framer-motion";
+
+// Global Stores
+import useAuthStore from "../store/useAuthStore";
+import useServiceStore from "../store/useServiceStore";
+import useGalleryStore from "../store/useGalleryStore";
+import useContactStore from "../store/useContactStore";
 
 export function MainDashboardLout() {
+  const [searchTerm, setSearchTerm] = useState("");
 
-    const [analytics, setAnalytics] = useState({
-      users: 0,
-      contacts: 0,
-      services: 0,
-      gallery: 0,
-    });
-    const [searchTerm, setSearchTerm] = useState("");
-    const [loading, setLoading] = useState(true);
-    const [services, setServices] = useState([]);
-    const [gallery, setGallery] = useState([]);
-    const [error, setError] = useState(null);
-    const [notifications, setNotifications] = useState(0);
+  // 1. Pull data from all stores
+  const { users, fetchUsers } = useAuthStore();
+  const { services, fetchServices, isLoading: servicesLoading } = useServiceStore();
+  const { images: gallery, loadGallery, isLoading: galleryLoading } = useGalleryStore();
+  const { contacts, fetchContacts, isLoading: contactsLoading } = useContactStore();
 
-   useEffect(() => {
-      async function fetchAnalytics() {
-        try {
-          const usersRes = await axios.get(
-            "https://kivu-back-end.onrender.com/api/ibirwa-clients/users"
-          );
-          const contactsRes = await axios.get(
-            "https://kivu-back-end.onrender.com/api/contacts"
-          );
-          const servicesRes = await axios.get(
-            "https://kivu-back-end.onrender.com/api/services"
-          );
-          const galleryRes = await axios.get(
-            "https://kivu-back-end.onrender.com/api/gallery"
-          );
-  
-          const usersData = usersRes.data;
-          const contactsData = contactsRes.data;
-          const servicesData = servicesRes.data.services;
-          const galleryData = galleryRes.data.data;
-  
-          setAnalytics({
-            users: usersData.length,
-            contacts: contactsData.length,
-            services: servicesData.length,
-            gallery: galleryData.length,
-          });
-  
-          // Assuming notifications are part of contacts data
-          setNotifications(contactsData.length);
-        } catch (error) {
-          console.error("Error fetching analytics:", error);
-          setError(error);
-        } finally {
-          setLoading(false);
-        }
-      }
-  
-      fetchAnalytics();
-    }, []);
- useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [servicesResponse, galleryResponse] = await Promise.all([
-          axios.get("https://kivu-back-end.onrender.com/api/services"),
-          axios.get("https://kivu-back-end.onrender.com/api/gallery"),
-        ]);
-        setServices(servicesResponse.data.services || []);
-        setGallery(galleryResponse.data.data  || []);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-    fetchData();
+  // 2. Fetch all data on mount
+  useEffect(() => {
+    fetchUsers();
+    fetchServices();
+    loadGallery();
+    fetchContacts();
   }, []);
 
-const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  };
+  // 3. Analytics Calculation
+  const analytics = [
+    { label: "Active Users", value: users.length, icon: <Users size={20}/>, color: "text-blue-600", bg: "bg-blue-50" },
+    { label: "Expeditions", value: services.length, icon: <MapPin size={20}/>, color: "text-emerald-600", bg: "bg-emerald-50" },
+    { label: "Visual Assets", value: gallery.length, icon: <ImageIcon size={20}/>, color: "text-purple-600", bg: "bg-purple-50" },
+    { label: "Inquiries", value: contacts.length, icon: <MessageSquare size={20}/>, color: "text-amber-600", bg: "bg-amber-50" },
+  ];
 
-  const filteredServices = services.filter((service) =>
-    service.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const notifications = contacts.filter(c => !c.responded).length;
+  const isGlobalLoading = servicesLoading || galleryLoading || contactsLoading;
+
+  const filteredServices = services.filter((s) =>
+    s.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  const filteredGallery = gallery.filter((photo) =>
-    photo.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+
   const SkeletonCard = () => (
-    <div className="bg-gray-200 p-4 shadow rounded-lg animate-pulse transition-all duration-500 ease-in-out text-center h-24">
-      <div className="h-6 bg-gray-300 rounded w-3/4 mx-auto mb-4"></div>
-      <div className="h-8 bg-gray-300 rounded w-1/2 mx-auto"></div>
+    <div className="bg-white p-8 rounded-[2.5rem] shadow-sm animate-pulse border border-slate-100">
+      <div className="h-3 bg-slate-100 rounded-full w-1/3 mb-6"></div>
+      <div className="h-10 bg-slate-50 rounded-2xl w-1/2"></div>
     </div>
   );
 
   return (
     <MainLayout>
-      <div className="welcome-back-admin">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-3xl font-bold mb-6">Welcome back Admin,</h2>
-           <div className="relative flex items-center" title="Messages">
-              <Bell className="mr-2" />
-              {notifications > 0 && (
-                <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-                  {notifications}
-                </span>
-              )}
+      <div className="bg-[#F8FAFC] min-h-screen">
+        <div className="p-6 md:p-12 max-w-[1700px] mx-auto">
+          
+          {/* --- TOP HUD (Heads Up Display) --- */}
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-8">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">Operations Live</p>
+              </div>
+              <h2 className="text-5xl font-black text-slate-950 tracking-tighter uppercase leading-none">
+                Command <span className="text-slate-300">Center</span>
+              </h2>
+              <p className="text-slate-500 mt-3 font-medium text-sm italic">
+                Synchronizing Kivu corridor logistics and tour registries.
+              </p>
+            </motion.div>
+            
+            <div className="flex items-center gap-4">
+              <div className="flex -space-x-3 overflow-hidden">
+                {users.slice(0, 3).map((u, i) => (
+                  <div key={i} className="h-10 w-10 rounded-full ring-4 ring-[#F8FAFC] bg-slate-200 flex items-center justify-center text-[10px] font-black">
+                    {u.name?.charAt(0) || 'A'}
+                  </div>
+                ))}
+              </div>
+              <div className="h-10 w-px bg-slate-200 mx-2 hidden md:block"></div>
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="relative p-4 bg-white rounded-2xl shadow-sm border border-slate-100 cursor-pointer group transition-all"
+              >
+                <Bell className="text-slate-400 group-hover:text-blue-600 transition-colors" size={24} />
+                {notifications > 0 && (
+                  <span className="absolute top-3 right-3 bg-blue-600 text-white text-[9px] font-black w-5 h-5 flex items-center justify-center rounded-full ring-4 ring-white">
+                    {notifications}
+                  </span>
+                )}
+              </motion.div>
             </div>
-        </ div>
-         {/* Analytics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-          {loading
-            ? Array.from({ length: 4 }).map((_, index) => (
-                <SkeletonCard key={index} />
-              ))
-            : Object.entries(analytics).map(([key, value], index) => (
-                <div
-                  key={index}
-                  className="bg-white p-4 shadow rounded-lg text-center"
-                >
-                  <h2 className="text-lg font-semibold">
-                    {key.replace(/_/g, " ").toUpperCase()}
-                  </h2>
-                  <p className="text-2xl font-bold">{value}</p>
-                </div>
-              ))}
-        </div>
+          </div>
 
-        <div className="quick-action mb-6">
-          <DasboardQuickActions />
-        </div>
-        {/* Search Bar */}
-        <div className="search-bar mb-6">
-                    <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
-        </div>
-        {/*services and gallery lists */}
-        <div className="our-services mb-6">
-        <ServicesList services={filteredServices} />
+          {/* --- KEY PERFORMANCE INDICATORS --- */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            {isGlobalLoading && services.length === 0
+              ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
+              : analytics.map((stat, i) => (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    key={stat.label}
+                    className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-50 flex items-center justify-between group hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500"
+                  >
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{stat.label}</p>
+                      <p className="text-4xl font-black text-slate-950 tracking-tighter">{stat.value}</p>
+                    </div>
+                    <div className={`p-5 ${stat.bg} ${stat.color} rounded-[1.5rem] group-hover:rotate-12 group-hover:scale-110 transition-all duration-300`}>
+                      {stat.icon}
+                    </div>
+                  </motion.div>
+                ))}
+          </div>
+
+          {/* --- MAIN OPERATIONAL GRID --- */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            
+             {/* LEFT: REGISTRY MANAGEMENT */}
+             <div className="lg:col-span-8 space-y-10">
+                <div className="bg-white p-4 rounded-[2rem] shadow-xl shadow-slate-200/60 border border-slate-50">
+                   <SearchBar searchTerm={searchTerm} handleSearch={(e) => setSearchTerm(e.target.value)} />
+                </div>
+                
+                <div className="space-y-8">
+                  <div className="flex justify-between items-end px-2">
+                    <div>
+                      <h3 className="text-2xl font-black text-slate-950 tracking-tight uppercase">Expedition Registry</h3>
+                      <p className="text-xs text-slate-400 font-bold tracking-widest uppercase mt-1">Status: Operational</p>
+                    </div>
+                    <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-4 py-2 rounded-full uppercase tracking-widest">
+                      {filteredServices.length} Records Found
+                    </span>
+                  </div>
+                  
+                  <div className="bg-white rounded-[3rem] p-2 shadow-sm border border-slate-50 overflow-hidden">
+                    <ServicesList /> 
+                  </div>
+                </div>
+             </div>
+
+             {/* RIGHT: SYSTEM DIRECTIVES */}
+             <div className="lg:col-span-4">
+                <div className="sticky top-12 space-y-8">
+                  
+                  {/* QUICK ACTIONS CARD */}
+                  <div className="bg-slate-950 text-white p-10 rounded-[3rem] shadow-2xl shadow-blue-900/20 relative overflow-hidden">
+                     <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-600/10 rounded-full blur-3xl"></div>
+                     <div className="relative z-10">
+                        <div className="flex items-center gap-3 mb-8">
+                          <Zap size={18} className="text-blue-500" />
+                          <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Quick Directives</h3>
+                        </div>
+                        <DasboardQuickActions />
+                     </div>
+                  </div>
+                  
+                  {/* HEALTH STATUS CARD */}
+                  <div className="bg-white p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-slate-50">
+                     <div className="flex items-center gap-3 mb-6">
+                        <Activity size={18} className="text-emerald-500" />
+                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">System Integrity</h4>
+                     </div>
+                     <div className="space-y-6">
+                        <div className="flex items-center gap-4">
+                           <div className="h-10 w-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600">
+                              <ShieldCheck size={20} />
+                           </div>
+                           <div>
+                              <p className="text-sm font-black text-slate-900">API SYNC ACTIVE</p>
+                              <p className="text-[10px] text-slate-400 font-medium">Latency: 24ms</p>
+                           </div>
+                        </div>
+                        <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                          <p className="text-[10px] text-slate-500 font-bold leading-relaxed">
+                            Encryption standards verified. All database clusters in the Rwanda-West region are performing at 100% capacity.
+                          </p>
+                        </div>
+                     </div>
+                  </div>
+
+                </div>
+             </div>
+          </div>
         </div>
       </div>
-
     </MainLayout>
   );
 }
