@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ArrowRight, MapPin } from "lucide-react";
 
 const cardVariants = {
@@ -56,13 +56,13 @@ const ServiceCard = ({ service, index }) => {
         </p>
 
         <div className="mt-4 pt-4 border-t border-gray-50 flex items-center justify-between">
-          <Link
+          <NavLink
             to={`/service/${service._id}`}
             className="flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-green-600 transition-all group/btn"
           >
             Explore Experience
             <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
-          </Link>
+          </NavLink>
         </div>
       </div>
     </motion.div>

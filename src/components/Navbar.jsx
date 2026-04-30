@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { NavHashLink } from "react-router-hash-link";
-import { motion, AnimatePresence } from "framer-motion"; // For modern animations
-import { HiMenuAlt3, HiX } from "react-icons/hi"; // More modern icons
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { HiMenuAlt3, HiX } from "react-icons/hi";
 import { FaUserCircle } from "react-icons/fa";
 import { DropdownMenu } from "./dropdawn/DropdownMenu";
 import useAuthStore from "../store/useAuthStore";
@@ -11,15 +10,31 @@ export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { currentUser, logout } = useAuthStore();
 
-  // Handle body scroll lock & navbar background transition
+  // 1. Handle Scroll Effect for Navbar styling
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     document.body.style.overflow = isOpen ? "hidden" : "auto";
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isOpen]);
+
+  // 2. THE FIX FOR SERVICE DETAIL: Use useEffect to handle hash scrolling 
+  // This prevents the infinite re-render loop by letting the Router finish its job first.
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+        // Delay slightly to ensure the DOM is ready
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [location]);
 
   const closeMenu = () => setIsOpen(false);
 
@@ -31,143 +46,115 @@ export const Navbar = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Our Story", path: "/#our-story" },
-    { name: "About Us", path: "/about" },
-    { name: "Tour Info", path: "/#tour-information" },
+    { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
+    { name: "Our Story", path: "/#our-story" },
+    { name: "Tour Info", path: "/#tour-information" },
   ];
 
   return (
     <>
-      <nav 
+      <nav
         className={`fixed w-full top-0 left-0 z-[60] transition-all duration-500 flex items-center ${
-          scrolled || isOpen 
-            ? "h-20 bg-black/90 backdrop-blur-md shadow-lg" 
+          scrolled || isOpen
+            ? "h-20 bg-black/95 backdrop-blur-lg shadow-2xl border-b border-white/5"
             : "h-24 bg-transparent"
         }`}
       >
         <div className="container mx-auto flex justify-between items-center px-6">
-          
-          {/* Logo Section */}
-          <div
-            className="cursor-pointer flex items-center gap-3 z-[70]"
-            onClick={() => { navigate("/"); closeMenu(); }}
-          >
-            <img
+          <NavLink to="/" className="flex items-center gap-4 z-[70]" onClick={closeMenu}>
+            <motion.img
+              whileHover={{ scale: 1.1, rotate: -5 }}
               src="/kivu-image/bt-logo-52.png"
               alt="Kivu Logo"
               className={`${scrolled ? "h-12 w-12" : "h-16 w-16"} transition-all duration-500`}
             />
-            <div className="text-white text-xs font-black flex flex-col uppercase tracking-tighter leading-none">
-              <span className="text-lg">Ibirwa Kivu Bike Tours</span>
-              <span className="text-yellow-500 italic uppercase">We travel in comfort</span>
+            <div className="text-white flex flex-col uppercase leading-none">
+              <span className="text-xl font-black tracking-tighter">Ibirwa Kivu</span>
+              <span className="text-[10px] text-yellow-500 font-bold tracking-[0.3em]">Bike Tours</span>
+            </div>
+          </NavLink>
+
+          <div className="hidden md:flex items-center gap-2">
+            <ul className="flex items-center space-x-1 font-bold text-[12px] uppercase tracking-widest text-white/70">
+              {navLinks.map((link) => {
+                // Check if link is active (considering both path and hash)
+                const isCurrent =
+                  location.pathname + location.hash === link.path ||
+                  (link.path === "/" && location.pathname === "/");
+
+                return (
+                  <li key={link.name} className="relative">
+                    <NavLink
+                      to={link.path}
+                      onClick={closeMenu}
+                      // Using the function version of className to avoid passing isActive to DOM
+                      className={() => `relative z-10 px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500 ${
+                        isCurrent ? "text-black" : "text-white/70 hover:text-white hover:scale-110"
+                      }`}
+                    >
+                      {link.name}
+                      {isCurrent && (
+                        <motion.span
+                          layoutId="activeBackground"
+                          className="absolute inset-0 bg-yellow-500 rounded-full -z-10"
+                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        />
+                      )}
+                    </NavLink>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <div className="flex items-center gap-4 ml-6 pl-6 border-l border-white/10">
+              <DropdownMenu closeMenu={closeMenu} />
+              {currentUser ? (
+                <div className="flex items-center gap-4">
+                  <motion.div
+                    whileHover={{ y: -2 }}
+                    className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-xl border border-white/10"
+                  >
+                    <FaUserCircle className="text-yellow-500" size={18} />
+                    <NavLink to={currentUser.role === "admin" ? "/admin-panel" : "/gallery"} className="text-[10px] text-white font-black">
+                      {currentUser.username}
+                    </NavLink>
+                  </motion.div>
+                  <button onClick={handleLogout} className="text-red-500 text-[10px] font-black uppercase hover:text-red-400">Exit</button>
+                </div>
+              ) : (
+                <NavLink to="/join" className="bg-white text-black px-6 py-2.5 rounded-full font-black text-[11px] hover:bg-yellow-500 transition-colors">
+                  Get Started
+                </NavLink>
+              )}
             </div>
           </div>
 
-          {/* Desktop Navigation */}
-          <ul className="hidden md:flex items-center space-x-8 font-bold text-sm uppercase tracking-widest text-white/90">
-            {navLinks.map((link) => (
-              <li key={link.name}>
-                <NavHashLink
-                  smooth
-                  to={link.path}
-                  className="hover:text-yellow-400 transition-colors duration-300"
-                >
-                  {link.name}
-                </NavHashLink>
-              </li>
-            ))}
-            
-            <li className="flex items-center gap-1 group">
-              <DropdownMenu closeMenu={closeMenu} />
-            </li>
-
-            {/* Desktop Auth */}
-            {currentUser ? (
-              <li className="flex items-center gap-4 pl-4 border-l border-white/20">
-                <NavLink
-                  to={currentUser.role === "admin" ? "/admin-panel" : "/gallery"}
-                  className="text-yellow-400 flex items-center gap-2 hover:scale-105 transition-transform"
-                >
-                  <FaUserCircle size={20} /> <span className="hidden lg:block">{currentUser.username}</span>
-                </NavLink>
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-600/20 text-red-500 border border-red-600/50 px-4 py-1.5 rounded text-xs uppercase font-black hover:bg-red-600 hover:text-white transition-all"
-                >
-                  Logout
-                </button>
-              </li>
-            ) : (
-              <li>
-                <NavLink
-                  to="/join"
-                  className="bg-yellow-500 text-black px-6 py-2.5 rounded font-black hover:bg-white transition-all shadow-lg active:scale-95"
-                >
-                  Sign Up
-                </NavLink>
-              </li>
-            )}
-          </ul>
-
-          {/* Mobile Toggle Button */}
-          <button
-            className="md:hidden text-yellow-500 text-3xl z-[70] focus:outline-none"
-            onClick={() => setIsOpen(!isOpen)}
-          >
+          <button className="md:hidden text-yellow-500 text-3xl z-[70] p-2" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <HiX /> : <HiMenuAlt3 />}
           </button>
         </div>
       </nav>
 
-      {/* Modern Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-black z-[55] flex flex-col pt-32 px-10"
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            className="fixed inset-0 bg-black/95 z-[55] flex flex-col justify-center items-center p-10 text-center"
           >
-            <div className="flex flex-col space-y-8">
-              {navLinks.map((link, idx) => (
-                <motion.div
+            <div className="flex flex-col space-y-6 w-full max-w-sm">
+              {navLinks.map((link) => (
+                <NavLink
                   key={link.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
+                  to={link.path}
+                  onClick={closeMenu}
+                  className="text-5xl font-black text-white hover:text-yellow-500 transition-colors uppercase tracking-tighter"
                 >
-                  <NavHashLink
-                    smooth
-                    to={link.path}
-                    onClick={closeMenu}
-                    className="text-4xl font-black text-white hover:text-yellow-500 transition-colors uppercase tracking-tighter"
-                  >
-                    {link.name}
-                  </NavHashLink>
-                </motion.div>
+                  {link.name}
+                </NavLink>
               ))}
-              
-              <div className="h-px bg-white/10 w-full my-4" />
-              
-              <div className="flex flex-col gap-6">
-                 <div className="flex items-center gap-4 text-2xl font-bold text-white">
-                    <span>Explore Services</span>
-                    <DropdownMenu closeMenu={closeMenu} />
-                 </div>
-                 
-                 {currentUser ? (
-                    <div className="flex flex-col gap-4">
-                        <NavLink to="/admin-panel" onClick={closeMenu} className="text-yellow-400 text-xl font-bold uppercase">Dashboard</NavLink>
-                        <button onClick={handleLogout} className="text-left text-red-500 text-xl font-bold uppercase">Logout</button>
-                    </div>
-                 ) : (
-                    <NavLink to="/join" onClick={closeMenu} className="bg-yellow-500 text-black text-center py-4 rounded-xl text-xl font-black uppercase">
-                      Join the Adventure
-                    </NavLink>
-                 )}
-              </div>
             </div>
           </motion.div>
         )}

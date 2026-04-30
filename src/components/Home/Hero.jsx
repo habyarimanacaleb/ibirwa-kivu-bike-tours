@@ -22,6 +22,7 @@ const PrevArrow = memo(({ onClick }) => (
   </button>
 ));
 
+
 function Hero() {
   const { images, isLoading, loadGallery } = useGalleryStore();
   const prefersReducedMotion = useReducedMotion();
@@ -44,9 +45,11 @@ function Hero() {
   };
 
   if (isLoading) return <HeroSkeleton />;
+ 
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
+      {images.length ===0 ? <div className="h-screen w-full bg-black/85 flex justify-center items-center">No gallery availabel yet. Check your network and try again</div> : 
       <Slider {...settings}>
         {images.map((item, index) => (
           <div key={item._id || index} className="relative h-screen">
@@ -90,7 +93,7 @@ function Hero() {
           </div>
         ))}
       </Slider>
-      
+      }
       {/* Badge */}
       <div className="absolute top-25 lg:top-40 left-1/2 -translate-x-1/2 z-20">
         <span className="bg-white/20 backdrop-blur-sm border border-white/30 text-white px-6 py-1 rounded-full text-sm font-medium">
