@@ -31,9 +31,9 @@ The main app focuses on delivering a smooth, user-friendly experience for end-us
 
 ### Architecture
 
-- **Frontend:** React.js SPA with modular components and client-side routing.  
+- **Frontend:** React.js Vite + Taiwind CSS with modular components and client-side routing.  
 - **Backend:** RESTful API server (Node.js/Express), providing endpoints for users, services, gallery, bookings, and contacts.  
-- **State Management:** React Hooks and Context API (if needed).  
+- **State Management:** React Hooks and Zustand global state management tool.  
 - **Styling:** Tailwind CSS for utility-first styling and responsive design.  
 - **Routing:** React Router for frontend navigation.  
 - **Authentication:** JWT-based authentication for admin routes (planned/implemented).  
