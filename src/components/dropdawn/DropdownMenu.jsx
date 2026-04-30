@@ -40,9 +40,10 @@ export const DropdownMenu = ({ closeMenu }) => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 15, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10 }}
+            transition={{ type: "spring", damping: 20, stiffness: 300 }}
             className="absolute left-1/2 -translate-x-1/2 md:left-auto md:right-0 mt-4 w-[90vw] md:w-[600px] bg-black/95 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl z-50 overflow-hidden"
           >
             <div className="p-6">

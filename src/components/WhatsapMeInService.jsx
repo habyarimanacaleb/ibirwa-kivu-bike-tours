@@ -5,7 +5,7 @@ import { FaWhatsapp } from "react-icons/fa";
 const WhatsAppChat = ({introMessage}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { text: `👋 Hi there! what we assist you on '${introMessage}' Service?`, sender: "bot" },
+    { text: `👋 Hi there! what can we assist on '${introMessage}' Service?`, sender: "bot" },
   ]);
   const [input, setInput] = useState("");
   const chatEndRef = useRef(null);
@@ -33,7 +33,7 @@ const WhatsAppChat = ({introMessage}) => {
 
   return (
     <>
-      <div className="fixed bottom-10 right-4 z-50" role="button" aria-braillelabel="Open chat">
+      <div className="fixed bottom-10 right-4 z-50" role="button"  aria-label={`Chat about ${introMessage}`}>
         <button
           onClick={toggleChat}
           className="bg-[#45e367] p-3 rounded-full shadow-lg hover:bg-[#20b359] transition"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import homeBg from "../assets/css/Home.module.css";
 import Services from "../components/Services";
 import { Footer } from "../components/Footer";
@@ -8,14 +8,12 @@ import WhatsAppChat from "../components/WhatsAppChat";
 import Navbar from "../components/Navbar";
 import GoogleReviews from "../components/GoogleReviewWidget";
 import Hero from "../components/Home/Hero";
-// import About from "../components/Home/About";
 import MountainBikingSection from "../components/Home/MountainBikingSection";
 import Contact from "../components/Home/Contact";
 import OurStory from "../features/home/OurStory";
 import Review from "../features/home/Review";
 
 export const Home = () => {
-  const [loading, setLoading] = useState(false);
   return (
     <>
       <Navbar />
@@ -23,12 +21,12 @@ export const Home = () => {
       <main className="bg-gray-200">
         {/*Hero section*/}
         <section className="relative home-hello-section h-auto pb-6 text-white">
-          <Hero loading={loading} setLoading={setLoading} />
+          <Hero  />
         </section>
         <section id="inquiry" className="fade-in mb-6">
           <TourInquiryForm />
         </section>
-        <section id="our-story" className="fade-in mb-6">
+        <section id="our-story" className="fade-in">
           <OurStory />
         </section>
         {/*Services section*/}
@@ -91,7 +89,7 @@ export const Home = () => {
         </section>
 
         {/*Review From GoogleMap section sectio*/}
-        <section className="fade-in mb-6">
+        <section className="fade-in">
           <Review />
         </section>
         <ChevronButton />
