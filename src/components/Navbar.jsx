@@ -171,11 +171,10 @@ export const Navbar = () => {
                   <button onClick={handleLogout} className="text-red-500 text-[10px] font-black uppercase hover:text-red-400">Exit</button>
                 </div>
               ) : (
-                <NavLink to="/join" className="bg-white text-black px-6 py-2.5 rounded-full font-black text-md hover:bg-yellow-500 transition-colors">
+                <NavLink to="/join" className="bg-white text-black px-6 py-2.5 rounded-full font-black text-4xl hover:bg-yellow-500 transition-colors">
                   Sign In
                 </NavLink>
               )}
-              <DropdownMenu closeMenu={closeMenu} />
             </div>
           </motion.div>
         )}
