@@ -89,7 +89,7 @@ export const Navbar = () => {
                       to={link.path}
                       onClick={closeMenu}
                       // Using the function version of className to avoid passing isActive to DOM
-                      className={() => `relative z-10 px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500 ${
+                      className={() => `relative z-10 px-4 py-2 text-md font-black uppercase tracking-[0.2em] transition-all duration-500 ${
                         isCurrent ? "text-black" : "text-white/70 hover:text-white hover:scale-110"
                       }`}
                     >
@@ -123,8 +123,8 @@ export const Navbar = () => {
                   <button onClick={handleLogout} className="text-red-500 text-[10px] font-black uppercase hover:text-red-400">Exit</button>
                 </div>
               ) : (
-                <NavLink to="/join" className="bg-white text-black px-6 py-2.5 rounded-full font-black text-[11px] hover:bg-yellow-500 transition-colors">
-                  Get Started
+                <NavLink to="/join" className="bg-white text-black px-6 py-1 uppercase rounded-full font-black text-md hover:bg-yellow-500 transition-colors">
+                  Sign In
                 </NavLink>
               )}
             </div>
@@ -155,6 +155,27 @@ export const Navbar = () => {
                   {link.name}
                 </NavLink>
               ))}
+            </div>
+            <div className="flex justify-center items-center w-full gap-4 mt-6 border-white/10">
+              {currentUser ? (
+                <div className="flex items-center gap-4">
+                  <motion.div
+                    whileHover={{ y: -2 }}
+                    className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-xl border border-white/10"
+                  >
+                    <FaUserCircle className="text-yellow-500" size={18} />
+                    <NavLink to={currentUser.role === "admin" ? "/admin-panel" : "/gallery"} className="text-[10px] text-white font-black">
+                      {currentUser.username}
+                    </NavLink>
+                  </motion.div>
+                  <button onClick={handleLogout} className="text-red-500 text-[10px] font-black uppercase hover:text-red-400">Exit</button>
+                </div>
+              ) : (
+                <NavLink to="/join" className="bg-white text-black px-6 py-2.5 rounded-full font-black text-md hover:bg-yellow-500 transition-colors">
+                  Sign In
+                </NavLink>
+              )}
+              <DropdownMenu closeMenu={closeMenu} />
             </div>
           </motion.div>
         )}
