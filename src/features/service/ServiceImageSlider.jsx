@@ -10,7 +10,7 @@ import 'swiper/css/pagination';
 export const ServiceImageSlider = ({ images }) => {
   const [fullScreenImage, setFullScreenImage] = useState(null);
   return (
-    <section className="relative w-full overflow-hidden rounded-3xl">
+    <section className="relative w-full overflow-hidden rounded-2xl">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={1}

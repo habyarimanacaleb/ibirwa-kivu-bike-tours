@@ -29,12 +29,8 @@ export const DropdownMenu = ({ closeMenu }) => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 text-white text-sm uppercase hover:text-yellow-400 transition-all font-bold py-2"
       >
-        <span>
-          Services
-        </span>
-        <FaChevronDown
-          className={`text-sm transition-transform ${isOpen ? "rotate-180" : ""}`}
-        />
+        <span>Services</span>
+        <FaChevronDown className={`text-sm transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
       <AnimatePresence>
@@ -44,14 +40,14 @@ export const DropdownMenu = ({ closeMenu }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ type: "spring", damping: 20, stiffness: 300 }}
-            className="absolute left-1/2 -translate-x-1/2 md:left-auto md:right-0 mt-4 w-[90vw] md:w-[600px] bg-black/95 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl z-50 overflow-hidden"
+            // UPDATED CLASSES BELOW:
+            className="absolute left-1/2 -translate-x-1/2 mt-4 w-[90vw] md:w-[600px] max-h-[80vh] overflow-y-auto scrollbar-hide bg-black/95 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl z-50"
           >
             <div className="p-6">
               <div className="flex justify-between items-center mb-4 px-2">
                 <h3 className="text-yellow-500 text-[10px] uppercase tracking-[0.2em] font-black">
                   Top Tours
                 </h3>
-                {/* Explore All Link */}
                 <button
                   onClick={() => {
                     navigate("/services");
@@ -97,7 +93,7 @@ export const DropdownMenu = ({ closeMenu }) => {
                     setIsOpen(false);
                     closeMenu();
                   }}
-                  className="w-full bg-yellow-500 text-black py-3 rounded-xl font-bold text-sm"
+                  className="w-full bg-yellow-500 text-black py-3 rounded-xl font-black text-sm"
                 >
                   See All Experiences
                 </button>

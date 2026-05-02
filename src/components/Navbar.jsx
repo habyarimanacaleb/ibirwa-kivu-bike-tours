@@ -176,6 +176,7 @@ export const Navbar = () => {
                 </NavLink>
               )}
             </div>
+            {/* <DropdownMenu closeMenu={closeMenu} /> */}
           </motion.div>
         )}
       </AnimatePresence>

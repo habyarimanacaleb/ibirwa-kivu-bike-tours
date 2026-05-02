@@ -267,7 +267,7 @@ const sliderImages = useMemo(() => {
         {/* Replace your static hero image or add this section below your header */}
 <section className="my-12 px-4 md:px-0">
   <div className="max-w-4xl mx-auto">
-    <h3 className="text-sm font-black text-blue-600 uppercase tracking-[0.3em] mb-6">
+    <h3 className="text-5xl w-40 font-black text-blue-600 uppercase tracking-[0.3em] mb-6">
       Expedition Gallery
     </h3>
     

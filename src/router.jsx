@@ -22,7 +22,7 @@ import TourInquiriesDashboard from "./admin-panel/TourInquiriesDashboard";
 import AdminSettings from "./admin-panel/Settings";
 import GalleryList from "./components/GalleryLists";
 import SingleGalleryView from "./admin-dashboard/SingleGalleryView";
-import { MainDashboardLout } from "./admin-panel/MainDashboardLout";
+import MainDashboardLout from "./admin-panel/MainDashboardLout";
 import GalleryPage from "./pages/GalleryPage";
 import DashboardReviews from "./admin-panel/DashboardReviews";
 import ServicesListPage from "./pages/ServicesPage";
