@@ -128,21 +128,14 @@ function MainDashboardLayout() {
                 </div>
 
                 {/* --- OPERATIONAL GRID --- */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <div className="flex flex-col px-10 mx-auto">
+                  <DasboardQuickActions />
                   <div className="lg:col-span-8 space-y-10">
                     <div className="bg-white p-4 rounded-[2rem] shadow-xl shadow-slate-200/60 border border-slate-50">
                       <SearchBar searchTerm={searchTerm} handleSearch={(e) => setSearchTerm(e.target.value)} />
                     </div>
                     <div className="bg-white rounded-[3rem] p-2 shadow-sm border border-slate-50">
                       <ServicesList /> 
-                    </div>
-                  </div>
-                  
-                  <div className="lg:col-span-4">
-                    <div className="sticky top-12 space-y-8">
-                      <div className="bg-slate-950 text-white p-10 rounded-[3rem] shadow-2xl">
-                        <DasboardQuickActions />
-                      </div>
                     </div>
                   </div>
                 </div>
