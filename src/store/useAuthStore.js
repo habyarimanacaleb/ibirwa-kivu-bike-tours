@@ -59,10 +59,29 @@ const useAuthStore = create(
           set({ isLoading: true });
 
           try {
-            const res = await axios.get("/api/ibirwa-clients/users");
+            const res = await axios.get(`${API_BASE}/users`);
             set({ users: res.data, isLoading: false });
           } catch (error) {
             set({ isLoading: false, error: error.message });
+          }
+        },
+
+        adminRegisterUser: async (userData) => {
+          set({ loading: true, error: null }, false, "admin_register_start");
+          try {
+            // Make sure this endpoint matches your backend route
+            await axios.post(`${API_BASE}/admin/register`, userData);
+
+            set({ loading: false }, false, "admin_register_success");
+            return { success: true };
+          } catch (err) {
+            const errMsg = err.response?.data?.message || "Registration failed";
+            set(
+              { error: errMsg, loading: false },
+              false,
+              "admin_register_error",
+            );
+            return { success: false, message: errMsg };
           }
         },
 
@@ -126,15 +145,21 @@ const useAuthStore = create(
             console.error("Block action failed", err);
           }
         },
-
         deleteUser: async (userId) => {
+          set({ loading: true, error: null });
           try {
+            // Just use axios normally now! The interceptor adds the token.
             await axios.delete(`${API_BASE}/user/${userId}`);
+
             set((state) => ({
               users: state.users.filter((u) => u._id !== userId),
+              loading: false,
             }));
+            return { success: true };
           } catch (err) {
-            console.error("Delete failed", err);
+            console.error("Delete failed:", err);
+            set({ error: "Failed to delete user", loading: false });
+            return { success: false };
           }
         },
       }),

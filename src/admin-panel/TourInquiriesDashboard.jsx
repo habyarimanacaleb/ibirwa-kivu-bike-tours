@@ -1,25 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { Mail, Users, Calendar, MapPin, Send, Trash2, MessageSquare, CheckCircle, Plane, Briefcase, Clock } from "lucide-react";
+import React, { useEffect } from "react";
+import { Users, Calendar, MapPin, Send, Trash2, MessageSquare, CheckCircle, Plane, Briefcase, Clock } from "lucide-react";
 import useInquiryStore from "../store/useInquiryStore";
 import MainLayout from "./MainLayout";
 import { motion, AnimatePresence } from "framer-motion";
 
 const TourInquiriesDashboard = () => {
-  const { inquiries, isLoading, fetchInquiries, deleteInquiry, respondToInquiry } = useInquiryStore();
-  const [selectedInquiry, setSelectedInquiry] = useState(null);
-  const [responseMsg, setResponseMsg] = useState("");
+  // Pull state and actions directly from the store
+  const { 
+    inquiries, 
+    isLoading, 
+    selectedInquiry, 
+    responseMessage,
+    fetchInquiries, 
+    handleDelete, 
+    handleRespond,
+    setSelectedInquiry,
+    setResponseMessage
+  } = useInquiryStore();
 
   useEffect(() => {
     fetchInquiries();
   }, [fetchInquiries]);
 
+  // Handler for sending responses
   const handleSendResponse = async () => {
-    if (!responseMsg.trim()) return;
-    const success = await respondToInquiry(selectedInquiry._id, responseMsg);
-    if (success) {
-      setResponseMsg("");
-      setSelectedInquiry(null);
-    }
+    // Validation and API logic are handled within the store's handleRespond
+    await handleRespond(selectedInquiry._id);
   };
 
   return (
@@ -29,7 +35,7 @@ const TourInquiriesDashboard = () => {
         {/* --- DYNAMIC HEADER --- */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12 gap-8">
           <div>
-            <h1 className="text-5xl font-black tracking-tight text-white mb-2 bg-gradient-to-r from-white to-slate-500 bg-clip-text hover:bg-gradient-to-l transition-all duration-500 hover:text-transparent">
+            <h1 className="text-5xl font-black tracking-tight text-white mb-2 bg-gradient-to-r from-white to-slate-500 bg-clip-text">
               Expedition Inbox
             </h1>
             <p className="text-slate-500 font-medium text-lg italic font-serif">Curating journeys across Lake Kivu and beyond.</p>
@@ -41,7 +47,10 @@ const TourInquiriesDashboard = () => {
           </div>
         </div>
 
-        {!isLoading && inquiries.length === 0 ? (
+        {/* --- MAIN CONTENT --- */}
+        {isLoading && inquiries.length === 0 ? (
+           <div className="text-center py-20 text-slate-500">Loading expeditions...</div>
+        ) : inquiries.length === 0 ? (
           <motion.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             className="flex flex-col items-center justify-center py-32 bg-slate-900/20 rounded-[3rem] border border-slate-800/50 backdrop-blur-sm"
@@ -69,7 +78,6 @@ const TourInquiriesDashboard = () => {
                     : "bg-slate-900/40 border-slate-800/50 hover:border-slate-700 hover:bg-slate-900/60 shadow-xl"
                   }`}
                 >
-                  {/* Subtle Glow Background */}
                   {selectedInquiry?._id === item._id && (
                     <div className="absolute -right-20 -top-20 w-48 h-48 bg-blue-500/10 blur-[80px] rounded-full pointer-events-none" />
                   )}
@@ -101,14 +109,14 @@ const TourInquiriesDashboard = () => {
                              <CheckCircle className="text-emerald-500" size={24} />
                              <span className="text-[9px] font-black uppercase text-emerald-500">Done</span>
                           </div>
-                       ) : (
+                        ) : (
                           <div className="flex flex-col items-center gap-1 animate-pulse">
                              <div className="w-3 h-3 bg-orange-500 rounded-full" />
                              <span className="text-[9px] font-black uppercase text-orange-500">New</span>
                           </div>
                        )}
                        <button 
-                        onClick={(e) => { e.stopPropagation(); deleteInquiry(item._id); }}
+                        onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}
                         className="p-3 bg-slate-800 hover:bg-red-500/20 hover:text-red-500 rounded-2xl transition-all"
                        >
                         <Trash2 size={18} />
@@ -129,7 +137,6 @@ const TourInquiriesDashboard = () => {
                     exit={{ opacity: 0, scale: 0.95 }}
                     className="sticky top-10 bg-[#0F172A] border border-slate-800 p-10 rounded-[3.5rem] shadow-2xl overflow-hidden"
                   >
-                    {/* Glass Overlay Effect */}
                     <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none" />
 
                     <div className="relative z-10">
@@ -137,30 +144,25 @@ const TourInquiriesDashboard = () => {
                       <p className="text-sm text-blue-400 font-bold mb-8 uppercase tracking-widest">Client: {selectedInquiry.name}</p>
                       
                       <div className="space-y-6">
-                        <div className="relative">
-                          <textarea
-                            value={responseMsg}
-                            onChange={(e) => setResponseMsg(e.target.value)}
-                            placeholder="Describe the itinerary and pricing..."
-                            className="w-full h-64 bg-slate-900/50 border-2 border-slate-800 rounded-[2rem] p-6 text-white focus:border-blue-500 outline-none resize-none transition-all placeholder:text-slate-600 font-medium"
-                          />
-                        </div>
-
-                        <div className="flex flex-col gap-3">
-                          <button
-                            onClick={handleSendResponse}
-                            disabled={isLoading || !responseMsg.trim()}
-                            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-5 rounded-[2rem] flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 disabled:opacity-30 uppercase tracking-widest text-xs"
-                          >
-                            {isLoading ? "Broadcasting..." : <>Dispatch Proposal <Send size={16} /></>}
-                          </button>
-                          <button
-                            onClick={() => setSelectedInquiry(null)}
-                            className="w-full text-slate-500 text-xs font-bold hover:text-white uppercase tracking-widest py-3"
-                          >
-                            Exit Console
-                          </button>
-                        </div>
+                        <textarea
+                          value={responseMessage}
+                          onChange={(e) => setResponseMessage(e.target.value)}
+                          placeholder="Describe the itinerary and pricing..."
+                          className="w-full h-64 bg-slate-900/50 border-2 border-slate-800 rounded-[2rem] p-6 text-white focus:border-blue-500 outline-none resize-none transition-all placeholder:text-slate-600 font-medium"
+                        />
+                        <button
+                          onClick={handleSendResponse}
+                          disabled={isLoading || !responseMessage.trim()}
+                          className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-5 rounded-[2rem] flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 disabled:opacity-30 uppercase tracking-widest text-xs"
+                        >
+                          {isLoading ? "Broadcasting..." : <>Dispatch Proposal <Send size={16} /></>}
+                        </button>
+                        <button
+                          onClick={() => setSelectedInquiry(null)}
+                          className="w-full text-slate-500 text-xs font-bold hover:text-white uppercase tracking-widest py-3"
+                        >
+                          Exit Console
+                        </button>
                       </div>
                     </div>
                   </motion.div>
@@ -177,15 +179,12 @@ const TourInquiriesDashboard = () => {
                 )}
               </AnimatePresence>
             </div>
-
           </div>
         )}
       </div>
     </MainLayout>
   );
 };
-
-// --- MODERN HELPER COMPONENTS ---
 
 const QuickStat = ({ icon, label, value, color, pulse }) => {
   const themes = {

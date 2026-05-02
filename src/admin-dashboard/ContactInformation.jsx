@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Mail, MessageSquare, CheckCircle, Trash2, Search, Calendar, User, ExternalLink } from "lucide-react";
+import { Mail, MessageSquare, CheckCircle, Trash2, Search, Calendar, User, ExternalLink, Send } from "lucide-react";
 import useContactStore from "../store/useContactStore";
 import MainLayout from "../admin-panel/MainLayout";
 import { motion, AnimatePresence } from "framer-motion";
-import { format } from "date-fns"; // Recommended for professional date handling
+import { format } from "date-fns";
 
 const ContactInformation = () => {
   const { contacts, isLoading, fetchContacts, respondToContact, deleteContact } = useContactStore();
@@ -12,11 +12,13 @@ const ContactInformation = () => {
   const [filter, setFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => { fetchContacts(); }, [fetchContacts]);
+  useEffect(() => { 
+    fetchContacts(); 
+  }, [fetchContacts]);
 
   const filteredContacts = contacts.filter(c => {
-    const matchesSearch = c.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          c.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = c.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          c.email?.toLowerCase().includes(searchTerm.toLowerCase());
     if (filter === "new") return !c.responded && matchesSearch;
     if (filter === "responded") return c.responded && matchesSearch;
     return matchesSearch;
@@ -24,11 +26,15 @@ const ContactInformation = () => {
 
   const handleResponseSubmit = async (e) => {
     e.preventDefault();
+    if (!selectedContact) return;
+
     const result = await respondToContact(selectedContact._id, responseMessage);
-    if (result.success) {
+    if (result?.success) {
       setResponseMessage("");
       setSelectedContact(null);
-      // Optional: Add a success toast call here
+      // Optional: Add a toast notification here
+    } else {
+      alert("Failed to send response. Please try again.");
     }
   };
 
@@ -49,7 +55,6 @@ const ContactInformation = () => {
             </div>
           </div>
           
-          {/* Actionable Stats */}
           <div className="flex gap-3 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0">
              <StatCard label="Total" count={contacts.length} color="slate" />
              <StatCard label="Pending" count={contacts.filter(c => !c.responded).length} color="orange" pulse />
@@ -62,7 +67,6 @@ const ContactInformation = () => {
           {/* --- MESSAGES SECTION --- */}
           <div className="xl:col-span-7 space-y-6">
             
-            {/* Search and Filters */}
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-grow group">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-blue-500 transition-colors" size={18} />
@@ -165,7 +169,6 @@ const ContactInformation = () => {
                     exit={{ opacity: 0, scale: 0.95 }}
                     className="bg-slate-900 rounded-[3rem] p-10 text-white shadow-2xl relative overflow-hidden"
                   >
-                    {/* Decorative Background Blob */}
                     <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-600/20 blur-[100px] rounded-full pointer-events-none" />
                     
                     <div className="relative z-10">
@@ -181,7 +184,7 @@ const ContactInformation = () => {
                             value={responseMessage}
                             onChange={(e) => setResponseMessage(e.target.value)}
                             className="w-full bg-slate-800/50 border-2 border-slate-800 focus:border-blue-500 p-6 rounded-3xl text-white min-h-[350px] resize-none transition-all placeholder:text-slate-600"
-                            placeholder={`Hi ${selectedContact.name.split(' ')[0]}, thank you for reaching out to Ibirwa Kivu...`}
+                            placeholder={`Hi ${selectedContact.name?.split(' ')[0] || ''}, thank you for reaching out...`}
                             required
                           />
                         </div>
@@ -223,7 +226,6 @@ const ContactInformation = () => {
   );
 };
 
-// Helper Component for Stats
 const StatCard = ({ label, count, color, pulse }) => {
   const colors = {
     slate: "text-slate-600 bg-slate-50",

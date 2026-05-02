@@ -1,96 +1,105 @@
-import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import { FaHome, FaTools, FaImages, FaBook, FaEnvelope, FaUsers, FaCog, FaSignOutAlt,FaStar, FaRegImages } from "react-icons/fa";
-import { FiMenu, FiX } from "react-icons/fi";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { 
+  LayoutDashboard, 
+  Wrench, 
+  Image, 
+  BookOpen, 
+  Mail, 
+  Users, 
+  Settings, 
+  LogOut, 
+  Star, 
+  Menu, 
+  X,
+  FileImage
+} from "lucide-react";
 
 export default function Sidebar() {
-    const [isOpen, setIsOpen] = useState(false);
-    const navigate = useNavigate();
-    const handleLogout = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
     localStorage.clear();
     sessionStorage.clear();
     navigate("/");
   };
-    return (
-        <>
-            {/* Mobile overlay */}
-            <div
-                className={`fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden ${isOpen ? "block" : "hidden"
-                    }`}
+
+  // Helper function to handle NavLink classes
+  const getLinkClass = ({ isActive }) =>
+    `flex items-center px-4 py-3 transition-colors duration-200 ${
+      isActive 
+        ? "bg-blue-600 text-white" 
+        : "text-slate-400 hover:text-white hover:bg-slate-700"
+    }`;
+
+  const navItems = [
+    { to: "/admin-panel", icon: <LayoutDashboard size={20} />, label: "Home" },
+    { to: "/create-service", icon: <Wrench size={20} />, label: "Create Service" },
+    { to: "/create-gallery", icon: <Image size={20} />, label: "Create Gallery" },
+    { to: "/admin-gallery-list", icon: <FileImage size={20} />, label: "Manage Gallery" },
+    { to: "/inquiries-information", icon: <BookOpen size={20} />, label: "View Bookings" },
+    { to: "/contact-information", icon: <Mail size={20} />, label: "View Messages" },
+    { to: "/admin-panel/reviews", icon: <Star size={20} />, label: "Reviews" },
+    { to: "/user-information", icon: <Users size={20} />, label: "Users/Clients" },
+    { to: "/admin-settings", icon: <Settings size={20} />, label: "Settings" },
+  ];
+
+  return (
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-20 md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Sidebar Container */}
+      <aside
+        className={`fixed top-0 left-0 h-full bg-slate-900 text-white w-64 transform transition-transform duration-300 z-30 shadow-2xl
+        ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static md:flex-shrink-0 flex flex-col`}
+      >
+        <div className="p-6 text-xl font-black uppercase tracking-widest text-blue-500 border-b border-slate-800">
+          Ibirwa Admin
+        </div>
+
+        <nav className="flex-grow mt-6">
+          <div className="flex flex-col">
+            {navItems.map((item) => (
+              <NavLink 
+                key={item.to} 
+                to={item.to} 
+                className={getLinkClass}
                 onClick={() => setIsOpen(false)}
-            ></div>
+              >
+                <span className="mr-3">{item.icon}</span>
+                <span className="text-sm font-medium">{item.label}</span>
+              </NavLink>
+            ))}
+          </div>
+        </nav>
 
-            <aside
-                className={`fixed top-0 left-0 h-full bg-gray-800 text-white w-64 transform transition-transform duration-300 z-30
-          ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static md:flex-shrink-0`}
-            >
-                <div className="p-4 text-2xl font-bold border-b border-gray-700">
-                    Admin Panel
-                </div>
+        {/* Logout Section */}
+        <div className="p-4 border-t border-slate-800">
+          <button 
+            onClick={handleLogout}
+            className="flex w-full items-center px-4 py-3 text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-xl transition-all"
+          >
+            <LogOut size={20} className="mr-3" />
+            <span className="text-sm font-medium">Logout</span>
+          </button>
+        </div>
+      </aside>
 
-                <nav className="mt-6">
-                    <div className="flex flex-col space-y-1 text-white">
-                        <Link href="/admin-panel"  className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
-                            <FaHome className="mr-3" />
-                            <span>Home</span>
-                        </Link>
-
-                        <Link to="/create-service" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
-                            <FaTools className="mr-3" />
-                            <span>Create Service</span>
-                        </Link>
-
-                        <Link to="/create-gallery" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
-                            <FaImages className="mr-3" />
-                            <span>Create Gallery</span>
-                        </Link>
-                        <Link to="/admin-gallery-list" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
-                            <FaRegImages className="mr-3" />
-                            <span>Manage Gallery</span>
-                        </Link>
-
-                        <Link to="/inquiries-information" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
-                            <FaBook className="mr-3" />
-                            <span>View Bookings</span>
-                        </Link>
-
-                        <Link to="/contact-information" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
-                            <FaEnvelope className="mr-3" />
-                            <span>View Messages</span>
-                        </Link>
-                        <Link to="/admin-panel/reviews" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
-                            <FaStar  className="mr-3" />
-                            <span>Review Management</span>
-                        </Link>
-
-                        <Link to="/user-information" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
-                            <FaUsers className="mr-3" />
-                            <span>Our Users/Clients</span>
-                        </Link>
-
-                        <Link to="/admin-settings" className="flex items-center  px-4 py-3 hover:text-blue-600 focus:text-blue-800 hover:bg-gray-700">
-                            <FaCog className="mr-3" />
-                            <span>Settings</span>
-                        </Link>
-
-                        <div className="flex items-center px-4 py-3 hover:bg-gray-700 text-red-400 hover:text-red-600" onClick={handleLogout}>
-                            <FaSignOutAlt className="mr-3" />
-                            <span>Logout</span>
-                        </div>
-                    </div>
-                </nav>
-
-            </aside>
-
-            {/* Sidebar toggle button for mobile */}
-
-            <button
-                className="fixed top-4 left-4 z-40 md:hidden p-2 bg-gray-800 text-white rounded"
-                onClick={() => setIsOpen(!isOpen)}
-                aria-label={isOpen ? "Close menu" : "Open menu"}
-            >
-                {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-            </button>
-        </>
-    );
+      {/* Mobile Toggle Button */}
+      <button
+        className="fixed top-4 left-4 z-40 md:hidden p-2 bg-slate-900 text-white rounded-xl shadow-lg"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label={isOpen ? "Close menu" : "Open menu"}
+      >
+        {isOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+    </>
+  );
 }

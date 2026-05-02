@@ -3,14 +3,21 @@ import Sidebar from "./Sidebar";
 import TopNav from "./TopNav";
 
 export default function MainLayout({ children }) {
-  
   return (
-    <div className="flex h-screen bg-gray-100 overflow-hidden sm:flex-row flex-col">
+    <div className="flex h-screen bg-slate-50 overflow-hidden">
+      {/* Sidebar - Stays fixed on desktop, slides on mobile */}
       <Sidebar />
-      <div className="flex flex-col flex-1 overflow-auto">
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        {/* TopNav - Sticky at the top of the column */}
         <TopNav />
-        <main className="p-6 mt-22 flex-1 overflow-y-auto">
-          {children}
+        
+        {/* Scrollable Content Area */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-8">
+          <div className="mx-auto max-w-7xl">
+            {children}
+          </div>
         </main>
       </div>
     </div>
