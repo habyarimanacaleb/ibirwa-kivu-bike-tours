@@ -27,6 +27,7 @@ import GalleryPage from "./pages/GalleryPage";
 import DashboardReviews from "./admin-panel/DashboardReviews";
 import ServicesListPage from "./pages/ServicesPage";
 import CommunityPage from "./pages/CommunityPage";
+import NotFoundPage from "./pages/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -69,6 +70,6 @@ export const router = createBrowserRouter([
   // 404 Page
   {
     path: "*",
-    element: <div className="p-12 text-3xl font-bold">Page NOT FOUND!</div>,
+    element: <NotFoundPage />,
   },
 ]);
