@@ -1,8 +1,6 @@
-import { create } from 'zustand';
-import { persist, devtools } from 'zustand/middleware';
-import axios from '../lib/axios';
-
-const API_URL = "/inquiries";
+import { create } from "zustand";
+import { persist, devtools } from "zustand/middleware";
+import axios from "../lib/axios"; // Assuming your axios is pre-configured with base URL
 
 const useInquiryStore = create(
   devtools(
@@ -10,70 +8,90 @@ const useInquiryStore = create(
       (set, get) => ({
         // --- STATE ---
         inquiries: [],
+        selectedInquiry: null,
+        responseMessage: "",
         isLoading: false,
 
-        // --- ACTIONS ---
-        
+        // --- Setters ---
+        setSelectedInquiry: (inquiry) => set({ selectedInquiry: inquiry }),
+        setResponseMessage: (msg) => set({ responseMessage: msg }),
+
+        // --- Actions ---
+
         // Fetch all inquiries
         fetchInquiries: async () => {
-          // Loop Guard: Stop if already loading
-          if (get().isLoading) return;
-
-          set({ isLoading: true }, false, "fetch_inquiries_start");
+          set({ isLoading: true });
           try {
-            const res = await axios.get(API_URL);
-            set({ inquiries: res.data, isLoading: false }, false, "fetch_inquiries_success");
+            const res = await axios.get("/inquiries");
+            set({ inquiries: res.data, isLoading: false });
           } catch (error) {
             console.error("Fetch failed:", error);
-            set({ isLoading: false }, false, "fetch_inquiries_error");
+            set({ isLoading: false });
+            if (error.response?.status === 404) alert("Inquiries endpoint not found.");
           }
         },
 
         // Create new inquiry
         createInquiry: async (formData) => {
-          set({ isLoading: true }, false, "create_inquiry_start");
+          set({ isLoading: true });
           try {
-            const res = await axios.post(API_URL, formData);
-            set((state) => ({ 
+            const res = await axios.post("/inquiries", formData);
+            set((state) => ({
               inquiries: [...state.inquiries, res.data],
-              isLoading: false 
-            }), false, "create_inquiry_success");
-            return { success: true, message: res.data.message };
+              isLoading: false,
+            }));
+            return { success: true };
           } catch (error) {
-            set({ isLoading: false }, false, "create_inquiry_error");
+            set({ isLoading: false });
             return { success: false, message: error.message };
+          }
+        },
+
+        // Respond to an inquiry
+        handleRespond: async (id) => {
+          const { responseMessage } = get();
+          if (!responseMessage.trim()) return alert("Response message is required.");
+
+          set({ isLoading: true });
+          try {
+            await axios.post(`/inquiries/respond/${id}`, { responseMessage });
+              alert("Response sent successfully!");            
+            // Reset fields
+            set({ responseMessage: "", selectedInquiry: null });
+            
+            // Refresh list to update UI
+            await get().fetchInquiries(); 
+          } catch (error) {
+            console.error("Error sending response:", error);
+            alert("Failed to send response.");
+          } finally {
+            set({ isLoading: false });
           }
         },
 
         // Delete inquiry
         deleteInquiry: async (id) => {
+          if (!window.confirm("Are you sure you want to delete this inquiry?")) return;
+
+          set({ isLoading: true });
           try {
-            await axios.delete(`${API_URL}/${id}`);
+            await axios.delete(`/inquiries/${id}`);
+            alert("Inquiry deleted successfully!");
+            
+            // Remove from state without re-fetching
             set((state) => ({
               inquiries: state.inquiries.filter((item) => item._id !== id),
-            }), false, "delete_inquiry_success");
+            }));
           } catch (error) {
             console.error("Delete failed:", error);
-          }
-        },
-
-        // Respond to inquiry
-        respondToInquiry: async (id, responseMessage) => {
-          set({ isLoading: true }, false, "respond_inquiry_start");
-          try {
-            await axios.post(`${API_URL}/respond/${id}`, { responseMessage });
-            set({ isLoading: false }, false, "respond_inquiry_success");
-            return true;
-          } catch (error) {
-            console.error("Response failed:", error);
-            set({ isLoading: false }, false, "respond_inquiry_error");
-            return false;
+            alert("Failed to delete inquiry.");
+          } finally {
+            set({ isLoading: false });
           }
         },
       }),
       {
         name: "kivu-inquiry-storage",
-        // Only persist 'inquiries'. Do NOT persist 'isLoading'.
         partialize: (state) => ({ inquiries: state.inquiries }),
       }
     )

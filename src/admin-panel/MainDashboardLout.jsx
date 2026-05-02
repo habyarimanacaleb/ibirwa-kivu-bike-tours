@@ -24,7 +24,6 @@ function MainDashboardLayout() {
   const { services, fetchServices } = useServiceStore();
   const { images: gallery, loadGallery } = useGalleryStore();
   const { contacts, fetchContacts } = useContactStore();
-
   // Unified Data Fetcher
   const initDashboard = useCallback(async () => {
     setIsInitializing(true);
@@ -76,7 +75,7 @@ function MainDashboardLayout() {
 
   return (
     <MainLayout>
-      <div className="bg-[#F8FAFC] min-h-screen p-6 md:p-12">
+      <div className="bg-[#F8FAFC] min-h-screen p-4 md:p-12">
         <div className="max-w-[1700px] mx-auto">
           
           <AnimatePresence mode="wait">
@@ -93,7 +92,7 @@ function MainDashboardLayout() {
               <motion.div key="content" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 
                 {/* --- TOP HUD --- */}
-                <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-8">
+                <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
                   <div>
                     <div className="flex items-center gap-3 mb-2">
                       <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -104,9 +103,9 @@ function MainDashboardLayout() {
                   
                   <div className="flex items-center gap-4">
                     <motion.div whileHover={{ scale: 1.05 }} className="relative p-4 bg-white rounded-2xl shadow-sm border border-slate-100 cursor-pointer">
-                      <Bell className="text-slate-400" size={24} />
+                      <Bell className="text-slate-400" size={26} />
                       {notifications > 0 && (
-                        <span className="absolute top-3 right-3 bg-blue-600 text-white text-[9px] font-black w-5 h-5 flex items-center justify-center rounded-full ring-4 ring-white">
+                        <span className="absolute top-2 right-2 bg-blue-600 text-white text-[9px] font-black w-5 h-5 flex items-center justify-center rounded-full ring-4 ring-white">
                           {notifications}
                         </span>
                       )}
@@ -128,7 +127,7 @@ function MainDashboardLayout() {
                 </div>
 
                 {/* --- OPERATIONAL GRID --- */}
-                <div className="flex flex-col px-10 mx-auto">
+                <div className="flex flex-col px-0 lg:px-10  mx-auto">
                   <DasboardQuickActions />
                   <div className="lg:col-span-8 space-y-10">
                     <div className="bg-white p-4 rounded-[2rem] shadow-xl shadow-slate-200/60 border border-slate-50">
