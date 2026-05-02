@@ -21,13 +21,13 @@ export const Footer = () => {
   return (
     <footer className="bg-slate-950 text-white py-20 relative z-10 overflow-hidden">
       {/* Decorative subtle gradient background */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-600 to-transparent opacity-50" />
+      <section className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-600 to-transparent opacity-50" />
       
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <section className="container mx-auto px-6">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           
           {/* Column 1: Brand & Partner */}
-          <div className="lg:col-span-2">
+          <section className="lg:col-span-2">
             <h3 className="text-3xl font-black mb-4 tracking-tighter uppercase leading-none">
               Ibirwa Kivu <span className="text-blue-600 text-sm block tracking-widest mt-1">Safaris & Expeditions</span>
             </h3>
@@ -35,17 +35,10 @@ export const Footer = () => {
               Precision-guided tours through Rwanda's western corridor. From the 
               volcanic shores of Lake Kivu to the heart of the Congo-Nile Trail.
             </p>
-            
-            {/* PARTNER HIGHLIGHT */}
-            <div className="p-6 bg-slate-900/50 border border-slate-800 rounded-3xl inline-block">
-              <p className="text-[10px] uppercase font-black tracking-[0.2em] text-blue-500 mb-2">Exclusive Wildlife Partner</p>
-              <h4 className="text-lg font-bold text-slate-100">Turacos Tours</h4>
-              <p className="text-xs text-slate-400 font-medium">Rwanda Wildlife Safaris & Primate Tracking</p>
-            </div>
-          </div>
+          </section>
 
           {/* Column 2: Registry Links */}
-          <div>
+          <section>
             <h3 className="text-xs font-black mb-6 uppercase tracking-[0.3em] text-slate-500">Navigation</h3>
             <ul className="space-y-4 text-sm font-bold uppercase tracking-tighter">
               <li><Link to="/" className="hover:text-blue-500 transition-colors">Home Base</Link></li>
@@ -53,10 +46,10 @@ export const Footer = () => {
               <li><Link to="/gallery" className="hover:text-blue-500 transition-colors">Visual Archive</Link></li>
               <li><Link to="/contact" className="hover:text-blue-500 transition-colors">Comm-Link</Link></li>
             </ul>
-          </div>
+          </section>
 
           {/* Column 3: Get in Touch (HQ Intel) */}
-          <div>
+          <section>
             <h3 className="text-xs font-black mb-6 uppercase tracking-[0.3em] text-slate-500">HQ Contact</h3>
             <ul className="text-slate-300 space-y-4 text-sm font-medium">
               <li className="flex items-start gap-3">
@@ -82,22 +75,22 @@ export const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
+          </section>
+        </section>
 
         {/* Bottom Bar */}
-        <div className="mt-20 pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex space-x-6">
-            <a href="https://facebook.com" className="text-slate-500 hover:text-white transition-colors text-xl">
+        <section className="mt-20 pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-6">
+          <section className="flex space-x-6">
+            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-white transition-colors text-xl">
               <FaFacebook />
             </a>
-            <a href="https://twitter.com" className="text-slate-500 hover:text-white transition-colors text-xl">
+            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-white transition-colors text-xl">
               <FaTwitter />
             </a>
-            <a href="https://instagram.com" className="text-slate-500 hover:text-white transition-colors text-xl">
+            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-white transition-colors text-xl">
               <FaInstagram />
             </a>
-          </div>
+          </section>
 
           <p className="text-[10px] font-black uppercase tracking-widest text-slate-600 text-center">
             © {new Date().getFullYear()} Ibirwa Kivu Bike & Turacos Tours. Optimized by Engineering Standards.
@@ -109,8 +102,8 @@ export const Footer = () => {
           >
             Top <FaChevronUp className="group-hover:-translate-y-1 transition-transform" />
           </button>
-        </div>
-      </div>
+        </section>
+      </section>
     </footer>
   );
 };
