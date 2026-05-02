@@ -14,6 +14,7 @@ import {
   X,
   FileImage
 } from "lucide-react";
+import LogoutButton from "../components/common/LogoutButton";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -82,13 +83,7 @@ export default function Sidebar() {
 
         {/* Logout Section */}
         <div className="p-4 border-t border-slate-800">
-          <button 
-            onClick={handleLogout}
-            className="flex w-full items-center px-4 py-3 text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-xl transition-all"
-          >
-            <LogOut size={20} className="mr-3" />
-            <span className="text-sm font-medium">Logout</span>
-          </button>
+          <LogoutButton  />
         </div>
       </aside>
 
