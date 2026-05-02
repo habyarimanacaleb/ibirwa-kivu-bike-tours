@@ -1,97 +1,152 @@
 import { create } from "zustand";
-import axios from "axios";
+import { persist, devtools } from "zustand/middleware";
+import axios from "../lib/axios";
+const API_BASE = "/ibirwa-clients";
 
-const API_BASE = "https://kivu-back-end.onrender.com/api/ibirwa-clients";
+const useAuthStore = create(
+  devtools(
+    persist(
+      (set, get) => ({
+        // --- STATE ---
+        currentUser: null,
+        token: null,
+        users: [],
+        loading: false,
+        error: null,
 
-const useAuthStore = create((set, get) => ({
-  // Auth State
-  currentUser: JSON.parse(localStorage.getItem("admin_user")) || null,
-  token: localStorage.getItem("admin_token") || null,
+        // --- AUTH METHODS ---
+        login: async (credentials) => {
+          set({ loading: true, error: null }, false, "login_start");
+          try {
+            const res = await axios.post(`${API_BASE}/login`, credentials);
+            const { user, token } = res.data;
+            set(
+              { currentUser: user, token, loading: false },
+              false,
+              "login_success",
+            );
+            return { success: true };
+          } catch (err) {
+            const errMsg = err.response?.data?.message || "Login failed";
+            set({ error: errMsg, loading: false }, false, "login_error");
+            return { success: false, message: errMsg };
+          }
+        },
 
-  // Management State
-  users: [],
-  loading: false,
-  error: null,
+        signup: async (formData) => {
+          set({ loading: true, error: null });
+          try {
+            await axios.post(`${API_BASE}/signup`, formData);
+            set({ loading: false });
+            return { success: true };
+          } catch (err) {
+            const errMsg = err.response?.data?.message || "Signup failed";
+            set({ error: errMsg, loading: false });
+            return { success: false, message: errMsg };
+          }
+        },
 
-  /* --- AUTH METHODS --- */
-  login: async (credentials) => {
-    set({ loading: true, error: null });
-    try {
-      const res = await axios.post(`${API_BASE}/login`, credentials);
-      // Destructure based on your specific backend response structure
-      const { user, token } = res.data;
+        logout: () => {
+          set({ currentUser: null, token: null, users: [] }, false, "logout");
+        },
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+        // --- USER MANAGEMENT METHODS ---
+        fetchUsers: async () => {
+          // 1. THE GUARD: Stop if already loading
+          if (get().isLoading) return;
 
-      set({ currentUser: user, token, loading: false });
-      return { success: true };
-    } catch (err) {
-      const errMsg =
-        err.response?.data?.message || "Login failed. Please try again.";
-      set({ error: errMsg, loading: false });
-      return { success: false };
-    }
-  },
+          // 2. Set loading
+          set({ isLoading: true });
 
-  signup: async (formData) => {
-    set({ loading: true, error: null });
-    try {
-      const res = await axios.post(`${API_BASE}/signup`, formData);
-      set({ loading: false });
-      // Backend returns success even if structured differently
-      return { success: true, message: res.data.message };
-    } catch (err) {
-      const errMsg = err.response?.data?.message || "Signup failed";
-      set({ error: errMsg, loading: false });
-      return { success: false, message: errMsg };
-    }
-  },
+          try {
+            const res = await axios.get("/api/ibirwa-clients/users");
+            set({ users: res.data, isLoading: false });
+          } catch (error) {
+            set({ isLoading: false, error: error.message });
+          }
+        },
 
-  logout: () => {
-    localStorage.removeItem("admin_user");
-    localStorage.removeItem("admin_token");
-    set({ currentUser: null, token: null, users: [] });
-  },
+        updateProfile: async (userId, updateData) => {
+          set({ loading: true });
+          try {
+            const res = await axios.put(
+              `${API_BASE}/user/${userId}`,
+              updateData,
+            );
+            // Update currentUser if they edited their own profile
+            const isSelf = get().currentUser?._id === userId;
+            set(
+              (state) => ({
+                currentUser: isSelf
+                  ? { ...state.currentUser, ...res.data }
+                  : state.currentUser,
+                users: state.users.map((u) =>
+                  u._id === userId ? res.data : u,
+                ),
+                loading: false,
+              }),
+              false,
+              "update_profile",
+            );
+            return { success: true };
+          } catch (err) {
+            set({ loading: false, error: "Update failed" });
+            return { success: false };
+          }
+        },
 
-  /* --- USER CRUD METHODS --- */
-  fetchUsers: async () => {
-    set({ loading: true });
-    try {
-      const res = await axios.get(`${API_BASE}/users`);
-      set({ users: res.data, loading: false });
-    } catch (err) {
-      set({ error: "Failed to fetch users", loading: false });
-    }
-  },
+        banUser: async (userId, isBanned) => {
+          try {
+            await axios.patch(`${API_BASE}/user/${userId}/ban`, { isBanned });
+            set(
+              (state) => ({
+                users: state.users.map((u) =>
+                  u._id === userId ? { ...u, isBanned } : u,
+                ),
+              }),
+              false,
+              "ban_user",
+            );
+          } catch (err) {
+            console.error("Ban action failed", err);
+          }
+        },
 
-  handleBlock: async (userId, shouldBlock) => {
-    try {
-      await axios.patch(`${API_BASE}/user/${userId}/block`, {
-        blocked: shouldBlock,
-      });
-      // Optimistic Update
-      set((state) => ({
-        users: state.users.map((u) =>
-          u._id === userId ? { ...u, blocked: shouldBlock } : u,
-        ),
-      }));
-    } catch (err) {
-      console.error("Action failed", err);
-    }
-  },
+        handleBlock: async (userId, shouldBlock) => {
+          try {
+            await axios.patch(`${API_BASE}/user/${userId}/block`, {
+              blocked: shouldBlock,
+            });
+            set((state) => ({
+              users: state.users.map((u) =>
+                u._id === userId ? { ...u, blocked: shouldBlock } : u,
+              ),
+            }));
+          } catch (err) {
+            console.error("Block action failed", err);
+          }
+        },
 
-  deleteUser: async (userId) => {
-    if (!window.confirm("Delete this user permanently?")) return;
-    try {
-      await axios.delete(`${API_BASE}/user/${userId}`);
-      set((state) => ({
-        users: state.users.filter((u) => u._id !== userId),
-      }));
-    } catch (err) {
-      console.error("Delete failed", err);
-    }
-  },
-}));
+        deleteUser: async (userId) => {
+          try {
+            await axios.delete(`${API_BASE}/user/${userId}`);
+            set((state) => ({
+              users: state.users.filter((u) => u._id !== userId),
+            }));
+          } catch (err) {
+            console.error("Delete failed", err);
+          }
+        },
+      }),
+      {
+        name: "kivu-auth-storage", // Unique name for localStorage
+        partialize: (state) => ({
+          currentUser: state.currentUser,
+          token: state.token,
+        }), // Only persist these
+      },
+    ),
+  ),
+);
 
 export default useAuthStore;

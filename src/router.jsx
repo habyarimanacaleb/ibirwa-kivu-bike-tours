@@ -22,10 +22,11 @@ import TourInquiriesDashboard from "./admin-panel/TourInquiriesDashboard";
 import AdminSettings from "./admin-panel/Settings";
 import GalleryList from "./components/GalleryLists";
 import SingleGalleryView from "./admin-dashboard/SingleGalleryView";
-import { MainDashboardLout } from "./admin-panel/MainDashboardLout";
+import MainDashboardLout from "./admin-panel/MainDashboardLout";
 import GalleryPage from "./pages/GalleryPage";
 import DashboardReviews from "./admin-panel/DashboardReviews";
 import ServicesListPage from "./pages/ServicesPage";
+import CommunityPage from "./pages/CommunityPage";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ export const router = createBrowserRouter([
       { path: "services", element: <ServicesListPage /> },
       { path: "service/:id", element: <ServiceDetail /> },
       { path: "gallery", element: <GalleryPage /> },
+      { path: "community", element: <CommunityPage /> },
       { path: "about", element: <About /> },
       { path: "login", element: <SignIn /> },
       { path: "join", element: <Join /> },

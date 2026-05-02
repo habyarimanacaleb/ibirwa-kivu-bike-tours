@@ -30,7 +30,7 @@ export const Contacts = () => {
   };
 
   return (
-    <div className="bg-slate-600/80 min-h-screen">
+    <div className="bg-[rgb(10,25,47)] min-h-screen">
       <Navbar />
 
       <div className="flex flex-col lg:flex-row min-h-screen pt-20">

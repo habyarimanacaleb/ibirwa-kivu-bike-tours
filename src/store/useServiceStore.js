@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { persist, devtools } from 'zustand/middleware';
-import axios from 'axios';
+import axios from '../lib/axios';
 
-const API_BASE = "https://kivu-back-end.onrender.com/api/services";
+const API_BASE = "/services";
 
 const useServiceStore = create(
   devtools(

@@ -70,6 +70,7 @@ function Contact() {
             </NavLink>
 
             <div className="bg-blue-600 p-8 rounded-3xl flex flex-col justify-between shadow-xl shadow-blue-900/20">
+            <NavLink to="/community" className="group">
               <div>
                 <h4 className="text-white font-serif font-black text-2xl leading-tight">24/7 Adventure <br /> Support</h4>
                 <p className="text-blue-100 mt-4 text-sm font-light">Our guides are on standby to help you with booking, rentals, or trail info.</p>
@@ -77,6 +78,7 @@ function Contact() {
               <div className="mt-8 flex items-center gap-2 text-[10px] text-blue-200 uppercase tracking-tighter font-black">
                 <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" /> Always Available
               </div>
+            </NavLink>
             </div>
           </div>
 

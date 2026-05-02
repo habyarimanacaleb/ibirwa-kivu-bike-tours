@@ -65,7 +65,7 @@ export const Navbar = () => {
           <NavLink to="/" className="flex items-center gap-4 z-[70]" onClick={closeMenu}>
             <motion.img
               whileHover={{ scale: 1.1, rotate: -5 }}
-              src="/kivu-image/bt-logo-52.png"
+              src="/bt-logo-52.png"
               alt="Kivu Logo"
               className={`${scrolled ? "h-12 w-12" : "h-16 w-16"} transition-all duration-500`}
             />
@@ -176,6 +176,7 @@ export const Navbar = () => {
                 </NavLink>
               )}
             </div>
+            {/* <DropdownMenu closeMenu={closeMenu} /> */}
           </motion.div>
         )}
       </AnimatePresence>

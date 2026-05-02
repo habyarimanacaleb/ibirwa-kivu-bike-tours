@@ -8,17 +8,18 @@ import {
   FaLightbulb,
   FaChevronLeft,
   FaMapMarkerAlt,
-  FaMountain
+  FaMountain,
 } from "react-icons/fa";
 import useServiceStore from "../store/useServiceStore";
 import Navbar from "./Navbar";
 import { Footer } from "./Footer";
 import WhatsAppChat from "./WhatsapMeInService";
+import { ServiceImageSlider } from "../features/service/ServiceImageSlider";
 
 export const ServiceDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   // Guard to prevent multiple fetches during "Pending" state
   const hasFetched = useRef(false);
 
@@ -30,24 +31,33 @@ export const ServiceDetail = () => {
   useEffect(() => {
     if (id) {
       const currentLoadedId = currentService?._id || currentService?.id;
-      
+
       // Only fetch if we haven't fetched for THIS ID yet and data isn't already there
       if (String(currentLoadedId) !== String(id) && !hasFetched.current) {
         fetchServiceById(id);
         hasFetched.current = true;
       }
-      
+
       window.scrollTo(0, 0);
     }
 
     // Reset guard if ID changes
-    return () => { hasFetched.current = false; };
+    return () => {
+      hasFetched.current = false;
+    };
   }, [id, fetchServiceById, currentService]);
 
   const isCorrectData = useMemo(() => {
     if (!currentService) return false;
     return String(currentService._id || currentService.id) === String(id);
   }, [currentService, id]);
+
+// Transform the single imageFile into an array of 5 for the slider
+const sliderImages = useMemo(() => {
+  if (!currentService?.imageFile) return [];
+  // Creates an array of 5 items, all filled with the same image URL
+  return Array(5).fill(currentService.imageFile);
+}, [currentService]);
 
   // 1. Kivu Themed Loading State
   if (isLoading || !isCorrectData) {
@@ -60,7 +70,7 @@ export const ServiceDetail = () => {
         >
           <FaMountain className="text-6xl text-blue-400" />
           <div className="absolute -bottom-2 left-0 right-0 h-1 bg-blue-500/30 rounded-full overflow-hidden">
-            <motion.div 
+            <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: "100%" }}
               transition={{ repeat: Infinity, duration: 1.5 }}
@@ -68,7 +78,9 @@ export const ServiceDetail = () => {
             />
           </div>
         </motion.div>
-        <p className="text-sm font-black tracking-[0.4em] uppercase text-blue-200">Exploring Lake Kivu...</p>
+        <p className="text-sm font-black tracking-[0.4em] uppercase text-blue-200">
+          Exploring Lake Kivu...
+        </p>
       </div>
     );
   }
@@ -77,9 +89,14 @@ export const ServiceDetail = () => {
   if (error) {
     return (
       <div className="h-screen flex flex-col items-center justify-center bg-gray-50 p-6 text-center">
-        <h2 className="text-4xl font-black text-slate-900 mb-4 uppercase">Path Missing</h2>
+        <h2 className="text-4xl font-black text-slate-900 mb-4 uppercase">
+          Path Missing
+        </h2>
         <p className="text-slate-500 mb-8 font-medium">{error}</p>
-        <button onClick={() => navigate('/')} className="bg-blue-600 text-white px-10 py-4 rounded-full font-bold uppercase text-xs tracking-widest shadow-lg transition-all hover:bg-blue-700">
+        <button
+          onClick={() => navigate("/")}
+          className="bg-blue-600 text-white px-10 py-4 rounded-full font-bold uppercase text-xs tracking-widest shadow-lg transition-all hover:bg-blue-700"
+        >
           Back to Expeditions
         </button>
       </div>
@@ -115,7 +132,7 @@ export const ServiceDetail = () => {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                <button 
+                <button
                   onClick={() => navigate(-1)}
                   className="mb-8 mt-16 inline-flex items-center gap-2 text-white/80 hover:text-yellow-500 transition-colors uppercase text-[10px] font-black tracking-[0.3em] border border-white/20 px-4 py-2 rounded-full"
                 >
@@ -126,7 +143,9 @@ export const ServiceDetail = () => {
                 </h1>
                 <div className="flex items-center justify-center gap-4 text-blue-200">
                   <FaMapMarkerAlt className="text-yellow-500 animate-bounce" />
-                  <span className="font-bold tracking-widest uppercase text-xs">Lake Kivu, Rwanda</span>
+                  <span className="font-bold tracking-widest uppercase text-xs">
+                    Lake Kivu, Rwanda
+                  </span>
                 </div>
               </motion.div>
             </div>
@@ -135,11 +154,12 @@ export const ServiceDetail = () => {
           {/* MAIN CONTENT SECTION */}
           <section className="relative -mt-24 pb-32 z-20">
             <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-12">
-              
               {/* LEFT COLUMN */}
               <div className="lg:col-span-2 space-y-12">
                 <div className="bg-white rounded-[2.5rem] p-10 md:p-16 shadow-xl shadow-blue-900/5 border border-slate-100">
-                  <h3 className="text-xs font-black text-blue-600 uppercase tracking-[0.4em] mb-6">The Journey</h3>
+                  <h3 className="text-xs font-black text-blue-600 uppercase tracking-[0.4em] mb-6">
+                    The Journey
+                  </h3>
                   <p className="text-xl md:text-2xl text-slate-700 leading-relaxed font-medium whitespace-pre-line">
                     {currentService.description}
                   </p>
@@ -147,7 +167,7 @@ export const ServiceDetail = () => {
 
                 <div className="grid md:grid-cols-2 gap-8">
                   {/* Highlights Card */}
-                  <motion.div 
+                  <motion.div
                     whileInView={{ opacity: 1, y: 0 }}
                     initial={{ opacity: 0, y: 20 }}
                     viewport={{ once: true }}
@@ -156,10 +176,15 @@ export const ServiceDetail = () => {
                     <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 text-blue-600">
                       <FaCheckCircle size={24} />
                     </div>
-                    <h4 className="text-2xl font-black text-slate-900 mb-6 uppercase tracking-tight">Highlights</h4>
+                    <h4 className="text-2xl font-black text-slate-900 mb-6 uppercase tracking-tight">
+                      Highlights
+                    </h4>
                     <ul className="space-y-4">
                       {currentService.details?.highlights?.map((h, i) => (
-                        <li key={i} className="flex items-start gap-3 text-slate-600 font-medium">
+                        <li
+                          key={i}
+                          className="flex items-start gap-3 text-slate-600 font-medium"
+                        >
                           <span className="h-1.5 w-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0" />
                           {h}
                         </li>
@@ -168,7 +193,7 @@ export const ServiceDetail = () => {
                   </motion.div>
 
                   {/* Tips Card */}
-                  <motion.div 
+                  <motion.div
                     whileInView={{ opacity: 1, y: 0 }}
                     initial={{ opacity: 0, y: 20 }}
                     viewport={{ once: true }}
@@ -177,10 +202,15 @@ export const ServiceDetail = () => {
                     <div className="w-12 h-12 bg-yellow-500/20 rounded-2xl flex items-center justify-center mb-6 text-yellow-500">
                       <FaLightbulb size={24} />
                     </div>
-                    <h4 className="text-2xl font-black mb-6 uppercase tracking-tight">Traveler Tips</h4>
+                    <h4 className="text-2xl font-black mb-6 uppercase tracking-tight">
+                      Traveler Tips
+                    </h4>
                     <ul className="space-y-4">
                       {currentService.details?.tips?.map((tip, i) => (
-                        <li key={i} className="flex items-start gap-3 text-blue-100/70 text-sm italic">
+                        <li
+                          key={i}
+                          className="flex items-start gap-3 text-blue-100/70 text-sm italic"
+                        >
                           <span>{tip}</span>
                         </li>
                       ))}
@@ -192,9 +222,13 @@ export const ServiceDetail = () => {
               {/* RIGHT COLUMN: Sticky Booking */}
               <div className="lg:col-span-1">
                 <div className="sticky top-32 bg-white rounded-[2.5rem] p-10 shadow-2xl shadow-blue-900/10 border-t-4 border-yellow-500">
-                  <h3 className="text-3xl font-black text-slate-900 mb-2 uppercase tracking-tighter">Book Tour</h3>
-                  <p className="text-slate-500 text-sm mb-8 font-medium">Instant pricing and availability via chat.</p>
-                  
+                  <h3 className="text-3xl font-black text-slate-900 mb-2 uppercase tracking-tighter">
+                    Book Tour
+                  </h3>
+                  <p className="text-slate-500 text-sm mb-8 font-medium">
+                    Instant pricing and availability via chat.
+                  </p>
+
                   <div className="space-y-4">
                     <motion.a
                       whileHover={{ scale: 1.02 }}
@@ -225,14 +259,32 @@ export const ServiceDetail = () => {
                   </div>
                 </div>
               </div>
-
             </div>
           </section>
         </motion.div>
+
       </AnimatePresence>
+        {/* Replace your static hero image or add this section below your header */}
+<section className="my-12 px-4 md:px-0">
+  <div className="max-w-4xl mx-auto">
+    <h3 className="text-5xl w-40 font-black text-blue-600 uppercase tracking-[0.3em] mb-6">
+      Expedition Gallery
+    </h3>
+    
+    {sliderImages.length > 0 ? (
+      <ServiceImageSlider images={sliderImages} />
+    ) : (
+      <div className="w-full h-64 bg-slate-100 rounded-3xl flex items-center justify-center text-slate-400">
+        No images available
+      </div>
+    )}
+  </div>
+</section>
 
       {/* Floating WhatsApp with context message */}
-      <WhatsAppChat introMessage={`I am interested in the ${currentService.title} tour.`} />
+      <WhatsAppChat
+        introMessage={`I am interested in the ${currentService.title} tour.`}
+      />
       <Footer />
     </div>
   );

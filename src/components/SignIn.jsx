@@ -50,7 +50,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
               <div className="relative mb-6 group">
                 <div className="absolute inset-0 bg-blue-600 blur-xl opacity-10 group-hover:opacity-20 transition-opacity"></div>
                 <img 
-                  src="/kivu-image/bt-logo-52.png" 
+                  src="/bt-logo-52.png" 
                   alt="Logo" 
                   className="relative w-20 h-20 rounded-3xl object-cover shadow-lg border border-slate-100" 
                 />
