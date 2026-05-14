@@ -1,59 +1,51 @@
-import React from 'react'
+import React from 'react';
 import { motion } from "framer-motion";
 
-function StorySection({RevealOnScroll,fadeUp,staggerContainer}) {
+function StorySection({RevealOnScroll, fadeUp, staggerContainer}) {
+  const cards = [
+    { label: "Founded", value: "2018", cls: "bg-blue-50 text-blue-950", labelCls: "text-blue-500" },
+    { label: "Base", value: "Rubavu, Rwanda", cls: "bg-blue-900 text-white", labelCls: "text-blue-300" },
+    { label: "Specialty", value: "Kivu Routes", cls: "bg-blue-600 text-white", labelCls: "text-blue-100" },
+    { label: "Language", value: "EN · FR · RW", cls: "bg-slate-100 text-slate-900", labelCls: "text-slate-500" },
+  ];
+
   return (
-    <section className="max-w-5xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-16 items-center">
+    <section className="max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-20 items-center">
+      <RevealOnScroll>
+        <span className="text-xs font-bold tracking-widest uppercase text-blue-600 mb-4 block">Our Story</span>
+        <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-tight mb-8">Born on the shores of Lake Kivu.</h2>
+        <div className="space-y-6 text-slate-600 text-lg leading-relaxed">
+          <p>
+            Ibirwa — meaning <span className="text-blue-600 font-bold italic">"islands"</span> in Kinyarwanda — was founded in 2018 by local cycling enthusiast Jean-Pierre Habimana.
+          </p>
+          <p>
+            Growing up cycling the hills of Rubavu, he noticed that tourists rarely saw the western province the way locals do: by road, by trail, and by saddle. What started as weekend rides has grown into a premier touring operation.
+          </p>
+        </div>
+      </RevealOnScroll>
 
-        <RevealOnScroll>
-          <p className="text-xs font-semibold tracking-widest uppercase text-blue-600 mb-3">
-            Our Story
-          </p>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-blue-950 leading-snug mb-6">
-            Born on the shores of Lake Kivu
-          </h2>
-          <p className="text-slate-500 leading-relaxed mb-4">
-            Ibirwa — meaning <em>"islands"</em> in Kinyarwanda — was founded in 2018
-            by local cycling enthusiast Jean-Pierre Habimana. Growing up cycling the
-            hills of Rubavu, he noticed that tourists rarely saw the western province
-            the way locals do: by road, by trail, and by saddle.
-          </p>
-          <p className="text-slate-500 leading-relaxed">
-            What started as weekend rides with friends has grown into a full touring
-            operation — with carefully curated routes, professional guides, and an
-            unshakeable commitment to showing visitors the real Rwanda.
-          </p>
-        </RevealOnScroll>
-
-        {/* info cards — staggered */}
-        <motion.div
-          className="grid grid-cols-2 gap-4"
-          variants={staggerContainer(0.1, 0.2)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
-        >
-          {[
-            { label: "Founded",   value: "2018",             cls: "bg-blue-50",  labelCls: "text-blue-500",  valueCls: "text-blue-950" },
-            { label: "Base",      value: "Rubavu, Rwanda",    cls: "bg-blue-900", labelCls: "text-blue-300",  valueCls: "text-white"    },
-            { label: "Specialty", value: "Lake Kivu Routes",  cls: "bg-blue-700", labelCls: "text-blue-200",  valueCls: "text-white"    },
-            { label: "Language",  value: "EN · FR · RW",     cls: "bg-blue-50",  labelCls: "text-blue-500",  valueCls: "text-blue-950" },
-          ].map((card) => (
-            <motion.div
-              key={card.label}
-              variants={fadeUp}
-              whileHover={{ scale: 1.04, transition: { duration: 0.2 } }}
-              className={`${card.cls} rounded-2xl p-5 cursor-default`}
-            >
-              <span className={`text-xs font-semibold tracking-widest uppercase ${card.labelCls} block mb-2`}>
-                {card.label}
-              </span>
-              <span className={`text-lg font-bold ${card.valueCls}`}>{card.value}</span>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-  )
+      <motion.div 
+        className="grid grid-cols-2 gap-4"
+        variants={staggerContainer(0.1, 0.2)}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+      >
+        {cards.map((card) => (
+          <motion.div
+            key={card.label}
+            variants={fadeUp}
+            whileHover={{ y: -5 }}
+            className={`${card.cls} rounded-[2rem] p-8 shadow-lg shadow-blue-900/5`}
+          >
+            <span className={`text-[10px] font-black uppercase tracking-widest ${card.labelCls} block mb-2`}>
+              {card.label}
+            </span>
+            <span className="text-xl font-black">{card.value}</span>
+          </motion.div>
+        ))}
+      </motion.div>
+    </section>
+  );
 }
-
-export default StorySection
+export default StorySection;
