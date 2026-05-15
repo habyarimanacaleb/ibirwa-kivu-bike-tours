@@ -28,6 +28,8 @@ import DashboardReviews from "./admin-panel/DashboardReviews";
 import ServicesListPage from "./pages/ServicesPage";
 import CommunityPage from "./pages/CommunityPage";
 import NotFoundPage from "./pages/NotFound";
+import BlogPage from "./pages/BlogPage";
+import BlogDetails from "./pages/BlogDetails";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +42,8 @@ export const router = createBrowserRouter([
       { path: "gallery", element: <GalleryPage /> },
       { path: "community", element: <CommunityPage /> },
       { path: "about", element: <About /> },
+      { path: "blogs", element: <BlogPage /> },
+      { path: "blog/:id", element: <BlogDetails /> },
       { path: "login", element: <SignIn /> },
       { path: "join", element: <Join /> },
       { path: "explore-more-to-Rwanda", element: <ExploreRwanda /> },
