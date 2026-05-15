@@ -47,9 +47,10 @@ export const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
+    { name: "Blogs", path: "/blogs" },
     { name: "Our Story", path: "/#our-story" },
     { name: "Tour Info", path: "/#tour-information" },
+    { name: "Contact", path: "/contact" },
   ];
 
   return (
