@@ -102,8 +102,8 @@ function Hero() {
 
       {/* Modern Badge */}
       <div className="absolute top-32 left-1/2 -translate-x-1/2 z-20">
-        <span className="bg-blue-600/20 backdrop-blur-md border border-blue-400/30 text-blue-100 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.3em]">
-          The Ibirwa Standard
+        <span className="bg-blue-600/10 backdrop-blur-md border border-blue-400/50 text-blue-100 px-6 py-2 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em]">
+          We travel in comfort
         </span>
       </div>
     </div>
