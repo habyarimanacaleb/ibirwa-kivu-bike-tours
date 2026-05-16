@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Plus, Edit2, Trash2, Search, Eye, Calendar, User, Loader2 } from "lucide-react";
-import useBlogStore from "../store/useBlogStore"; // Adjust path layout based on your src configuration
+import useBlogStore from "../../store/useBlogStore"; 
 import BlogFormModal from "./BlogFormModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 

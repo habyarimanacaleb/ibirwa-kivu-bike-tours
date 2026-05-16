@@ -30,6 +30,7 @@ import CommunityPage from "./pages/CommunityPage";
 import NotFoundPage from "./pages/NotFound";
 import BlogPage from "./pages/BlogPage";
 import BlogDetails from "./pages/BlogDetails";
+import AdminBlog from "./pages/admin/AdminBlog";
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +60,7 @@ export const router = createBrowserRouter([
       { path: "tour-services", element: <Services /> },
       { path: "admin-service-list", element: <ServicesList /> },
       { path: "admin-gallery-list", element: <GalleryList /> },
+      {path: "admin-blogs", element: <AdminBlog />},
       { path: "update-service/:id", element: <UpdateService /> },
       { path: "contact-information", element: <ContactInformation /> },
       { path: "user/update/:id", element: <UpdateUser /> },

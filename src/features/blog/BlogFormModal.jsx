@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { X, Upload, Loader2 } from "lucide-react";
-import useBlogStore from "../store/useBlogStore";
+import useBlogStore from "../../store/useBlogStore";
 
 const BlogFormModal = ({ isOpen, onClose, blogData }) => {
   const { createBlog, updateBlog, isLoading } = useBlogStore();

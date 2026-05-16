@@ -39,6 +39,7 @@ export default function Sidebar() {
     { to: "/create-service", icon: <Wrench size={20} />, label: "Create Service" },
     { to: "/create-gallery", icon: <Image size={20} />, label: "Create Gallery" },
     { to: "/admin-gallery-list", icon: <FileImage size={20} />, label: "Manage Gallery" },
+    {to: "/admin-blogs", icon: <FileImage size={20} />,label: "Manage Blogs" },
     { to: "/inquiries-information", icon: <BookOpen size={20} />, label: "View Bookings" },
     { to: "/contact-information", icon: <Mail size={20} />, label: "View Messages" },
     { to: "/admin-panel/reviews", icon: <Star size={20} />, label: "Reviews" },

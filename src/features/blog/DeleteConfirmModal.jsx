@@ -1,6 +1,6 @@
 import React from "react";
 import { AlertTriangle, X, Loader2 } from "lucide-react";
-import useBlogStore from "../store/useBlogStore";
+import useBlogStore from "../../store/useBlogStore";
 
 const DeleteConfirmModal = ({ isOpen, onClose, blogId, blogTitle }) => {
   const { deleteBlog, isLoading } = useBlogStore();
