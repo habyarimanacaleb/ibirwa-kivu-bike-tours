@@ -16,7 +16,7 @@ const getOrInitializeClientId = () => {
 };
 
 const getAuthHeaders = (isMultipart = false) => {
-  const token = localStorage.getItem("token");
+  const token = JSON.parse(localStorage.getItem("kivu-auth-storage")).state.token;
   return {
     headers: {
       Authorization: token ? `Bearer ${token}` : "",
