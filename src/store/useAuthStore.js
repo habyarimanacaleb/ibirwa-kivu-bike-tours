@@ -162,6 +162,9 @@ const useAuthStore = create(
             return { success: false };
           }
         },
+        clearAuth: async()=>{
+         await localStorage.removeItem("kivu-auth-storage")
+        },
       }),
       {
         name: "kivu-auth-storage", // Unique name for localStorage

@@ -6,10 +6,12 @@ import useAuthStore from "../../store/useAuthStore";
 const LogoutButton = ({ className = "" }) => {
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
+  const clearAuth = useAuthStore((state) => state.clearAuth)
 
   const handleLogout = () => {
     // 1. Clear the Zustand state & LocalStorage
     logout();
+    clearAuth();
     
     // 2. Redirect to login or home
     navigate("/login", { replace: true });
