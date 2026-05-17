@@ -20,7 +20,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
       const user = useAuthStore.getState().currentUser;
       setFormData({ email: "", password: "" });
       // Logic: Admins to panel, Users to gallery
-      navigate(user.role === "admin" ? "/admin-panel" : "/gallery");
+      navigate(user.role === "admin" ? "/admin-panel" : "/");
     }
   };
 
