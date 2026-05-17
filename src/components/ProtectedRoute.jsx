@@ -17,7 +17,7 @@ const ProtectedRoute = () => {
 
   // If no user is logged in, send them to the login page
   if (!currentUser) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/join" replace />;
   }
 
   // If they are logged in but are NOT an admin, send them back to the public home
