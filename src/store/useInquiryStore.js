@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 import axios from "../lib/axios"; // Assuming your axios is pre-configured with base URL
+import { toast } from "react-toastify";
 
 const useInquiryStore = create(
   devtools(
@@ -40,6 +41,8 @@ const useInquiryStore = create(
               inquiries: [...state.inquiries, res.data],
               isLoading: false,
             }));
+            toast.success("Inquiry sent successfull")
+            toast.info("You got Follow up email soon.")
             return { success: true };
           } catch (error) {
             set({ isLoading: false });
@@ -55,7 +58,7 @@ const useInquiryStore = create(
           set({ isLoading: true });
           try {
             await axios.post(`/inquiries/respond/${id}`, { responseMessage });
-              alert("Response sent successfully!");            
+              toast.done("Response sent successfully!");            
             // Reset fields
             set({ responseMessage: "", selectedInquiry: null });
             
@@ -70,13 +73,13 @@ const useInquiryStore = create(
         },
 
         // Delete inquiry
-        deleteInquiry: async (id) => {
+        handleDelete: async (id) => {
           if (!window.confirm("Are you sure you want to delete this inquiry?")) return;
 
           set({ isLoading: true });
           try {
             await axios.delete(`/inquiries/${id}`);
-            alert("Inquiry deleted successfully!");
+            toast.success("Inquiry deleted successfully!");
             
             // Remove from state without re-fetching
             set((state) => ({
@@ -84,7 +87,7 @@ const useInquiryStore = create(
             }));
           } catch (error) {
             console.error("Delete failed:", error);
-            alert("Failed to delete inquiry.");
+            toast.error("Failed to delete inquiry.");
           } finally {
             set({ isLoading: false });
           }

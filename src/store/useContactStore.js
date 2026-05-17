@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
-import axios from "../lib/axios"; // CRITICAL: Use the intercepted instance
+import axios from "../lib/axios";
+import { toast } from "react-toastify";
 
 const useContactStore = create(
   devtools(
@@ -42,9 +43,11 @@ const useContactStore = create(
               ),
               isLoading: false,
             }));
+            toast.success("Your response sent")
             return { success: true };
           } catch (err) {
             set({ isLoading: false });
+            toast.error(err.message)
             return { success: false };
           }
         },
@@ -60,9 +63,11 @@ const useContactStore = create(
               false,
               "delete_contact_success",
             );
+            toast.success("Delete contact success")
             return { success: true };
           } catch (err) {
             console.error("Delete failed:", err);
+            toast.error(err.message)
             return { success: false };
           }
         },

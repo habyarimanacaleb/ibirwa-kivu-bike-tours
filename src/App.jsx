@@ -7,6 +7,7 @@ import IquirryModal from "./components/IquirryModal";
 import "./App.css";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       </div>
       {/* Global Modal managed by Zustand store */}
       <IquirryModal />
+      <ToastContainer />
     </div>
   );
 }

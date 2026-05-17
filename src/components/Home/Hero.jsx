@@ -9,14 +9,22 @@ import useUiStore from "../../store/useUiStore";
 import { limitByWords } from "../../lib/titleCompressorHelper";
 
 const NextArrow = memo(({ onClick }) => (
-  <button onClick={onClick} className="absolute top-1/2 right-6 -translate-y-1/2 z-20 bg-white/10 backdrop-blur-md p-3 rounded-full hover:bg-white/30 transition-all border border-white/20">
-    <ChevronRightIcon className="w-6 h-6 text-white" />
+  <button 
+    onClick={onClick} 
+    className="absolute top-1/2 right-2 md:right-6 -translate-y-1/2 z-20 bg-black/30 hover:bg-blue-600 backdrop-blur-md p-2.5 md:p-3.5 rounded-full text-white transition-all duration-300 border border-white/10 hover:border-blue-500 shadow-2xl flex items-center justify-center cursor-pointer"
+    aria-label="Next Adventure Slide"
+  >
+    <ChevronRightIcon className="w-4 h-4 md:w-5 md:h-5" />
   </button>
 ));
 
 const PrevArrow = memo(({ onClick }) => (
-  <button onClick={onClick} className="absolute top-1/2 left-6 -translate-y-1/2 z-20 bg-white/10 backdrop-blur-md p-3 rounded-full hover:bg-white/30 transition-all border border-white/20">
-    <ChevronLeftIcon className="w-6 h-6 text-white" />
+  <button 
+    onClick={onClick} 
+    className="absolute top-1/2 left-2 md:left-6 -translate-y-1/2 z-20 bg-black/30 hover:bg-blue-600 backdrop-blur-md p-2.5 md:p-3.5 rounded-full text-white transition-all duration-300 border border-white/10 hover:border-blue-500 shadow-2xl flex items-center justify-center cursor-pointer"
+    aria-label="Previous Adventure Slide"
+  >
+    <ChevronLeftIcon className="w-4 h-4 md:w-5 md:h-5" />
   </button>
 ));
 
@@ -32,14 +40,19 @@ function Hero() {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 1000,
-    fade: true, // Smoother for high-res hero images
+    speed: 1200,
+    fade: true, 
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: !prefersReducedMotion,
-    autoplaySpeed: 6000,
+    autoplaySpeed: 6500,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
+    appendDots: (dots) => (
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
+        <ul className="flex items-center gap-2 custom-hero-dots"> {dots} </ul>
+      </div>
+    ),
   };
 
   if (isLoading && images.length === 0) return <HeroSkeleton />;
@@ -47,65 +60,92 @@ function Hero() {
   return (
     <div className="relative h-screen w-full overflow-hidden bg-slate-950">
       {images.length === 0 ? (
-        <div className="h-screen w-full flex flex-col justify-center items-center text-white p-6">
-          <p className="text-slate-400 mb-4">Waking up Kivu Server...</p>
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+        <div className="h-screen w-full flex flex-col justify-center items-center text-white p-6 bg-slate-950">
+          <p className="text-slate-400 text-sm font-semibold uppercase tracking-widest mb-4 animate-pulse">
+            Connecting to Live Network Infrastructure...
+          </p>
+          <div className="relative w-10 h-10">
+            <div className="absolute inset-0 rounded-full border-2 border-white/10" />
+            <div className="absolute inset-0 rounded-full border-t-2 border-blue-500 animate-spin" />
+          </div>
         </div>
       ) : (
-        <Slider {...settings}>
+        <Slider {...settings} className="h-full w-full">
           {images.map((item, index) => (
-            <section key={item._id || index} className="relative h-screen">
-              <motion.img
-                src={item.imageFile}
-                alt={item.title}
-                loading={index === 0 ? "eager" : "lazy"}
-                fetchpriority={index === 0 ? "high" : "low"}
-                decoding="async"
-                className="w-full h-full object-cover"
-                initial={{ scale: 1.1 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 8, ease: "linear" }}
-              />
+            <div key={item._id || index} className="relative h-screen w-full outline-none select-none">
               
-              {/* Advanced Gradient Overlay for better text contrast */}
-              <section className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80 flex flex-col items-center justify-center text-center px-4">
-                <motion.div
-                  initial={{ y: 30, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.5, duration: 0.8 }}
-                  className="max-w-5xl"
-                >
-                  <h2 className="text-white text-6xl md:text-8xl font-black mb-8 tracking-tighter leading-tight">
-                    {limitByWords(item.title)}
-                  </h2>
+              {/* --- IMAGE BACKGROUND FRAMEWORK --- */}
+              <div className="absolute inset-0 bg-slate-950 overflow-hidden">
+                <motion.img
+                  src={item.imageFile}
+                  alt={item.title || "Ibirwa African Lake Tours Exploration Loop"}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  fetchpriority={index === 0 ? "high" : "low"}
+                  decoding="async"
+                  className="w-full h-full object-cover object-center transform pointer-events-none"
+                  initial={prefersReducedMotion ? { scale: 1 } : { scale: 1.12 }}
+                  animate={prefersReducedMotion ? { scale: 1 } : { scale: 1.02 }}
+                  transition={{ duration: 7, ease: "easeOut" }}
+                />
+              </div>
+              
+              {/* --- CINEMATIC GRADIENT VIGNETTE --- */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-slate-950/95 z-10" />
+              
+              {/* --- FOREGROUND CONTENT LAYER --- */}
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-12 md:px-6">
+                <div className="max-w-5xl mx-auto flex flex-col items-center">
+                  
+                  {/* Dynamic Context Header Tag */}
+                  <motion.div
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.3, duration: 0.6 }}
+                    className="mb-6"
+                  >
+                    <span className="inline-block bg-white/10 backdrop-blur-md text-white font-bold text-[10px] md:text-xs tracking-[0.25em] uppercase px-5 py-2 rounded-full border border-white/20 shadow-lg">
+                      IBIRWA AFRICAN LAKE TOURS
+                    </span>
+                  </motion.div>
 
-                  <div className="flex flex-col sm:flex-row gap-5 justify-center items-center mt-6 mx-18 md:mx-0">
+                  {/* Main Header Matrix */}
+                  <motion.h2 
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
+                    className="text-white text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tighter leading-[1.1] md:leading-[1.05] drop-shadow-xl max-w-4xl font-sans"
+                  >
+                    {limitByWords(item.title)}
+                  </motion.h2>
+
+                  {/* Interactive Call to Action Layout */}
+                  <motion.div 
+                    initial={{ y: 40, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.7, duration: 0.8 }}
+                    className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center items-center px-4 sm:px-0"
+                  >
                     <Link
                       to="/services"
-                      className="w-full sm:w-auto bg-yellow-600 hover:bg-yellow-700 text-white px-8 md:px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all shadow-2xl hover:-translate-y-1"
+                      className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-10 py-4.5 rounded-2xl font-black uppercase tracking-widest text-xs transition-all duration-300 shadow-xl hover:shadow-blue-600/30 active:scale-95 text-center"
                     >
-                      Explore Tours
+                      Explore Services
                     </Link>
                     <button
                       onClick={openInquiry}
-                      className="w-full sm:w-auto bg-white/10 hover:bg-white/20 backdrop-blur-xl text-white border border-white/30 px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all"
+                      className="w-full sm:w-auto bg-white/10 hover:bg-white/20 backdrop-blur-xl text-white border border-white/20 px-10 py-4.5 rounded-2xl font-black uppercase tracking-widest text-xs transition-all duration-300 active:scale-95"
                     >
-                      Inquiry Now
+                      Inquire Now
                     </button>
-                  </div>
-                </motion.div>
-              </section>
-            </section>
+                  </motion.div>
+
+                </div>
+              </div>
+
+            </div>
           ))}
         </Slider>
       )}
-
-
-      <section className="absolute top-32 left-1/2 -translate-x-1/2 z-20">
-        <span className="bg-blue-600/10 backdrop-blur-md border border-blue-400/50 text-blue-100 px-6 py-2 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em]">
-          We travel in comfort
-        </span>
-      </section>
     </div>
   );
 }
