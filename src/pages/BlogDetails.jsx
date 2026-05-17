@@ -156,7 +156,7 @@ const BlogDetail = () => {
           <div className="flex items-center gap-2">
             <Link to="/" className="hover:text-emerald-600 transition-colors">Hub</Link>
             <ChevronRight size={12} className="text-slate-300" />
-            <Link to="/blogs" className="hover:text-emerald-600 transition-colors">Expedition Logs</Link>
+            <Link to="/blogs" className="hover:text-emerald-600 transition-colors">Expedition</Link>
             <ChevronRight size={12} className="text-slate-300" />
             <span className="text-slate-800 font-semibold truncate max-w-[200px] sm:max-w-xs">{blog.title}</span>
           </div>
