@@ -1,8 +1,9 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import axios from "axios";
+import axios from "../lib/axios";
+import { toast } from "react-toastify";
 
-const API_URL = "https://kivu-back-end.onrender.com/api/blogs";
+const API_URL = "/blogs";
 
 // Helper function to extract or initialize a unique device/browser tracking signature
 const getOrInitializeClientId = () => {
@@ -149,6 +150,8 @@ const useBlogStore = create(
             isLiked: Array.isArray(serverResponse.likes) ? serverResponse.likes.includes(clientId) : false,
           });
 
+          toast.success("You liked ✅")
+
           return {
             blogs: state.blogs.map((b) => (b._id === blogId ? reconcileTargetBlog(b) : b)),
             currentBlog: state.currentBlog?._id === blogId ? reconcileTargetBlog(state.currentBlog) : state.currentBlog,
@@ -160,6 +163,7 @@ const useBlogStore = create(
           "❌ Backend Like Validation Error Response:",
           err.response?.data?.message || err.response?.data || err.message
         );
+        toast.error(err.message)
         
         // Step D: Revert back if network fails or pipeline breaks
         set(
@@ -198,7 +202,7 @@ const useBlogStore = create(
         false,
         "comment_optimistic"
       );
-
+      toast.success("Comment added ✅")
       try {
         const res = await axios.post(`${API_URL}/${blogId}/comments`, commentPayload);
         const updatedBlogFromServer = res.data.data || res.data;
@@ -215,6 +219,7 @@ const useBlogStore = create(
         }), false, "comment_server_sync");
       } catch (err) {
         console.error("Comment ingestion pipeline dropped on server cluster:", err.message);
+        toast.error("Fail to add comment")
         set(
           {
             blogs: previousBlogs,
@@ -240,7 +245,9 @@ const useBlogStore = create(
           }),
           false,
           "create_blog_success"
+      
         );
+        toast.info("Blog created successfully")
         return { success: true };
       } catch (err) {
         set({ isLoading: false });
@@ -266,9 +273,11 @@ const useBlogStore = create(
           false,
           "update_blog_success"
         );
+        toast.success("You have suceessfull Updated blog")
         return { success: true };
       } catch (err) {
         set({ isLoading: false });
+        toast.error("You failed to Update blog")
         return {
           success: false,
           error: err.response?.data?.message || err.message,
@@ -288,9 +297,11 @@ const useBlogStore = create(
           false,
           "delete_blog_success"
         );
+        toast.success("You have suceessfull deleted blog")
         return { success: true };
       } catch (err) {
         set({ isLoading: false });
+         toast.error("Fails to delete blog")
         return {
           success: false,
           error: err.response?.data?.message || err.message,

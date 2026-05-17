@@ -101,13 +101,13 @@ const BlogManagement = () => {
                     <td className="p-4 max-w-md">
                       <div className="flex items-center gap-3">
                         <img
-                          src={blog.coverImage || "/placeholder-blog.png"}
+                          src={blog.mainImage || "/placeholder-blog.png"} // 🌟 Updated field token path mapping
                           alt="Cover"
                           className="w-12 h-12 rounded-lg object-cover bg-slate-100 flex-shrink-0"
                         />
                         <div className="truncate">
                           <span className="font-semibold text-slate-900 block truncate">{blog.title}</span>
-                          <span className="text-xs text-slate-400 line-clamp-1">{blog.summary}</span>
+                          <span className="text-xs text-slate-400 line-clamp-1">{blog.excerpt}</span> {/* 🌟 Updated field token path mapping */}
                         </div>
                       </div>
                     </td>

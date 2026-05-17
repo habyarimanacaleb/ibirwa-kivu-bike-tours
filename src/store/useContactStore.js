@@ -34,7 +34,7 @@ const useContactStore = create(
         respondToContact: async (contactId, responseMessage) => {
           set({ isLoading: true });
           try {
-            await axios.post("/respond", { contactId, responseMessage });
+            await axios.post("/contact/respond", { contactId, responseMessage });
             set((state) => ({
               contacts: state.contacts.map((c) =>
                 c._id === contactId
@@ -54,8 +54,7 @@ const useContactStore = create(
 
         deleteContact: async (id) => {
           try {
-            // If you get a 404, check if the backend expects /contacts/id or /contact/id
-            await axios.delete(`/contacts/${id}`);
+            await axios.delete(`/contact/${id}`);
             set(
               (state) => ({
                 contacts: state.contacts.filter((c) => c._id !== id),
@@ -64,6 +63,24 @@ const useContactStore = create(
               "delete_contact_success",
             );
             toast.success("Delete contact success")
+            return { success: true };
+          } catch (err) {
+            console.error("Delete failed:", err);
+            toast.error("Fail to delete contacts infor",err.message)
+            return { success: false };
+          }
+        },
+        deleteAllContact: async () => {
+          try {
+            await axios.delete(`/contact`);
+            set(
+              (state) => ({
+                contacts: state.contacts.filter((c) => {}),
+              }),
+              false,
+              "delete_contacts_success",
+            );
+            toast.success("Delete all contact success")
             return { success: true };
           } catch (err) {
             console.error("Delete failed:", err);
