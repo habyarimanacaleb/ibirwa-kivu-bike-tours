@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Save, ArrowLeft, Image as ImageIcon, Plus, Trash2, ShieldAlert, Map } from "lucide-react";
+import { Save, ArrowLeft, Image as ImageIcon, Plus, Trash2, ShieldAlert, Map, X } from "lucide-react";
 import useServiceStore from "../store/useServiceStore";
 import MainLayout from "../admin-panel/MainLayout";
 
@@ -22,6 +22,11 @@ const UpdateService = () => {
 
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  
+  // 🌟 State for Retained Images and Fresh Additions
+  const [existingGallery, setExistingGallery] = useState([]);
+  const [newGalleryFiles, setNewGalleryFiles] = useState([]);
+  const [newGalleryPreviews, setNewGalleryPreviews] = useState([]);
   const [status, setStatus] = useState({ message: "", type: "" });
 
   useEffect(() => {
@@ -38,6 +43,8 @@ const UpdateService = () => {
           tips: data.tips || [""],
         });
         setImagePreview(data.imageFile);
+        // Load initial live asset arrays out of document history
+        setExistingGallery(data.gallery || []);
       }
     };
     loadData();
@@ -63,6 +70,27 @@ const UpdateService = () => {
     if (file) setImagePreview(URL.createObjectURL(file));
   };
 
+  // 🌟 Process Fresh Additions without overriding state
+  const handleNewGalleryUploads = (e) => {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+
+    setNewGalleryFiles((prev) => [...prev, ...files]);
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setNewGalleryPreviews((prev) => [...prev, ...previews]);
+  };
+
+  // 🌟 Clear a single existing live server link out of the retention state array
+  const dropExistingGalleryLink = (linkToDrop) => {
+    setExistingGallery((prev) => prev.filter((url) => url !== linkToDrop));
+  };
+
+  // 🌟 Clear a single newly chosen file buffer before saving
+  const dropNewStagedGalleryItem = (index) => {
+    setNewGalleryFiles((prev) => prev.filter((_, i) => i !== index));
+    setNewGalleryPreviews((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -76,6 +104,16 @@ const UpdateService = () => {
     data.append("tips", JSON.stringify(form.tips.filter(t => t.trim())));
 
     if (imageFile) data.append("imageFile", imageFile);
+
+    // 🌟 Crucial: Send back the array of retained URLs matching the new controller update
+    data.append("existingGallery", JSON.stringify(existingGallery));
+
+    // 🌟 Append any newly appended files to match multi-part routing configurations
+    if (newGalleryFiles.length > 0) {
+      newGalleryFiles.forEach((file) => {
+        data.append("gallery", file);
+      });
+    }
 
     const result = await updateService(id, data);
 
@@ -96,6 +134,7 @@ const UpdateService = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
             <div className="flex items-center gap-6">
               <button 
+                type="button"
                 onClick={() => navigate(-1)} 
                 className="group p-4 bg-white rounded-2xl shadow-sm hover:bg-slate-900 transition-all"
               >
@@ -180,7 +219,7 @@ const UpdateService = () => {
               
               {/* IMAGE REGISTRY */}
               <div className="bg-slate-950 p-10 rounded-[3rem] text-white shadow-2xl shadow-blue-900/20">
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-6">Asset Visual</h3>
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-6">Asset Visual Cover</h3>
                 <div className="relative aspect-square rounded-[2rem] bg-white/5 border-2 border-dashed border-white/10 flex items-center justify-center overflow-hidden group">
                   {imagePreview ? (
                     <img src={imagePreview} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Current" />
@@ -192,7 +231,50 @@ const UpdateService = () => {
                   </div>
                   <input type="file" onChange={handleFileChange} className="absolute inset-0 opacity-0 cursor-pointer" />
                 </div>
-                <p className="text-[9px] text-slate-600 mt-6 text-center italic uppercase tracking-widest">Replace existing Kivu landscape asset</p>
+              </div>
+
+              {/* 🌟 NEW BLOCK: ACTIVE LIVING GALLERY UPDATE WORKFLOW */}
+              <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-100 space-y-4">
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Manage Tour Gallery Grid</h3>
+                
+                <div className="grid grid-cols-3 gap-2">
+                  {/* Render Current Live Cloudinary Images */}
+                  {existingGallery.map((url, index) => (
+                    <div key={`existing-${index}`} className="relative aspect-square rounded-xl bg-slate-50 border border-slate-200 overflow-hidden group">
+                      <img src={url} alt="Live Asset" className="w-full h-full object-cover opacity-90 group-hover:opacity-100" />
+                      <button
+                        type="button"
+                        onClick={() => dropExistingGalleryLink(url)}
+                        className="absolute top-1 right-1 p-1 bg-slate-900/90 hover:bg-rose-600 rounded-lg text-white shadow transition-colors"
+                        title="Remove from Server"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+
+                  {/* Render Newly Selected Unsaved Image Previews */}
+                  {newGalleryPreviews.map((url, index) => (
+                    <div key={`new-${index}`} className="relative aspect-square rounded-xl bg-blue-50/30 border border-blue-200 overflow-hidden group">
+                      <img src={url} alt="Staged Unsaved" className="w-full h-full object-cover" />
+                      <div className="absolute top-1 left-1 bg-blue-600 text-[6px] text-white px-1 font-bold rounded uppercase">New</div>
+                      <button
+                        type="button"
+                        onClick={() => dropNewStagedGalleryItem(index)}
+                        className="absolute top-1 right-1 p-1 bg-rose-600 rounded-lg text-white shadow"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+
+                  {/* Append File Grid Cell Trigger */}
+                  <label className="relative aspect-square rounded-xl bg-slate-50 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-100 transition-colors">
+                    <Plus size={18} className="text-slate-400" />
+                    <span className="text-[8px] font-black uppercase text-slate-400 mt-1">Upload</span>
+                    <input type="file" multiple onChange={handleNewGalleryUploads} className="absolute inset-0 opacity-0 cursor-pointer" />
+                  </label>
+                </div>
               </div>
 
               {/* BOOKING NODES */}

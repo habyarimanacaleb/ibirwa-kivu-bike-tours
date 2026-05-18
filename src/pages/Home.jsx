@@ -12,6 +12,7 @@ import MountainBikingSection from "../components/Home/MountainBikingSection";
 import Contact from "../components/Home/Contact";
 import OurStory from "../features/home/OurStory";
 import Review from "../features/home/Review";
+import AboutSummarySection from "../features/about/AboutSectionHome";
 
 export const Home = () => {
   return (
@@ -25,6 +26,9 @@ export const Home = () => {
         </section>
         <section id="inquiry" className="fade-in mb-6">
           <TourInquiryForm />
+        </section>
+        <section id="about" className="fade-in">
+          <AboutSummarySection />
         </section>
         <section id="our-story" className="fade-in">
           <OurStory />
