@@ -46,12 +46,7 @@ const GalleryList = () => {
             <h1 className="text-4xl font-black text-[#0a192f] tracking-tighter uppercase">Gallery Control</h1>
             <p className="text-slate-500 font-medium mt-1">Manage your visual expedition assets.</p>
           </div>
-          <Link 
-            to="/add-gallery" 
-            className="flex items-center justify-center gap-2 bg-[#0a192f] text-white px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-yellow-600 transition-colors shadow-lg shadow-blue-900/20"
-          >
-            <FaPlus /> Upload Asset
-          </Link>
+         
         </div>
 
         {/* GALLERY GRID */}

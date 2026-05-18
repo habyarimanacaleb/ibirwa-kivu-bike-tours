@@ -45,11 +45,10 @@ export const Navbar = () => {
   };
 
   const navLinks = [
-    { name: "Home", path: "/" },
     { name: "About", path: "#about" },
     { name: "Blogs", path: "/blogs" },
-    { name: "Our Story", path: "/#our-story" },
-    {name: "Tour Infor", path: "/#tour-information"},
+    { name: "Our Tour", path: "/#our-tour" },
+    { name: "Tour Infor", path: "/#tour-information" },
     { name: "Contact", path: "/contact" },
   ];
 

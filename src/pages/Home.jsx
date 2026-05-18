@@ -10,7 +10,6 @@ import GoogleReviews from "../components/GoogleReviewWidget";
 import Hero from "../components/Home/Hero";
 import MountainBikingSection from "../components/Home/MountainBikingSection";
 import Contact from "../components/Home/Contact";
-import OurStory from "../features/home/OurStory";
 import Review from "../features/home/Review";
 import AboutSummarySection from "../features/about/AboutSectionHome";
 
@@ -30,11 +29,8 @@ export const Home = () => {
         <section id="about" className="fade-in">
           <AboutSummarySection />
         </section>
-        <section id="our-story" className="fade-in">
-          <OurStory />
-        </section>
         {/*Services section*/}
-        <section id="service" className="py-24 bg-white overflow-hidden">
+        <section id="our-tour" className="py-24 bg-white overflow-hidden">
           <div className="max-w-[1440px] mx-auto px-6">
             {/* --- MODERN HEADER SECTION --- */}
             <div className="relative text-center mb-16">

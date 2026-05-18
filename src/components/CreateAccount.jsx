@@ -28,7 +28,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-6 relative overflow-hidden">
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-5 relative overflow-hidden">
         {/* Visual Corridor Accents */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-0 left-1/4 w-px h-full bg-slate-200/50"></div>
@@ -97,7 +97,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
                 <input
                   type="email" name="email" value={formData.email} onChange={handleChange} required
                   placeholder="example@gmail.com"
-                  className="w-full p-5 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 outline-none text-sm font-bold text-slate-950 placeholder:text-slate-300 transition-all"
+                  className="w-full p-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 outline-none text-sm font-bold text-slate-950 placeholder:text-slate-300 transition-all"
                 />
               </div>
 
@@ -109,7 +109,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
                 <input
                   type="text" name="username" value={formData.username} onChange={handleChange} required
                   placeholder="Ex: John Doe"
-                  className="w-full p-5 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 outline-none text-sm font-bold text-slate-950 placeholder:text-slate-300 transition-all"
+                  className="w-full p-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 outline-none text-sm font-bold text-slate-950 placeholder:text-slate-300 transition-all"
                 />
               </div>
 
@@ -121,7 +121,7 @@ export const CreateAccount = ({ onSwitchToSignIn }) => {
                 <input
                   type="password" name="password" value={formData.password} onChange={handleChange} required
                   placeholder="••••••••"
-                  className="w-full p-5 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 outline-none text-sm font-bold text-slate-950 placeholder:text-slate-300 transition-all"
+                  className="w-full p-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 outline-none text-sm font-bold text-slate-950 placeholder:text-slate-300 transition-all"
                 />
               </div>
 

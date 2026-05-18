@@ -12,7 +12,7 @@ export const Join = () => {
 
   return (
     <>
-    <div className="bg-slate-800 h-24"></div>
+    <div className="bg-slate-800 h-20"></div>
     <section className="bg-[#F8FAFC] min-h-screen overflow-x-hidden">
       <AnimatePresence mode="wait">
         {currentView === "signin" ? (
