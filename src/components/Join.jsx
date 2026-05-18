@@ -11,11 +11,9 @@ export const Join = () => {
   };
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen overflow-x-hidden">
-      {/* Note: Since Navbar is already inside your SignIn/CreateAccount components, 
-          we don't double-render it here to avoid layout shifts.
-      */}
-      
+    <>
+    <div className="bg-slate-800 h-24"></div>
+    <section className="bg-[#F8FAFC] min-h-screen overflow-x-hidden">
       <AnimatePresence mode="wait">
         {currentView === "signin" ? (
           <motion.div
@@ -41,10 +39,11 @@ export const Join = () => {
       </AnimatePresence>
 
       {/* GLOBAL BACKGROUND CORRIDOR DECORATION */}
-      <div className="fixed inset-0 pointer-events-none opacity-20">
+      <section className="fixed inset-0 pointer-events-none opacity-20">
          <div className="absolute top-0 left-[15%] w-px h-full bg-slate-200"></div>
          <div className="absolute top-0 right-[15%] w-px h-full bg-slate-200"></div>
-      </div>
-    </div>
+      </section>
+    </section>
+    </>
   );
 };

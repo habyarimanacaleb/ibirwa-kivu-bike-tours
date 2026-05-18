@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Save, ArrowLeft, Image as ImageIcon, Plus, Trash2, ShieldAlert, Map, X } from "lucide-react";
+import { Save, ArrowLeft, Image as ImageIcon, Plus, Trash2, ShieldAlert, Map, X, Loader2 } from "lucide-react";
 import useServiceStore from "../store/useServiceStore";
 import MainLayout from "../admin-panel/MainLayout";
 
 const UpdateService = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { fetchServiceById, updateService, isLoading } = useServiceStore();
+
+  // Bind reactive values directly from the Zustand store
+  const currentService = useServiceStore((state) => state.currentService);
+  const isLoading = useServiceStore((state) => state.isLoading);
+  const fetchServiceById = useServiceStore((state) => state.fetchServiceById);
+  const updateService = useServiceStore((state) => state.updateService);
 
   const [form, setForm] = useState({
     title: "",
@@ -16,39 +21,53 @@ const UpdateService = () => {
     detailPage: "",
     whatsapp: "",
     email: "",
-    highlights: [],
-    tips: [],
+    highlights: [""],
+    tips: [""],
   });
 
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   
-  // 🌟 State for Retained Images and Fresh Additions
+  // State for Retained Images and Fresh Additions
   const [existingGallery, setExistingGallery] = useState([]);
   const [newGalleryFiles, setNewGalleryFiles] = useState([]);
   const [newGalleryPreviews, setNewGalleryPreviews] = useState([]);
   const [status, setStatus] = useState({ message: "", type: "" });
 
+  // 1. Trigger the async fetch event immediately upon initialization
   useEffect(() => {
-    const loadData = async () => {
-      const data = await fetchServiceById(id);
-      if (data) {
-        setForm({
-          title: data.title || "",
-          description: data.description || "",
-          detailPage: data.detailPage || "",
-          whatsapp: data.whatsapp || "",
-          email: data.email || "",
-          highlights: data.highlights || [""],
-          tips: data.tips || [""],
-        });
-        setImagePreview(data.imageFile);
-        // Load initial live asset arrays out of document history
-        setExistingGallery(data.gallery || []);
-      }
-    };
-    loadData();
+    if (id) {
+      fetchServiceById(id);
+    }
   }, [id, fetchServiceById]);
+
+  // 2. Synchronize store state into your local editable form state fields
+  useEffect(() => {
+    if (currentService) {
+      const fetchedHighlights = currentService.highlights || currentService.details?.highlights;
+      const fetchedTips = currentService.tips || currentService.details?.tips;
+      const fetchedWhatsapp = currentService.whatsapp || currentService.details?.whatsapp;
+      const fetchedEmail = currentService.email || currentService.details?.email;
+      const fetchedGallery = currentService.gallery || currentService.images || currentService.details?.gallery || [];
+
+      setForm({
+        title: currentService.title || "",
+        description: currentService.description || "",
+        detailPage: currentService.detailPage || "",
+        whatsapp: fetchedWhatsapp || "",
+        email: fetchedEmail || "",
+        highlights: Array.isArray(fetchedHighlights) && fetchedHighlights.length > 0 
+          ? fetchedHighlights 
+          : [""],
+        tips: Array.isArray(fetchedTips) && fetchedTips.length > 0 
+          ? fetchedTips 
+          : [""],
+      });
+
+      setImagePreview(currentService.imageFile || currentService.coverImage || null);
+      setExistingGallery(fetchedGallery);
+    }
+  }, [currentService]);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -59,6 +78,7 @@ const UpdateService = () => {
   };
 
   const addField = (field) => setForm({ ...form, [field]: [...form[field], ""] });
+  
   const removeField = (field, index) => {
     const updated = form[field].filter((_, i) => i !== index);
     setForm({ ...form, [field]: updated.length ? updated : [""] });
@@ -70,7 +90,6 @@ const UpdateService = () => {
     if (file) setImagePreview(URL.createObjectURL(file));
   };
 
-  // 🌟 Process Fresh Additions without overriding state
   const handleNewGalleryUploads = (e) => {
     const files = Array.from(e.target.files);
     if (!files.length) return;
@@ -80,12 +99,10 @@ const UpdateService = () => {
     setNewGalleryPreviews((prev) => [...prev, ...previews]);
   };
 
-  // 🌟 Clear a single existing live server link out of the retention state array
   const dropExistingGalleryLink = (linkToDrop) => {
     setExistingGallery((prev) => prev.filter((url) => url !== linkToDrop));
   };
 
-  // 🌟 Clear a single newly chosen file buffer before saving
   const dropNewStagedGalleryItem = (index) => {
     setNewGalleryFiles((prev) => prev.filter((_, i) => i !== index));
     setNewGalleryPreviews((prev) => prev.filter((_, i) => i !== index));
@@ -100,15 +117,13 @@ const UpdateService = () => {
     data.append("detailPage", form.detailPage);
     data.append("whatsapp", form.whatsapp);
     data.append("email", form.email);
+    
     data.append("highlights", JSON.stringify(form.highlights.filter(h => h.trim())));
     data.append("tips", JSON.stringify(form.tips.filter(t => t.trim())));
 
     if (imageFile) data.append("imageFile", imageFile);
-
-    // 🌟 Crucial: Send back the array of retained URLs matching the new controller update
     data.append("existingGallery", JSON.stringify(existingGallery));
 
-    // 🌟 Append any newly appended files to match multi-part routing configurations
     if (newGalleryFiles.length > 0) {
       newGalleryFiles.forEach((file) => {
         data.append("gallery", file);
@@ -124,6 +139,20 @@ const UpdateService = () => {
       setStatus({ message: `❌ Sync error: ${result.message}`, type: "error" });
     }
   };
+
+  // Guard: If the store is actively loading or currentService is not yet available, show a loader
+  if (isLoading || !currentService) {
+    return (
+      <MainLayout>
+        <div className="bg-[#F8FAFC] min-h-screen flex flex-col items-center justify-center">
+          <Loader2 className="animate-spin text-blue-600 mb-4" size={40} />
+          <p className="text-xs font-black uppercase tracking-widest text-slate-400">
+            Retrieving Expedition Manifesto...
+          </p>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>
@@ -233,12 +262,12 @@ const UpdateService = () => {
                 </div>
               </div>
 
-              {/* 🌟 NEW BLOCK: ACTIVE LIVING GALLERY UPDATE WORKFLOW */}
+              {/* ACTIVE LIVING GALLERY UPDATE WORKFLOW */}
               <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-100 space-y-4">
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Manage Tour Gallery Grid</h3>
                 
                 <div className="grid grid-cols-3 gap-2">
-                  {/* Render Current Live Cloudinary Images */}
+                  {/* Render Current Live Gallery Images */}
                   {existingGallery.map((url, index) => (
                     <div key={`existing-${index}`} className="relative aspect-square rounded-xl bg-slate-50 border border-slate-200 overflow-hidden group">
                       <img src={url} alt="Live Asset" className="w-full h-full object-cover opacity-90 group-hover:opacity-100" />
