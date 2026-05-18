@@ -29,7 +29,7 @@ const useServiceStore = create(
 
           try {
             const response = await axios.get(`${API_BASE}/${id}`, {
-              timeout: 30000 // 30s timeout to handle Render cold starts
+              timeout: 3000 
             });
 
             set({ 
