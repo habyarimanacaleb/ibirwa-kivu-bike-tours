@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -52,12 +52,19 @@ export const ServiceDetail = () => {
     return String(currentService._id || currentService.id) === String(id);
   }, [currentService, id]);
 
-// Transform the single imageFile into an array of 5 for the slider
-const sliderImages = useMemo(() => {
-  if (!currentService?.imageFile) return [];
-  // Creates an array of 5 items, all filled with the same image URL
-  return Array(5).fill(currentService.imageFile);
-}, [currentService]);
+  // Extract real gallery array from backend, fallback to an array with the main image if available
+  const sliderImages = useMemo(() => {
+    if (!currentService) return [];
+    
+    // Check if a real array of images exists in 'gallery' or 'images' fields
+    const realGallery = currentService.gallery || currentService.images;
+    if (Array.isArray(realGallery) && realGallery.length > 0) {
+      return realGallery;
+    }
+    
+    // Fallback: if there is no gallery but a main image exists, return it as a single-item array
+    return currentService.imageFile ? [currentService.imageFile] : [];
+  }, [currentService]);
 
   // 1. Kivu Themed Loading State
   if (isLoading || !isCorrectData) {
@@ -114,8 +121,8 @@ const sliderImages = useMemo(() => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
-          {/* IMMERSIVE HERO SECTION */}
-          <section className="relative h-[85vh] w-full flex items-center justify-center overflow-hidden bg-slate-900">
+          {/* IMMERSIVE HERO SECTION - Fixed spacing and padding */}
+          <section className="relative min-h-[90vh] w-full flex items-center justify-center overflow-hidden bg-slate-900 py-24 md:py-32">
             <motion.img
               initial={{ scale: 1.15 }}
               animate={{ scale: 1 }}
@@ -124,24 +131,30 @@ const sliderImages = useMemo(() => {
               alt={currentService.title}
               className="absolute inset-0 w-full h-full object-cover opacity-80"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#fcfcfd] via-black/10 to-black/60" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#fcfcfd] via-black/20 to-black/70" />
 
-            <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+            {/* Content wrapper with generous vertical spacing */}
+            <div className="relative z-10 max-w-6xl mx-auto px-6 text-center flex flex-col justify-center h-full mt-12 md:mt-16">
               <motion.div
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
+                className="space-y-8 md:space-y-12"
               >
-                <button
-                  onClick={() => navigate(-1)}
-                  className="mb-8 mt-16 inline-flex items-center gap-2 text-white/80 hover:text-yellow-500 transition-colors uppercase text-[10px] font-black tracking-[0.3em] border border-white/20 px-4 py-2 rounded-full"
-                >
-                  <FaChevronLeft /> All Expeditions
-                </button>
-                <h1 className="text-5xl md:text-8xl font-black text-white mb-12 tracking-tighter uppercase leading-[0.9]">
+                <div>
+                  <button
+                    onClick={() => navigate(-1)}
+                    className="inline-flex items-center gap-2 text-white/80 hover:text-yellow-500 transition-colors uppercase text-[10px] font-black tracking-[0.3em] border border-white/20 px-5 py-2.5 rounded-full backdrop-blur-sm"
+                  >
+                    <FaChevronLeft /> All Expeditions
+                  </button>
+                </div>
+
+                <h1 className="text-4xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter uppercase leading-[0.95] max-w-5xl mx-auto px-2">
                   {currentService.title}
                 </h1>
-                <div className="flex items-center justify-center gap-4 text-blue-200">
+
+                <div className="flex items-center justify-center gap-4 text-blue-200 pt-4">
                   <FaMapMarkerAlt className="text-yellow-500 animate-bounce" />
                   <span className="font-bold tracking-widest uppercase text-xs">
                     Lake Kivu, Rwanda
@@ -152,7 +165,7 @@ const sliderImages = useMemo(() => {
           </section>
 
           {/* MAIN CONTENT SECTION */}
-          <section className="relative -mt-24 pb-32 z-20">
+          <section className="relative -mt-20 pb-20 z-20">
             <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-12">
               {/* LEFT COLUMN */}
               <div className="lg:col-span-2 space-y-12">
@@ -244,7 +257,7 @@ const sliderImages = useMemo(() => {
                     <motion.a
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      href={`mailto:${currentService.details?.email || "ibirwakivubiketours@gmail.com"}`}
+                      href={`mailto:${currentService.details?.email || "ibirwakivubibetours@gmail.com"}`}
                       className="flex items-center justify-center gap-3 bg-[#0a192f] text-white py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg transition-transform"
                     >
                       <FaEnvelope size={18} /> Email Inquiry
@@ -262,24 +275,42 @@ const sliderImages = useMemo(() => {
             </div>
           </section>
         </motion.div>
-
       </AnimatePresence>
-        {/* Replace your static hero image or add this section below your header */}
-<section className="my-12 px-4 md:px-0">
-  <div className="max-w-4xl mx-auto">
-    <h3 className="text-5xl w-40 font-black text-blue-600 uppercase tracking-[0.3em] mb-6">
-      Expedition Gallery
-    </h3>
-    
-    {sliderImages.length > 0 ? (
-      <ServiceImageSlider images={sliderImages} />
-    ) : (
-      <div className="w-full h-64 bg-slate-100 rounded-3xl flex items-center justify-center text-slate-400">
-        No images available
-      </div>
-    )}
-  </div>
-</section>
+
+      {/* DYNAMIC EXPEDITION GALLERY SECTION */}
+      {sliderImages.length > 0 ? (
+        <section className="my-16 pb-24 px-6 md:px-0">
+          <div className="max-w-5xl mx-auto">
+            <div className="mb-8 text-center md:text-left">
+              <h3 className="text-xs font-black text-blue-600 uppercase tracking-[0.4em] mb-2">
+                Visual Diary
+              </h3>
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tight">
+                Expedition Gallery
+              </h2>
+            </div>
+            
+            <div className="bg-white p-4 md:p-8 rounded-[2.5rem] shadow-xl shadow-blue-900/5 border border-slate-100">
+              <ServiceImageSlider images={sliderImages} />
+            </div>
+          </div>
+        </section>
+      ) : (
+        /* Render absolute empty fallback state if array is empty */
+        <section className="my-16 pb-24 px-6 text-center">
+          <div className="max-w-md mx-auto p-12 bg-slate-50 border border-dashed border-slate-200 rounded-[2.5rem] flex flex-col items-center justify-center gap-4">
+            <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-400">
+              <FaMountain size={28} />
+            </div>
+            <h4 className="text-xl font-black text-slate-800 uppercase tracking-tight">
+              Gallery Coming Soon
+            </h4>
+            <p className="text-slate-500 text-sm font-medium">
+              We are currently exploring and capturing frames for this route. Visual field logs will be posted shortly!
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Floating WhatsApp with context message */}
       <WhatsAppChat

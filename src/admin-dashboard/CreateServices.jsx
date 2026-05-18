@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Plus, Trash2, Image as ImageIcon, Send, ArrowLeft, Info, ShieldCheck } from "lucide-react";
+import { Plus, Trash2, Image as ImageIcon, Send, ArrowLeft, Info, ShieldCheck, X } from "lucide-react";
 import useServiceStore from "../store/useServiceStore";
 import MainLayout from "../admin-panel/MainLayout";
+import { toast } from "react-toastify";
 
 export const CreateServices = () => {
   const navigate = useNavigate();
@@ -21,6 +22,10 @@ export const CreateServices = () => {
 
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  
+  // 🌟 New State Hooks: Handle multiple file arrays for gallery injection
+  const [galleryFiles, setGalleryFiles] = useState([]);
+  const [galleryPreviews, setGalleryPreviews] = useState([]);
   const [status, setStatus] = useState({ message: "", type: "" });
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -46,6 +51,22 @@ export const CreateServices = () => {
     if (file) setImagePreview(URL.createObjectURL(file));
   };
 
+  // 🌟 Handle Multiple File Inputs for Gallery Pipeline
+  const handleGalleryChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+
+    setGalleryFiles((prev) => [...prev, ...files]);
+    const newPreviews = files.map((file) => URL.createObjectURL(file));
+    setGalleryPreviews((prev) => [...prev, ...newPreviews]);
+  };
+
+  // 🌟 Remove a file block out of the staging queues prior to upload
+  const removeStagedGalleryItem = (index) => {
+    setGalleryFiles((prev) => prev.filter((_, i) => i !== index));
+    setGalleryPreviews((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -61,13 +82,22 @@ export const CreateServices = () => {
 
     if (imageFile) data.append("imageFile", imageFile);
 
+    // 🌟 Append multiple target assets into file mapping matching backend fields
+    if (galleryFiles.length > 0) {
+      galleryFiles.forEach((file) => {
+        data.append("gallery", file);
+      });
+    }
+
     const result = await createService(data);
 
     if (result.success) {
       setStatus({ message: "✅ Expedition deployed to registry!", type: "success" });
+      toast.success("✅ Expedition deployed to registry!")
       setTimeout(() => navigate("/admin-panel"), 1500);
     } else {
       setStatus({ message: `❌ Deployment failed: ${result.message}`, type: "error" });
+      toast.error("❌ Deployment failed:", result.message)
     }
   };
 
@@ -80,6 +110,7 @@ export const CreateServices = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
             <div className="flex items-center gap-6">
               <button 
+                type="button"
                 onClick={() => navigate(-1)} 
                 className="group p-4 bg-white rounded-2xl shadow-sm hover:shadow-md hover:bg-slate-900 transition-all"
               >
@@ -109,7 +140,7 @@ export const CreateServices = () => {
             {/* MAIN CONFIGURATION (LEFT) */}
             <div className="lg:col-span-8 space-y-8">
               
-              {/* CORE INTELLIGENCE */}
+              {/* CORE PARAMETERS */}
               <div className="bg-white p-10 rounded-[3rem] shadow-2xl shadow-slate-200 border border-slate-50 space-y-6">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-2 w-2 rounded-full bg-blue-600 animate-pulse" />
@@ -180,21 +211,48 @@ export const CreateServices = () => {
             {/* SIDEBAR ASSETS (RIGHT) */}
             <div className="lg:col-span-4 space-y-8">
               
-              {/* MEDIA UPLOAD */}
+              {/* PRIMARY MEDIA UPLOAD */}
               <div className="bg-slate-950 p-10 rounded-[3rem] text-white shadow-2xl shadow-blue-900/20">
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-6">Primary Visual Asset</h3>
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-6">Primary Visual Cover</h3>
                 <div className="relative aspect-square rounded-[2rem] bg-white/5 border-2 border-dashed border-white/10 flex items-center justify-center overflow-hidden group">
                   {imagePreview ? (
                     <img src={imagePreview} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Preview" />
                   ) : (
                     <div className="text-center">
                       <ImageIcon className="text-white/10 mx-auto mb-4" size={48} />
-                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-4">Initialize Photo Stream</p>
+                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-4">Upload Hero Image</p>
                     </div>
                   )}
                   <input type="file" onChange={handleFileChange} className="absolute inset-0 opacity-0 cursor-pointer" />
                 </div>
-                <p className="text-[9px] text-slate-600 mt-6 text-center italic font-medium uppercase tracking-tighter">JPG, PNG, WEBP • Recommended Aspect Ratio 1:1 or 4:3</p>
+              </div>
+
+              {/* 🌟 NEW BLOCK: MULTI-IMAGE GALLERY MATRIX BUILDER */}
+              <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-100 space-y-4">
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Expedition Gallery Grid</h3>
+                
+                <div className="grid grid-cols-3 gap-2">
+                  {galleryPreviews.map((url, index) => (
+                    <div key={`preview-${index}`} className="relative aspect-square rounded-xl bg-slate-100 overflow-hidden group border border-slate-200">
+                      <img src={url} alt={`Staged Grid Asset ${index}`} className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => removeStagedGalleryItem(index)}
+                        className="absolute top-1 right-1 p-1 bg-rose-600 rounded-lg text-white shadow opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+                  
+                  {/* Append File Grid Cell Trigger */}
+                  <label className="relative aspect-square rounded-xl bg-slate-50 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-100/70 hover:border-blue-400 transition-colors">
+                    <Plus size={18} className="text-slate-400" />
+                    <span className="text-[8px] font-black uppercase text-slate-400 tracking-wider mt-1">Add Image</span>
+                    <input type="file" multiple onChange={handleGalleryChange} className="absolute inset-0 opacity-0 cursor-pointer" />
+                  </label>
+                </div>
+                <p className="text-[8px] text-slate-400 italic">Upload contextual landscapes, trail snapshots, and terrain highlights.</p>
               </div>
 
               {/* CONTACT PROTOCOLS */}
@@ -243,4 +301,3 @@ export const CreateServices = () => {
     </MainLayout>
   );
 };
-

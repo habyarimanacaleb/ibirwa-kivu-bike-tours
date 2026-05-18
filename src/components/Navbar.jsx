@@ -46,10 +46,10 @@ export const Navbar = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
+    { name: "About", path: "#about" },
     { name: "Blogs", path: "/blogs" },
     { name: "Our Story", path: "/#our-story" },
-    { name: "Tour Info", path: "/#tour-information" },
+    {name: "Tour Infor", path: "/#tour-information"},
     { name: "Contact", path: "/contact" },
   ];
 
@@ -169,7 +169,7 @@ export const Navbar = () => {
                       {currentUser.username}
                     </NavLink>
                   </motion.div>
-                  <button onClick={handleLogout} className="text-red-500 text-[10px] font-black uppercase hover:text-red-400">Exit</button>
+                  <button onClick={handleLogout} className="text-red-500 text-[10px] font-black border rounded-md px-2 py-1 uppercase hover:text-red-400">Logout</button>
                 </div>
               ) : (
                 <NavLink to="/join" className="bg-white text-black px-6 py-2.5 rounded-full font-black text-4xl hover:bg-yellow-500 transition-colors">
