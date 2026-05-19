@@ -19,7 +19,7 @@ import UpdateGallery from "./admin-dashboard/UpdateGallery";
 import UpdateService from "./admin-dashboard/UpdateService";
 import Services from "./components/Services";
 import TourInquiriesDashboard from "./admin-panel/TourInquiriesDashboard";
-import AdminSettings from "./admin-panel/Settings";
+import AdminSettings from "./pages/admin/Settings";
 import GalleryList from "./components/GalleryLists";
 import SingleGalleryView from "./admin-dashboard/SingleGalleryView";
 import MainDashboardLout from "./admin-panel/MainDashboardLout";

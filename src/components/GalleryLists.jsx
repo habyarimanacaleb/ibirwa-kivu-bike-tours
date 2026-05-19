@@ -12,7 +12,7 @@ const GalleryList = () => {
 
   useEffect(() => {
     loadGallery();
-  }, [loadGallery]);
+  }, []);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this memory? This action cannot be undone.")) return;
