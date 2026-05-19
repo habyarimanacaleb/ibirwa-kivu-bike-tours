@@ -59,17 +59,17 @@ function Contact() {
           {/* Right Side: Action Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <NavLink to="/contact" className="group">
-              <div className="bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-blue-600 transition-all duration-500 hover:-translate-y-2 h-full">
+              <div className="bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-blue-200/50 transition-all duration-500 hover:-translate-y-2 h-full">
                 <MessageSquare className="text-blue-500 group-hover:text-white mb-4" size={32} />
                 <h4 className="text-white font-bold text-xl mb-2">Tailor-Made Tours</h4>
                 <p className="text-slate-400 group-hover:text-white/80 text-sm font-light">Get a personalized quote for your group or family adventure.</p>
                 <div className="mt-6 flex items-center gap-2 text-blue-400 group-hover:text-white font-bold text-xs uppercase tracking-widest">
-                  Inquire Now <ArrowRight size={14} />
+                  Contact Now <ArrowRight size={14} />
                 </div>
               </div>
             </NavLink>
 
-            <div className="bg-blue-600 p-8 rounded-3xl flex flex-col justify-between shadow-xl shadow-blue-900/20">
+            <div className="bg-blue-600 hover:bg-blue-700 p-8 rounded-3xl flex flex-col justify-between shadow-xl shadow-blue-900/20">
             <NavLink to="/community" className="group">
               <div>
                 <h4 className="text-white font-serif font-black text-2xl leading-tight">24/7 Adventure <br /> Support</h4>

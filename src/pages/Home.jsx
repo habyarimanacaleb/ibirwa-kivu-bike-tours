@@ -20,7 +20,7 @@ export const Home = () => {
       {/*Main section*/}
       <main className="bg-gray-200">
         {/*Hero section*/}
-        <section className="relative home-hello-section h-auto pb-6 text-white">
+        <section id="home" className="relative home-hello-section h-auto pb-6 text-white">
           <Hero  />
         </section>
         <section id="inquiry" className="fade-in mb-6">
@@ -84,7 +84,7 @@ export const Home = () => {
         </section>
 
         {/*Contact section*/}
-        <section id="tour-information" className="fade-in mb-6">
+        <section id="contact" className="fade-in mb-6">
           <Contact />
         </section>
 
