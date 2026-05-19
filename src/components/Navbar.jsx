@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
-import { FaUserCircle } from "react-icons/fa";
-import { DropdownMenu } from "./dropdawn/DropdownMenu";
+import UserProfileDropdown from "../components/common/UserProfileDropdown"; 
 import useAuthStore from "../store/useAuthStore";
 
 export const Navbar = () => {
@@ -11,7 +10,10 @@ export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentUser, logout } = useAuthStore();
+
+  // Atomic state extraction to isolate the component from global loading states
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const logout = useAuthStore((state) => state.logout);
 
   // 1. Handle Scroll Effect for Navbar styling
   useEffect(() => {
@@ -21,14 +23,12 @@ export const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isOpen]);
 
-  // 2. THE FIX FOR SERVICE DETAIL: Use useEffect to handle hash scrolling 
-  // This prevents the infinite re-render loop by letting the Router finish its job first.
+  // 2. Hash Scrolling Manager
   useEffect(() => {
     if (location.hash) {
       const id = location.hash.replace("#", "");
       const element = document.getElementById(id);
       if (element) {
-        // Delay slightly to ensure the DOM is ready
         setTimeout(() => {
           element.scrollIntoView({ behavior: "smooth" });
         }, 100);
@@ -62,6 +62,7 @@ export const Navbar = () => {
         }`}
       >
         <div className="container mx-auto flex justify-between items-center px-6">
+          {/* LOGO MATRIX */}
           <NavLink to="/" className="flex items-center gap-4 z-[70]" onClick={closeMenu}>
             <motion.img
               whileHover={{ scale: 1.1, rotate: -5 }}
@@ -75,10 +76,10 @@ export const Navbar = () => {
             </div>
           </NavLink>
 
+          {/* DESKTOP VIEWPORT CONTROLS */}
           <div className="hidden md:flex items-center gap-2">
             <ul className="flex items-center space-x-1 font-bold text-[12px] uppercase tracking-widest text-white/70">
               {navLinks.map((link) => {
-                // Check if link is active (considering both path and hash)
                 const isCurrent =
                   location.pathname + location.hash === link.path ||
                   (link.path === "/" && location.pathname === "/");
@@ -88,7 +89,6 @@ export const Navbar = () => {
                     <NavLink
                       to={link.path}
                       onClick={closeMenu}
-                      // Using the function version of className to avoid passing isActive to DOM
                       className={() => `relative z-10 px-4 py-2 text-md font-black uppercase tracking-[0.2em] transition-all duration-500 ${
                         isCurrent ? "text-black" : "text-white/70 hover:text-white hover:scale-110"
                       }`}
@@ -107,21 +107,10 @@ export const Navbar = () => {
               })}
             </ul>
 
+            {/* PROFILE CONTEXT TRIGGER */}
             <div className="flex items-center gap-4 ml-6 pl-6 border-l border-white/10">
-              <DropdownMenu closeMenu={closeMenu} />
               {currentUser ? (
-                <div className="flex items-center gap-4">
-                  <motion.div
-                    whileHover={{ y: -2 }}
-                    className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-xl border border-white/10"
-                  >
-                    <FaUserCircle className="text-yellow-500" size={18} />
-                    <NavLink to={currentUser.role === "admin" ? "/admin-panel" : "/gallery"} className="text-[10px] text-white font-black">
-                      {currentUser.username}
-                    </NavLink>
-                  </motion.div>
-                  <button onClick={handleLogout} className="text-red-500 text-[10px] font-black uppercase hover:text-red-400">Exit</button>
-                </div>
+                <UserProfileDropdown />
               ) : (
                 <NavLink to="/join" className="bg-white text-black px-6 py-1 uppercase rounded-full font-black text-md hover:bg-yellow-500 transition-colors">
                   Sign In
@@ -130,19 +119,21 @@ export const Navbar = () => {
             </div>
           </div>
 
+          {/* MOBILE TOGGLE TRIGGER */}
           <button className="md:hidden text-yellow-500 text-3xl z-[70] p-2" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <HiX /> : <HiMenuAlt3 />}
           </button>
         </div>
       </nav>
 
+      {/* FULL SCREEN MOBILE MENUS */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.1 }}
-            className="fixed inset-0 bg-black/95 z-[55] flex flex-col justify-center items-center p-10 text-center"
+            className="fixed inset-0 bg-black/95 z-[55] flex flex-col justify-center items-center p-10 text-center animate-in fade-in duration-300"
           >
             <div className="flex flex-col space-y-6 w-full max-w-sm">
               {navLinks.map((link) => (
@@ -150,33 +141,37 @@ export const Navbar = () => {
                   key={link.name}
                   to={link.path}
                   onClick={closeMenu}
-                  className="text-5xl font-black text-white hover:text-yellow-500 transition-colors uppercase tracking-tighter"
+                  className="text-4xl font-black text-white hover:text-yellow-500 transition-colors uppercase tracking-tighter"
                 >
                   {link.name}
                 </NavLink>
               ))}
             </div>
-            <div className="flex justify-center items-center w-full gap-4 mt-6 border-white/10">
+            
+            {/* MOBILE AUTH ACTION RINGS */}
+            <div className="flex justify-center items-center w-full mt-10 pt-6 border-t border-white/10 max-w-xs">
               {currentUser ? (
-                <div className="flex items-center gap-4">
-                  <motion.div
-                    whileHover={{ y: -2 }}
-                    className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-xl border border-white/10"
+                <div className="flex flex-col items-center gap-4 w-full">
+                  <NavLink 
+                    to={currentUser.role === "admin" ? "/admin-panel" : "/gallery"} 
+                    onClick={closeMenu}
+                    className="text-sm text-yellow-500 font-black tracking-wider uppercase bg-white/5 px-6 py-2.5 rounded-xl border border-white/10 w-full text-center"
                   >
-                    <FaUserCircle className="text-yellow-500" size={18} />
-                    <NavLink to={currentUser.role === "admin" ? "/admin-panel" : "/gallery"} className="text-[10px] text-white font-black">
-                      {currentUser.username}
-                    </NavLink>
-                  </motion.div>
-                  <button onClick={handleLogout} className="text-red-500 text-[10px] font-black border rounded-md px-2 py-1 uppercase hover:text-red-400">Logout</button>
+                    Dashboard ({currentUser.username})
+                  </NavLink>
+                  <button 
+                    onClick={handleLogout} 
+                    className="text-red-500 text-xs font-black uppercase tracking-widest bg-red-950/20 hover:bg-red-950/40 border border-red-900/30 w-full py-2.5 rounded-xl transition-all"
+                  >
+                    Disconnect Session
+                  </button>
                 </div>
               ) : (
-                <NavLink to="/join" className="bg-white text-black px-6 py-2.5 rounded-full font-black text-4xl hover:bg-yellow-500 transition-colors">
+                <NavLink to="/join" onClick={closeMenu} className="bg-white text-black w-full py-3 rounded-full font-black text-xl hover:bg-yellow-500 transition-colors uppercase tracking-wider">
                   Sign In
                 </NavLink>
               )}
             </div>
-            {/* <DropdownMenu closeMenu={closeMenu} /> */}
           </motion.div>
         )}
       </AnimatePresence>

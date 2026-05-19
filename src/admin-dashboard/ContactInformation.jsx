@@ -4,6 +4,7 @@ import useContactStore from "../store/useContactStore";
 import MainLayout from "../admin-panel/MainLayout";
 import { motion, AnimatePresence } from "framer-motion";
 import { format } from "date-fns";
+import { toast } from "react-toastify";
 
 const ContactInformation = () => {
   const { contacts, isLoading, fetchContacts, respondToContact, deleteContact } = useContactStore();
@@ -32,9 +33,9 @@ const ContactInformation = () => {
     if (result?.success) {
       setResponseMessage("");
       setSelectedContact(null);
-      // Optional: Add a toast notification here
+      toast.success("Response sent!")
     } else {
-      alert("Failed to send response. Please try again.");
+      toast.error("Failed to send response. Please try again.");
     }
   };
 
