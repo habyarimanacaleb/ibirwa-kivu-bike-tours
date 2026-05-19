@@ -2,7 +2,6 @@ import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 // Pages & Components
 import { Home } from "./pages/Home";
-import About from "./pages/AboutPage";
 import { ExploreRwanda } from "./pages/ExploreRwanda";
 import { Join } from "./components/Join";
 import { Contacts } from "./pages/Contacts";
@@ -42,7 +41,6 @@ export const router = createBrowserRouter([
       { path: "service/:id", element: <ServiceDetail /> },
       { path: "gallery", element: <GalleryPage /> },
       { path: "community", element: <CommunityPage /> },
-      { path: "about", element: <About /> },
       { path: "blogs", element: <BlogPage /> },
       { path: "blog/:id", element: <BlogDetails /> },
       { path: "login", element: <SignIn /> },

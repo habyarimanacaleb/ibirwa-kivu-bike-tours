@@ -104,7 +104,7 @@ function Hero() {
                     className="mb-6"
                   >
                     <span className="inline-block bg-white/10 backdrop-blur-md text-white font-bold text-[10px] md:text-xs tracking-[0.25em] uppercase px-5 py-2 rounded-full border border-white/20 shadow-lg">
-                      IBIRWA AFRICAN LAKE TOURS
+                      We travel in comfort
                     </span>
                   </motion.div>
 
