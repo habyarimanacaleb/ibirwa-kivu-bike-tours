@@ -149,9 +149,6 @@ const useBlogStore = create(
             likes: Array.isArray(serverResponse.likes) ? serverResponse.likes : blog.likes,
             isLiked: Array.isArray(serverResponse.likes) ? serverResponse.likes.includes(clientId) : false,
           });
-
-          toast.success("You liked ✅")
-
           return {
             blogs: state.blogs.map((b) => (b._id === blogId ? reconcileTargetBlog(b) : b)),
             currentBlog: state.currentBlog?._id === blogId ? reconcileTargetBlog(state.currentBlog) : state.currentBlog,
@@ -202,7 +199,6 @@ const useBlogStore = create(
         false,
         "comment_optimistic"
       );
-      toast.success("Comment added ✅")
       try {
         const res = await axios.post(`${API_URL}/${blogId}/comments`, commentPayload);
         const updatedBlogFromServer = res.data.data || res.data;
