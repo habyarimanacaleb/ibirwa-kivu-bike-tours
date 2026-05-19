@@ -157,7 +157,7 @@ export const Footer = () => {
 
             {/* X (formerly Twitter) */}
             <a
-              href="https://x.com/IbirwaLakeTours"
+              href="https://x.com/DJean80592"
               target="_blank"
               rel="noreferrer"
               className="text-slate-500 hover:text-white transition-colors text-xl"
@@ -168,7 +168,7 @@ export const Footer = () => {
 
             {/* YouTube */}
             <a
-              href="https://www.youtube.com/@IbirwaAfricanLakeTours"
+              href="https://youtube.com/@ibirwatours?si=ekBGZlLiJYdWaTSL"
               target="_blank"
               rel="noreferrer"
               className="text-slate-500 hover:text-white transition-colors text-xl"
