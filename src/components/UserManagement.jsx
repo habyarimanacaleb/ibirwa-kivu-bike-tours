@@ -11,7 +11,6 @@ import {
 
 const UserManagement = ({ users, onUpdate, onBlock, onDelete }) => {
 
-console.log("Props received by UserManagement:", { users, onUpdate, onBlock, onDelete });
   if (!users || users.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center p-20 bg-white rounded-3xl border border-dashed border-slate-200">

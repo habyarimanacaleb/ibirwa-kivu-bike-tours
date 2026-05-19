@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { AlertCircle, RefreshCw, UserPlus } from "lucide-react";
 import useAuthStore from "../store/useAuthStore";
 import UserManagement from "../components/UserManagement";
 import MainLayout from "../admin-panel/MainLayout";
 import AddUserModal from "../features/admin/AddUserModal";
+import EditUserModal from "../features/admin/EditUserModal"; // Import your new edit modal
 
 const UsersPage = () => {
-  const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
-  // 1. Explicitly destructure only the methods we need
   const { 
     users, 
     loading, 
@@ -18,7 +18,8 @@ const UsersPage = () => {
     fetchUsers, 
     handleBlock, 
     deleteUser, 
-    adminRegisterUser 
+    adminRegisterUser,
+    updateProfile 
   } = useAuthStore();
 
   useEffect(() => {
@@ -26,16 +27,28 @@ const UsersPage = () => {
   }, [fetchUsers]);
 
   const handleRegister = async (data) => {
-    // 2. Ensure this matches the function name in your store
     const result = await adminRegisterUser(data);
     if (result.success) {
-      fetchUsers(); // Refresh the table
+      fetchUsers(); 
     }
     return result;
   };
 
-  const handleUpdate = (userId) => {
-    navigate(`/user/update/${userId}`);
+  // Trigger modal display instead of navigating to an external page route
+  const handleUpdateClick = (userId) => {
+    const targetUser = users.find((u) => u._id === userId);
+    if (targetUser) {
+      setSelectedUser(targetUser);
+      setIsEditModalOpen(true);
+    }
+  };
+
+  const handleUpdateExecute = async (userId, updateData) => {
+    const result = await updateProfile(userId, updateData);
+    if (result && result.success) {
+      fetchUsers(); // Clean re-sync from store array pool
+    }
+    return result;
   };
 
   return (
@@ -48,12 +61,12 @@ const UsersPage = () => {
               User Administration
             </h1>
             <p className="text-slate-500 text-sm mt-1">
-              Manage platform access, roles, and account statuses.
+              Manage platform access, roles, and account statuses from a single panel view.
             </p>
           </div>
 
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsAddModalOpen(true)}
             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-2xl font-bold text-sm transition-all"
           >
             <UserPlus size={18} />
@@ -62,7 +75,7 @@ const UsersPage = () => {
         </div>
 
         {/* Status States */}
-        {loading && (
+        {loading && !users.length && (
           <div className="flex flex-col items-center justify-center py-20 text-slate-400">
             <RefreshCw size={32} className="animate-spin mb-4 text-blue-500" />
             <span className="text-xs font-black uppercase tracking-widest">
@@ -78,20 +91,33 @@ const UsersPage = () => {
           </div>
         )}
 
-        {/* 3. Explicitly pass props instead of using {...store} */}
-        {!loading && (
+        {/* User Inventory Table */}
+        {users && (
           <UserManagement
             users={users}
-            onUpdate={handleUpdate}
+            onUpdate={handleUpdateClick} // Captures ID and opens edit modal
             onBlock={handleBlock}
             onDelete={deleteUser}
           />
         )}
 
+        {/* CREATE MODAL */}
         <AddUserModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
           onRegister={handleRegister}
+          isLoading={loading}
+        />
+
+        {/* EDIT/UPDATE MODAL */}
+        <EditUserModal
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setSelectedUser(null);
+          }}
+          user={selectedUser}
+          onUpdate={handleUpdateExecute}
           isLoading={loading}
         />
       </div>

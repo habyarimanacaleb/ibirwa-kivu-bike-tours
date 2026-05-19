@@ -70,7 +70,7 @@ const useAuthStore = create(
           set({ loading: true, error: null }, false, "admin_register_start");
           try {
             // Make sure this endpoint matches your backend route
-            await axios.post(`${API_BASE}/admin/register`, userData);
+            await axios.post(`${API_BASE}/signup`, userData);
 
             set({ loading: false }, false, "admin_register_success");
             return { success: true };

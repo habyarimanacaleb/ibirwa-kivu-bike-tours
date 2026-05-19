@@ -31,22 +31,22 @@ export const SignIn = ({ onSwitchToCreate }) => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-6 relative overflow-hidden">
+      <section className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-5 relative overflow-hidden">
         {/* Ambient background decoration */}
-        <div className="absolute top-0 right-0 w-full h-full overflow-hidden pointer-events-none">
+        <section className="absolute top-0 right-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute top-1/2 -right-24 w-96 h-96 bg-blue-100/40 rounded-full blur-3xl opacity-50"></div>
           <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-slate-200 rounded-full blur-3xl opacity-30"></div>
-        </div>
+        </section>
 
-        <motion.div 
+        <motion.section 
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           className="w-full max-w-md relative z-10"
         >
-          <div className="bg-white rounded-[3rem] shadow-2xl shadow-slate-200/60 p-10 md:p-12 border border-slate-50">
+          <section className="bg-white rounded-[3rem] shadow-2xl shadow-slate-200/60 p-10 md:p-12 border border-slate-50">
             
             {/* BRANDING HEADER */}
-            <div className="flex flex-col items-center text-center mb-10">
+            <section className="flex flex-col items-center text-center mb-10">
               <div className="relative mb-6 group">
                 <div className="absolute inset-0 bg-blue-600 blur-xl opacity-10 group-hover:opacity-20 transition-opacity"></div>
                 <img 
@@ -59,10 +59,10 @@ export const SignIn = ({ onSwitchToCreate }) => {
                 Access <span className="text-blue-600 text-2xl tracking-normal">Portal</span>
               </h1>
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mt-3">Personnel Authorization Required</p>
-            </div>
+            </section>
 
             {/* TOGGLE NAVIGATION */}
-            <div className="flex bg-slate-50 p-1.5 rounded-2xl mb-10 border border-slate-100">
+            <section className="flex bg-slate-50 p-1.5 rounded-2xl mb-10 border border-slate-100">
               <button className="w-1/2 py-3 bg-white shadow-sm rounded-xl text-[10px] font-black uppercase tracking-widest text-blue-600 border border-slate-100">
                 Sign In
               </button>
@@ -72,7 +72,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
               >
                 <UserPlus size={14} /> Register
               </button>
-            </div>
+            </section>
 
             {/* ERROR FEEDBACK */}
             <AnimatePresence>
@@ -103,7 +103,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
                   onChange={handleChange} 
                   required
                   placeholder="explorer@kivu.rw"
-                  className="w-full p-5 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 outline-none transition-all font-bold text-slate-950 placeholder:text-slate-300"
+                  className="w-full p-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 outline-none transition-all font-bold text-slate-950 placeholder:text-slate-300"
                 />
               </div>
 
@@ -120,7 +120,7 @@ export const SignIn = ({ onSwitchToCreate }) => {
                     onChange={handleChange} 
                     required
                     placeholder="••••••••"
-                    className="w-full p-5 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 outline-none transition-all font-bold text-slate-950 placeholder:text-slate-300"
+                    className="w-full p-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 outline-none transition-all font-bold text-slate-950 placeholder:text-slate-300"
                   />
                   <button 
                     type="button" 
@@ -158,13 +158,13 @@ export const SignIn = ({ onSwitchToCreate }) => {
                  Terminal Node ID: {Math.random().toString(16).slice(2, 10).toUpperCase()}
                </p>
             </div>
-          </div>
+          </section>
           
           <p className="text-center mt-10 text-[9px] font-black text-slate-300 uppercase tracking-[0.4em]">
             Ibirwa Kivu • Command System v2.0
           </p>
-        </motion.div>
-      </div>
+        </motion.section>
+      </section>
     </>
   );
 };
