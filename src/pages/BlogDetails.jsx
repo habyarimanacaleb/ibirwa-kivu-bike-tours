@@ -30,7 +30,7 @@ const BlogDetail = () => {
   const [headings, setHeadings] = useState([]);
   const contentRef = useRef(null);
 
-  // 🌟 Gallery Lightbox State Tracking Nodes
+  // Gallery Lightbox State Tracking Nodes
   const [activeImageIndex, setActiveImageIndex] = useState(null);
 
   useEffect(() => {
@@ -139,9 +139,27 @@ const BlogDetail = () => {
     setActiveImageIndex((prev) => (prev - 1 + displayGallery.length) % displayGallery.length);
   };
 
-  // extructing our tags
-  const tagsArray = blog.tags
-  const cleanTags = JSON.parse(tagsArray[0]);
+  // 🌟 FIX: Crash-proof Tag Array Normalizer Handler
+  const getCleanTags = () => {
+    if (!blog.tags) return [];
+    if (Array.isArray(blog.tags)) {
+      // If the first element looks like stringified JSON array strings due to legacy fallbacks, parse safely
+      if (typeof blog.tags[0] === 'string' && blog.tags[0].startsWith('[') && blog.tags[0].endsWith(']')) {
+        try {
+          return JSON.parse(blog.tags[0]);
+        } catch (e) {
+          return blog.tags;
+        }
+      }
+      return blog.tags;
+    }
+    if (typeof blog.tags === 'string') {
+      return blog.tags.split(',').map(t => t.trim());
+    }
+    return [];
+  };
+
+  const cleanTags = getCleanTags();
 
   return (
     <div className="min-h-screen bg-slate-50/50 pb-20 selection:bg-emerald-100 selection:text-emerald-900 relative">
@@ -284,7 +302,7 @@ const BlogDetail = () => {
             )}
           </article>
 
-          {/* 🌟 UPGRADED PACKAGED EXPEDITION GALLERY SLATE GRID */}
+          {/* EXPEDITION GALLERY SLATE GRID */}
           {displayGallery.length > 0 && (
             <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -412,7 +430,7 @@ const BlogDetail = () => {
         </div>
       </div>
 
-      {/* 🌟 LIGHTBOX MODAL OVERLAY PORTAL SCREEN SLIDER */}
+      {/* LIGHTBOX MODAL OVERLAY PORTAL SCREEN SLIDER */}
       {activeImageIndex !== null && (
         <div 
           className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-[100] flex flex-col items-center justify-center p-4 animate-fade-in transition-all selection:bg-transparent"

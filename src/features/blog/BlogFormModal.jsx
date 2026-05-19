@@ -3,12 +3,16 @@ import { X, Upload, Loader2, Image as ImageIcon } from "lucide-react";
 import useBlogStore from "../../store/useBlogStore";
 import { toast } from "react-toastify";
 
+// Match exact enum options from Mongoose backend schema
+const CATEGORY_OPTIONS = ["Technical", "Culture", "Eco", "Safety", "Nature", "Geology"];
+
 const BlogFormModal = ({ isOpen, onClose, blogData }) => {
   const { createBlog, updateBlog, isLoading } = useBlogStore();
   const isEditMode = !!blogData;
 
   // Primary Metadata Form Fields
   const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("Culture"); // Default state initialization
   const [excerpt, setExcerpt] = useState(""); 
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
@@ -25,11 +29,11 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
   useEffect(() => {
     if (blogData) {
       setTitle(blogData.title || "");
+      setCategory(blogData.category || "Culture");
       setExcerpt(blogData.excerpt || ""); 
       setContent(blogData.content || "");
       setAuthor(blogData.author || "");
       
-      // 🌟 Clean Safeguard: Explicitly handle whether incoming tags data is an array or string
       if (Array.isArray(blogData.tags)) {
         setTags(blogData.tags.join(", "));
       } else {
@@ -41,6 +45,7 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
       setGalleryFiles([]); 
     } else {
       setTitle("");
+      setCategory("Culture");
       setExcerpt("");
       setContent("");
       setAuthor("");
@@ -52,7 +57,6 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
     }
   }, [blogData, isOpen]);
 
-  // Handle single Cover Hero Image selection updates
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -61,11 +65,8 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
     }
   };
 
-  // Process new appended collection rows to the dynamic layout streams
   const handleGalleryChange = (e) => {
     const files = Array.from(e.target.files);
-    
-    // 🌟 Check to make sure total items across both tracking arrays won't breach a count of 4
     const totalCurrentCount = existingGallery.length + galleryFiles.length;
     if (totalCurrentCount + files.length > 4) {
       toast.warning(`Gallery constraint threshold reached. Maximum limit is 4 images total.`);
@@ -94,14 +95,19 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
 
     const formData = new FormData();
     formData.append("title", title);
+    formData.append("category", category); // 🌟 Sync with your validation enum
     formData.append("excerpt", excerpt); 
     formData.append("content", content);
     formData.append("author", author);
     
-    // 🌟 Secure Parsing: Convert tag inputs cleanly back into standard JSON Arrays
+    // Process input text down to strings
     const stringTags = String(tags); 
     const parsedTags = stringTags.split(",").map(t => t.trim()).filter(t => t !== "");
-    formData.append("tags", JSON.stringify(parsedTags));
+    
+    // 🌟 Safest multidimensional approach for arrays over general multi-part data keys:
+    parsedTags.forEach((tag) => {
+      formData.append("tags[]", tag); // Appends as true list indices
+    });
 
     if (mainImage) {
       formData.append("mainImage", mainImage); 
@@ -120,16 +126,15 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
       result = await createBlog(formData);
     }
 
-    if (result.success) {
+    if (result && result.success) {
       onClose();
     } else {
-      toast.error(`Mutation Failed: ${result.error || "Check backend engine connectivity paths."}`);
+      toast.error(`Mutation Failed: ${result?.error || "Check validation rules."}`);
     }
   };
 
   if (!isOpen) return null;
 
-  // Track layout counts dynamically
   const totalGalleryCount = existingGallery.length + galleryFiles.length;
 
   return (
@@ -172,15 +177,30 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
             </div>
           </div>
 
+          {/* Category Selector UI Segment */}
+          <div>
+            <label className="block font-medium text-slate-700 mb-1">Category Classification *</label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full border border-slate-200 px-3 py-2 rounded-lg outline-none bg-white focus:border-emerald-500 transition-colors"
+            >
+              {CATEGORY_OPTIONS.map((opt) => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+            </select>
+          </div>
+
           {/* Brief Excerpt */}
           <div>
             <label className="block font-medium text-slate-700 mb-1">Brief Excerpt *</label>
             <textarea
               required
+              maxLength={250} // Matches mongoose schema constraint max length 250
               rows={2}
               value={excerpt}
               onChange={(e) => setExcerpt(e.target.value)}
-              placeholder="Provide a compelling hook excerpt text for directory listing layouts..."
+              placeholder="Provide a compelling hook excerpt text for directory listing layouts (Max 250 characters)..."
               className="w-full border border-slate-200 px-3 py-2 rounded-lg outline-none focus:border-emerald-500 transition-colors resize-none"
             />
           </div>
@@ -192,14 +212,14 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
               type="text"
               value={tags}
               onChange={(e) => setTags(e.target.value)}
-              placeholder="e.g., Congo Nile, CAD Design, Hydrodynamics, Rwanda"
+              placeholder="e.g., Culture, Heritage, Living Traditions"
               className="w-full border border-slate-200 px-3 py-2 rounded-lg outline-none focus:border-emerald-500 transition-colors"
             />
           </div>
 
           {/* Cover Header Asset Upload Canvas Component */}
           <div>
-            <label className="block font-medium text-slate-700 mb-1">Cover Header Asset (Main Image)</label>
+            <label className="block font-medium text-slate-700 mb-1">Cover Header Asset (Main Image) *</label>
             <div className="border-2 border-dashed border-slate-200 rounded-xl p-4 flex flex-col items-center justify-center bg-slate-50/50 hover:bg-slate-50 transition-colors relative group">
               {imagePreview ? (
                 <div className="w-full relative h-40 rounded-lg overflow-hidden">
@@ -229,8 +249,6 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
             </div>
             
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-              
-              {/* Render Existing Live Server Items */}
               {existingGallery.map((url, index) => (
                 <div key={`cloud-${index}`} className="relative aspect-square rounded-xl overflow-hidden bg-slate-100 border border-slate-200 group">
                   <img src={url} alt="Hosted Gallery Context" className="w-full h-full object-cover filter brightness-95" />
@@ -246,7 +264,6 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
                 </div>
               ))}
 
-              {/* Render Staged Local Binary Previews */}
               {galleryFiles.map((item, index) => (
                 <div key={`staged-${index}`} className="relative aspect-square rounded-xl overflow-hidden bg-slate-50 border border-emerald-200 group">
                   <img src={item.previewUrl} alt="Staged Collection File" className="w-full h-full object-cover" />
@@ -261,7 +278,6 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
                 </div>
               ))}
 
-              {/* Hide upload block once the 4 image ceiling is reached */}
               {totalGalleryCount < 4 && (
                 <div className="border-2 border-dashed border-slate-200 hover:border-emerald-400 rounded-xl aspect-square flex flex-col items-center justify-center bg-slate-50/50 hover:bg-emerald-50/20 transition-all relative cursor-pointer group p-2">
                   <ImageIcon size={20} className="text-slate-400 group-hover:text-emerald-600 group-hover:scale-105 transition-transform mb-1" />
