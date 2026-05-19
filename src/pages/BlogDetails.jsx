@@ -139,6 +139,10 @@ const BlogDetail = () => {
     setActiveImageIndex((prev) => (prev - 1 + displayGallery.length) % displayGallery.length);
   };
 
+  // extructing our tags
+  const tagsArray = blog.tags
+  const cleanTags = JSON.parse(tagsArray[0]);
+
   return (
     <div className="min-h-screen bg-slate-50/50 pb-20 selection:bg-emerald-100 selection:text-emerald-900 relative">
       
@@ -265,12 +269,12 @@ const BlogDetail = () => {
             </div>
 
             {/* Lower Document Metatag Arrays */}
-            {blog.tags && blog.tags.length > 0 && (
+            {cleanTags && cleanTags.length > 0 && (
               <div className="px-6 sm:px-8 pb-8 pt-4 border-t border-slate-50 flex flex-wrap items-center gap-1.5">
                 <div className="text-slate-400 font-bold text-xs flex items-center gap-1 mr-1.5 uppercase tracking-wider">
                   <Tag size={12} /> Index Tokens:
                 </div>
-                {blog.tags.map((tag, i) => (
+                {cleanTags.map((tag, i) => (
                   <span key={i} className="inline-flex items-center bg-slate-50 border border-slate-200 text-slate-600 px-2.5 py-1 rounded-lg text-xs font-semibold hover:border-slate-300 transition-colors cursor-default">
                     <Hash size={10} className="text-slate-400" />
                     {tag}
