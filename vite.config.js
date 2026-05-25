@@ -4,17 +4,16 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import nodeCrypto from 'node:crypto';
 
-// ENVIRONMENT POLYFILL FIX: If the runtime environment lacks globalThis.crypto, 
-// inject Node's native crypto module to prevent serialize-javascript from crashing.
-if (typeof globalThis.crypto === 'undefined') {
-  Object.defineProperty(globalThis, 'crypto', {
-    value: {
-      randomUUID: () => nodeCrypto.randomUUID(),
-      subtle: nodeCrypto.webcrypto?.subtle
-    },
-    writable: false,
-    configurable: true
-  });
+// BULLETPROOF ENVIRONMENT POLYFILL: Fully maps the complete Web Crypto API layout
+// to satisfy all minification and random hashing engines on older container servers.
+if (typeof globalThis.crypto === 'undefined' || !globalThis.crypto.getRandomValues) {
+  globalThis.crypto = {
+    // Satisfies serialize-javascript internal asset tracking UID engines
+    randomUUID: () => nodeCrypto.randomUUID(),
+    // Maps standard random integer buffer array generations cleanly
+    getRandomValues: (buffer) => nodeCrypto.webcrypto.getRandomValues(buffer),
+    subtle: nodeCrypto.webcrypto?.subtle
+  };
 }
 
 export default defineConfig({
