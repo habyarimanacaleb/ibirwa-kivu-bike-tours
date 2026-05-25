@@ -2,10 +2,8 @@ import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
-import nodeCrypto from 'node:crypto';
+import nodeCrypto from 'crypto';
 
-// BULLETPROOF ENVIRONMENT POLYFILL: Fully maps the complete Web Crypto API layout
-// to satisfy all minification and random hashing engines on older container servers.
 if (typeof globalThis.crypto === 'undefined' || !globalThis.crypto.getRandomValues) {
   globalThis.crypto = {
     // Satisfies serialize-javascript internal asset tracking UID engines
