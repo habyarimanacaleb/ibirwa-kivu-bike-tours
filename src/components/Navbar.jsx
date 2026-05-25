@@ -77,8 +77,8 @@ export const Navbar = () => {
           </NavLink>
 
           {/* DESKTOP VIEWPORT CONTROLS */}
-          <div className="hidden md:flex items-center gap-2">
-            <ul className="flex items-center space-x-1 font-bold text-[12px] uppercase tracking-widest text-white/70">
+          <div className="hidden md:flex items-center">
+            <ul className="flex items-center font-bold text-[10px] lg:text-[12px] uppercase tracking-widest text-white/70">
               {navLinks.map((link) => {
                 const isCurrent =
                   location.pathname + location.hash === link.path ||
@@ -89,7 +89,7 @@ export const Navbar = () => {
                     <NavLink
                       to={link.path}
                       onClick={closeMenu}
-                      className={() => `relative z-10 px-4 py-2 text-md font-black uppercase tracking-[0.2em] transition-all duration-500 ${
+                      className={() => `relative z-10 px-2 lg:px-4 py-2 text-md font-black uppercase tracking-[0.2em] transition-all duration-500 ${
                         isCurrent ? "text-black" : "text-white/70 hover:text-white hover:scale-110"
                       }`}
                     >

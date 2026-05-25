@@ -80,7 +80,7 @@ function Hero() {
                   src={item.imageFile}
                   alt={item.title || "Ibirwa African Lake Tours Exploration Loop"}
                   loading={index === 0 ? "eager" : "lazy"}
-                  fetchpriority={index === 0 ? "high" : "low"}
+                  fetchPriority={index === 0 ? "high" : "low"}
                   decoding="async"
                   className="w-full h-full object-cover object-center transform pointer-events-none"
                   initial={prefersReducedMotion ? { scale: 1 } : { scale: 1.12 }}

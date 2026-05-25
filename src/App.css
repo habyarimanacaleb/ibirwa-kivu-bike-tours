@@ -11,6 +11,11 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+
 @keyframes loader {
   0% {
     transform: scaleX(0);

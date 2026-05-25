@@ -7,7 +7,6 @@ const Hero = () => {
       {/* Background Image with Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] hover:scale-110"
-        style={{ backgroundImage: "url('../kivu-image/mtb-bg-image.jpg')" }}
       />
       <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]" />
 
