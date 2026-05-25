@@ -12,9 +12,18 @@
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family:
+    "Mulish",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  font-display: swap; /* Tells browser to use a fallback font if Mulish takes more than 100ms */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
-
 
 @keyframes loader {
   0% {
