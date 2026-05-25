@@ -11,7 +11,7 @@ const DashboardReviews = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://kivu-back-end.onrender.com/api/reviews"
+        "https://v2.ibirwakivubiketours.com/api/reviews"
 
 
       );
@@ -32,7 +32,7 @@ const DashboardReviews = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this review?")) return;
     try {
-      await axios.delete(`https://kivu-back-end.onrender.com/api/reviews/${id}`);
+      await axios.delete(`https://v2.ibirwakivubiketours.com/api/reviews/${id}`);
       setReviews((prev) => prev.filter((r) => r._id !== id));
     } catch (err) {
       alert("Failed to delete review");
