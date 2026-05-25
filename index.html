@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/kivu-image/kivu-bt-logo.png" />
+    <link rel="icon" href="/bt-logo-52.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
@@ -14,13 +14,12 @@
     />
     <meta name="author" content="Ibirwa Kivu Bike Tours" />
 
-    <link
-      rel="preload"
-      href="/fonts/mulish.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin="anonymous"
-    />
+    <!-- FIX: Corrected Google Fonts CDN preconnect subdomains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
     <title>Ibirwa Kivu Bike Tours | Adventure Cycling in Rwanda</title>
   </head>
@@ -30,17 +29,25 @@
 
     <script>
       (function () {
-        let tidioLoaded = false;
+        let thirdPartyLoaded = false;
 
-        function loadTidio() {
-          if (tidioLoaded) return;
-          tidioLoaded = true;
+        function loadThirdPartyScripts() {
+          if (thirdPartyLoaded) return;
+          thirdPartyLoaded = true;
 
-          const script = document.createElement("script");
-          script.src = "//code.tidio.co/ldu1i1cyjp1ukolerdriocnmy3r2bpgc.js";
-          script.async = true;
-          document.body.appendChild(script);
-          // console.log("✅ Tidio Chat Widget Loaded");
+          // 1. Tidio Chat Widget
+          const tidioScript = document.createElement("script");
+          tidioScript.src =
+            "//code.tidio.co/ldu1i1cyjp1ukolerdriocnmy3r2bpgc.js";
+          tidioScript.async = true;
+          document.body.appendChild(tidioScript);
+
+          // 2. SPEED FIX: Defer Elfsight widget injection to resolve browser tracking prevention stalls
+          const elfsightScript = document.createElement("script");
+          elfsightScript.src = "https://elfsight.com";
+          elfsightScript.async = true;
+          elfsightScript.defer = true;
+          document.body.appendChild(elfsightScript);
         }
 
         // Load on scroll past 75%
@@ -48,18 +55,21 @@
           const scrollPosition = window.scrollY + window.innerHeight;
           const pageHeight = document.documentElement.scrollHeight;
           if (pageHeight > 0 && scrollPosition / pageHeight > 0.75) {
-            loadTidio();
+            loadThirdPartyScripts();
           }
         });
 
         // Load after 2 seconds (delayed load so it doesn't block)
-        setTimeout(loadTidio, 2000);
+        setTimeout(loadThirdPartyScripts, 2000);
 
         // Load on first mouse move or touch start (user interaction)
-        window.addEventListener("mousemove", loadTidio, { once: true });
-        window.addEventListener("touchstart", loadTidio, { once: true });
+        window.addEventListener("mousemove", loadThirdPartyScripts, {
+          once: true,
+        });
+        window.addEventListener("touchstart", loadThirdPartyScripts, {
+          once: true,
+        });
       })();
     </script>
-
   </body>
 </html>

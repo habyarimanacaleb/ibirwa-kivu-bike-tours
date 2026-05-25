@@ -6,14 +6,7 @@
   background-size: cover;
   background-attachment: fixed;
 }
-.aboutBg {
-  background-image: url("../about-bg.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: scroll;
-  background-origin: border-box;
-}
+
 
 .skeletonLoader {
   /* background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%); */

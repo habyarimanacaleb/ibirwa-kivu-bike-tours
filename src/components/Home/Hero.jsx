@@ -9,8 +9,8 @@ import useUiStore from "../../store/useUiStore";
 import { limitByWords } from "../../lib/titleCompressorHelper";
 
 const NextArrow = memo(({ onClick }) => (
-  <button 
-    onClick={onClick} 
+  <button
+    onClick={onClick}
     className="absolute top-1/2 right-2 md:right-6 -translate-y-1/2 z-20 bg-black/30 hover:bg-blue-600 backdrop-blur-md p-2.5 md:p-3.5 rounded-full text-white transition-all duration-300 border border-white/10 hover:border-blue-500 shadow-2xl flex items-center justify-center cursor-pointer"
     aria-label="Next Adventure Slide"
   >
@@ -19,8 +19,8 @@ const NextArrow = memo(({ onClick }) => (
 ));
 
 const PrevArrow = memo(({ onClick }) => (
-  <button 
-    onClick={onClick} 
+  <button
+    onClick={onClick}
     className="absolute top-1/2 left-2 md:left-6 -translate-y-1/2 z-20 bg-black/30 hover:bg-blue-600 backdrop-blur-md p-2.5 md:p-3.5 rounded-full text-white transition-all duration-300 border border-white/10 hover:border-blue-500 shadow-2xl flex items-center justify-center cursor-pointer"
     aria-label="Previous Adventure Slide"
   >
@@ -41,7 +41,7 @@ function Hero() {
     dots: true,
     infinite: true,
     speed: 1200,
-    fade: true, 
+    fade: true,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: !prefersReducedMotion,
@@ -58,9 +58,9 @@ function Hero() {
   if (isLoading && images.length === 0) return <HeroSkeleton />;
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-slate-950">
+    <section className="relative h-screen w-full overflow-hidden bg-slate-950">
       {images.length === 0 ? (
-        <div className="h-screen w-full flex flex-col justify-center items-center text-white p-6 bg-slate-950">
+        <section className="h-screen w-full flex flex-col justify-center items-center text-white p-6 bg-slate-950">
           <p className="text-slate-400 text-sm font-semibold uppercase tracking-widest mb-4 animate-pulse">
             Connecting to Live Network Infrastructure...
           </p>
@@ -68,34 +68,51 @@ function Hero() {
             <div className="absolute inset-0 rounded-full border-2 border-white/10" />
             <div className="absolute inset-0 rounded-full border-t-2 border-blue-500 animate-spin" />
           </div>
-        </div>
+        </section>
       ) : (
         <Slider {...settings} className="h-full w-full">
           {images.map((item, index) => (
-            <div key={item._id || index} className="relative h-screen w-full outline-none select-none">
-              
+            <section
+              key={item._id || index}
+              className="relative h-screen w-full outline-none select-none"
+            >
               {/* --- IMAGE BACKGROUND FRAMEWORK --- */}
-              <div className="absolute inset-0 bg-slate-950 overflow-hidden">
+              <section className="absolute inset-0 bg-slate-950 overflow-hidden">
                 <motion.img
                   src={item.imageFile}
-                  alt={item.title || "Ibirwa African Lake Tours Exploration Loop"}
+                  alt={
+                    item.title || "Ibirwa African Lake Tours Exploration Loop"
+                  }
                   loading={index === 0 ? "eager" : "lazy"}
-                  fetchpriority={index === 0 ? "high" : "low"}
+                  fetchPriority={index === 0 ? "high" : "low"}
                   decoding="async"
                   className="w-full h-full object-cover object-center transform pointer-events-none"
-                  initial={prefersReducedMotion ? { scale: 1 } : { scale: 1.12 }}
-                  animate={prefersReducedMotion ? { scale: 1 } : { scale: 1.02 }}
-                  transition={{ duration: 7, ease: "easeOut" }}
+                  // SPEED FIX: Disable entry scaling values for index 0 to eliminate animation LCP paint blocking
+                  initial={
+                    index === 0 || prefersReducedMotion
+                      ? { scale: 1 }
+                      : { scale: 1.12 }
+                  }
+                  animate={
+                    index === 0 || prefersReducedMotion
+                      ? { scale: 1 }
+                      : { scale: 1.02 }
+                  }
+                  // SPEED FIX: Drop the animation duration string to 0 for index 0 so it registers immediately
+                  transition={
+                    index === 0
+                      ? { duration: 0 }
+                      : { duration: 7, ease: "easeOut" }
+                  }
                 />
-              </div>
-              
+              </section>
+
               {/* --- CINEMATIC GRADIENT VIGNETTE --- */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-slate-950/95 z-10" />
-              
+              <section className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-slate-950/95 z-10" />
+
               {/* --- FOREGROUND CONTENT LAYER --- */}
-              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-12 md:px-6">
-                <div className="max-w-5xl mx-auto flex flex-col items-center">
-                  
+              <section className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-12 md:px-6">
+                <section className="max-w-5xl mx-auto flex flex-col items-center">
                   {/* Dynamic Context Header Tag */}
                   <motion.div
                     initial={{ y: -20, opacity: 0 }}
@@ -109,17 +126,26 @@ function Hero() {
                   </motion.div>
 
                   {/* Main Header Matrix */}
-                  <motion.h2 
-                    initial={{ y: 30, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-                    className="text-white text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tighter leading-[1.1] md:leading-[1.05] drop-shadow-xl max-w-4xl font-sans"
+                  <motion.h2
+                    // SPEED FIX: Render immediately with full opacity on index 0 to eliminate the 1.3s LCP delay
+                    initial={
+                      index === 0 ? { y: 0, opacity: 1 } : { y: 30, opacity: 0 }
+                    }
+                    animate={
+                      index === 0 ? { y: 0, opacity: 1 } : { y: 0, opacity: 1 }
+                    }
+                    transition={
+                      index === 0
+                        ? { duration: 0 }
+                        : { delay: 0.5, duration: 0.8, ease: "easeOut" }
+                    }
+                    className="text-white text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tighter leading-[1.1] md:leading-[1.05] drop-shadow-xl max-w-4xl font-sans  subpixel-antialiased"
                   >
                     {limitByWords(item.title)}
                   </motion.h2>
 
                   {/* Interactive Call to Action Layout */}
-                  <motion.div 
+                  <motion.div
                     initial={{ y: 40, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.7, duration: 0.8 }}
@@ -138,15 +164,13 @@ function Hero() {
                       Inquire Now
                     </button>
                   </motion.div>
-
-                </div>
-              </div>
-
-            </div>
+                </section>
+              </section>
+            </section>
           ))}
         </Slider>
       )}
-    </div>
+    </section>
   );
 }
 

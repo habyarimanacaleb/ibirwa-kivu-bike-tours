@@ -2,6 +2,23 @@ import { create } from "zustand";
 import { persist, devtools, createJSONStorage } from "zustand/middleware"; // Added createJSONStorage
 import axios from "../lib/axios";
 const API_BASE = "/ibirwa-clients";
+import CryptoJS from 'crypto-js';
+
+const SECRET_KEY = import.meta.env.VITE_STORAGE_SECRET_KEY;
+
+const secureStorage = {
+  getItem: (name) => {
+    const str = localStorage.getItem(name);
+    if (!str) return null;
+    const bytes = CryptoJS.AES.decrypt(str, SECRET_KEY);
+    return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+  },
+  setItem: (name, value) => {
+    const encrypted = CryptoJS.AES.encrypt(JSON.stringify(value), SECRET_KEY).toString();
+    localStorage.setItem(name, encrypted);
+  },
+  removeItem: (name) => localStorage.removeItem(name),
+};
 
 const useAuthStore = create(
   devtools(
@@ -307,7 +324,7 @@ const useAuthStore = create(
       }),
       {
         name: "kivu-auth-storage",
-        storage: createJSONStorage(() => localStorage), // ⚡️ Forces synchronous hydration on mount
+        storage: createJSONStorage(() => secureStorage),
         partialize: (state) => ({
           currentUser: state.currentUser,
           token: state.token,
