@@ -139,7 +139,7 @@ function Hero() {
                         ? { duration: 0 }
                         : { delay: 0.5, duration: 0.8, ease: "easeOut" }
                     }
-                    className="text-white text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tighter leading-[1.1] md:leading-[1.05] drop-shadow-xl max-w-4xl font-sans antialiased subpixel-antialiased"
+                    className="text-white text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tighter leading-[1.1] md:leading-[1.05] drop-shadow-xl max-w-4xl font-sans  subpixel-antialiased"
                   >
                     {limitByWords(item.title)}
                   </motion.h2>
