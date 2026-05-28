@@ -28,6 +28,7 @@ const ServiceCard = ({ service, index }) => {
           src={service.imageFile}
           alt={service.title}
           loading="lazy"
+          crossOrigin="anonymous"
           className="w-full h-full object-cover"
           whileHover={{ scale: 1.1 }}
           transition={{ duration: 0.8 }}

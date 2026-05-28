@@ -49,7 +49,7 @@ const BlogManagement = () => {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Blog Infrastructure</h1>
-          <p className="text-sm text-slate-500">Live synchronization with: kivu-back-end.onrender.com</p>
+          <p className="text-sm text-slate-500">Live sync at kivu-back-end...render / v2.ibirwakivu...com</p>
         </div>
         <button
           onClick={openCreateModal}

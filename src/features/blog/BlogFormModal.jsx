@@ -3,29 +3,26 @@ import { X, Upload, Loader2, Image as ImageIcon } from "lucide-react";
 import useBlogStore from "../../store/useBlogStore";
 import { toast } from "react-toastify";
 
-// Match exact enum options from Mongoose backend schema
 const CATEGORY_OPTIONS = ["Technical", "Culture", "Eco", "Safety", "Nature", "Geology"];
 
 const BlogFormModal = ({ isOpen, onClose, blogData }) => {
   const { createBlog, updateBlog, isLoading } = useBlogStore();
   const isEditMode = !!blogData;
 
-  // Primary Metadata Form Fields
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("Culture"); // Default state initialization
+  const [category, setCategory] = useState("Culture");
   const [excerpt, setExcerpt] = useState(""); 
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [tags, setTags] = useState("");
 
-  // Primary Single Banner Upload Nodes
   const [mainImage, setMainImage] = useState(null); 
   const [imagePreview, setImagePreview] = useState("");
 
-  // Multiple Gallery Upload Tracking States
   const [galleryFiles, setGalleryFiles] = useState([]); 
   const [existingGallery, setExistingGallery] = useState([]); 
 
+  // Reset states and safely clean up memory hooks
   useEffect(() => {
     if (blogData) {
       setTitle(blogData.title || "");
@@ -33,13 +30,7 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
       setExcerpt(blogData.excerpt || ""); 
       setContent(blogData.content || "");
       setAuthor(blogData.author || "");
-      
-      if (Array.isArray(blogData.tags)) {
-        setTags(blogData.tags.join(", "));
-      } else {
-        setTags(blogData.tags || "");
-      }
-
+      setTags(Array.isArray(blogData.tags) ? blogData.tags.join(", ") : blogData.tags || "");
       setImagePreview(blogData.mainImage || ""); 
       setExistingGallery(blogData.gallery || []);
       setGalleryFiles([]); 
@@ -55,11 +46,22 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
       setGalleryFiles([]);
       setExistingGallery([]);
     }
+
+    // Clean up memory blobs when modal visibility shifts
+    return () => {
+      if (imagePreview && !imagePreview.startsWith("http")) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
   }, [blogData, isOpen]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Clean previous local object string to save memory
+      if (imagePreview && !imagePreview.startsWith("http")) {
+        URL.revokeObjectURL(imagePreview);
+      }
       setMainImage(file);
       setImagePreview(URL.createObjectURL(file));
     }
@@ -68,6 +70,7 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
   const handleGalleryChange = (e) => {
     const files = Array.from(e.target.files);
     const totalCurrentCount = existingGallery.length + galleryFiles.length;
+    
     if (totalCurrentCount + files.length > 4) {
       toast.warning(`Gallery constraint threshold reached. Maximum limit is 4 images total.`);
       return;
@@ -83,7 +86,11 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
   };
 
   const removeStagedGalleryFile = (indexToRemove) => {
-    setGalleryFiles((prev) => prev.filter((_, idx) => idx !== indexToRemove));
+    setGalleryFiles((prev) => {
+      const target = prev[indexToRemove];
+      if (target?.previewUrl) URL.revokeObjectURL(target.previewUrl);
+      return prev.filter((_, idx) => idx !== indexToRemove);
+    });
   };
 
   const removeExistingGalleryUrl = (urlToRemove) => {
@@ -95,18 +102,16 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
 
     const formData = new FormData();
     formData.append("title", title);
-    formData.append("category", category); // 🌟 Sync with your validation enum
+    formData.append("category", category); 
     formData.append("excerpt", excerpt); 
     formData.append("content", content);
     formData.append("author", author);
     
-    // Process input text down to strings
     const stringTags = String(tags); 
     const parsedTags = stringTags.split(",").map(t => t.trim()).filter(t => t !== "");
     
-    // 🌟 Safest multidimensional approach for arrays over general multi-part data keys:
     parsedTags.forEach((tag) => {
-      formData.append("tags[]", tag); // Appends as true list indices
+      formData.append("tags[]", tag); 
     });
 
     if (mainImage) {
@@ -127,6 +132,8 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
     }
 
     if (result && result.success) {
+      // Clear strings out on success
+      galleryFiles.forEach(item => URL.revokeObjectURL(item.previewUrl));
       onClose();
     } else {
       toast.error(`Mutation Failed: ${result?.error || "Check validation rules."}`);
@@ -152,7 +159,6 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
 
         <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-4 text-sm flex-1">
           
-          {/* Title & Author Inputs */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block font-medium text-slate-700 mb-1">Title *</label>
@@ -177,7 +183,6 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
             </div>
           </div>
 
-          {/* Category Selector UI Segment */}
           <div>
             <label className="block font-medium text-slate-700 mb-1">Category Classification *</label>
             <select
@@ -191,21 +196,19 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
             </select>
           </div>
 
-          {/* Brief Excerpt */}
           <div>
             <label className="block font-medium text-slate-700 mb-1">Brief Excerpt *</label>
             <textarea
               required
-              maxLength={250} // Matches mongoose schema constraint max length 250
+              maxLength={250} 
               rows={2}
               value={excerpt}
               onChange={(e) => setExcerpt(e.target.value)}
-              placeholder="Provide a compelling hook excerpt text for directory listing layouts (Max 250 characters)..."
+              placeholder="Provide a compelling hook excerpt text..."
               className="w-full border border-slate-200 px-3 py-2 rounded-lg outline-none focus:border-emerald-500 transition-colors resize-none"
             />
           </div>
 
-          {/* Tags */}
           <div>
             <label className="block font-medium text-slate-700 mb-1">Tags (Comma Separated)</label>
             <input
@@ -217,7 +220,7 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
             />
           </div>
 
-          {/* Cover Header Asset Upload Canvas Component */}
+          {/* Cover Header */}
           <div>
             <label className="block font-medium text-slate-700 mb-1">Cover Header Asset (Main Image) *</label>
             <div className="border-2 border-dashed border-slate-200 rounded-xl p-4 flex flex-col items-center justify-center bg-slate-50/50 hover:bg-slate-50 transition-colors relative group">
@@ -239,7 +242,7 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
             </div>
           </div>
 
-          {/* MULTI-IMAGE GALLERY FORM LAYOUT SECTION */}
+          {/* Gallery Sections */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <label className="block font-medium text-slate-700">Expedition Gallery Collections</label>
@@ -257,7 +260,6 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
                     type="button"
                     onClick={() => removeExistingGalleryUrl(url)}
                     className="absolute top-1 right-1 p-1 bg-rose-600 hover:bg-rose-700 text-white rounded-md opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all shadow-md"
-                    title="Remove from Server Matrix"
                   >
                     <X size={12} />
                   </button>
@@ -294,7 +296,6 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
             </div>
           </div>
 
-          {/* Content Payload Area */}
           <div>
             <label className="block font-medium text-slate-700 mb-1">Markdown / Content Payload *</label>
             <textarea
@@ -307,7 +308,6 @@ const BlogFormModal = ({ isOpen, onClose, blogData }) => {
             />
           </div>
 
-          {/* Footer Action Buttons */}
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100 bg-white">
             <button
               type="button"
