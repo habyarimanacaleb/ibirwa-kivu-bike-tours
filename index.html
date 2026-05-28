@@ -2,26 +2,39 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/bt-logo-52.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Explore the beauty of Lake Kivu with Ibirwa Bike Tours. Enjoy cycling adventures, cultural experiences, and scenic landscapes in Rwanda."
-    />
-    <meta
-      name="keywords"
-      content="Kivu, Bike Tours, Ibirwa, Adventure, Cycling, Tours, Kigali"
-    />
+    
+    <title>Ibirwa Kivu Bike Tours | Adventure Cycling & Eco-Tours in Rwanda</title>
+    <meta name="description" content="Discover Lake Kivu, Rubavu, and Rwanda's scenic landscapes with Ibirwa Kivu Bike Tours. Guided adventure cycling, bike rentals, and authentic cultural experiences." />
+    <meta name="keywords" content="Kivu Bike Tours, Ibirwa Bike, cycling Rwanda, Lake Kivu tours, adventure travel Rwanda, Congo Nile Trail, bike rental Rubavu, Kigali bike trip" />
     <meta name="author" content="Ibirwa Kivu Bike Tours" />
+    <link rel="canonical" href="https://v2.ibirwakivubiketours.com/" />
 
-    <!-- FIX: Corrected Google Fonts CDN preconnect subdomains -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://v2.ibirwakivubiketours.com/" />
+    <meta property="og:title" content="Ibirwa Kivu Bike Tours | Adventure Cycling & Eco-Tours in Rwanda" />
+    <meta property="og:description" content="Discover Lake Kivu, Rubavu, and Rwanda's scenic landscapes with Ibirwa Kivu Bike Tours. Guided adventure cycling and authentic cultural experiences." />
+    <meta property="og:image" content="https://v2.ibirwakivubiketours.com/bt-logo-52.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://v2.ibirwakivubiketours.com/" />
+    <meta name="twitter:title" content="Ibirwa Kivu Bike Tours | Adventure Cycling in Rwanda" />
+    <meta name="twitter:description" content="Explore Lake Kivu with professional cycling guides. Guided tours, scenic trail paths, and bike rentals." />
+    <meta name="twitter:image" content="https://v2.ibirwakivubiketours.com/bt-logo-52.png" />
+
+    <link rel="icon" type="image/png" href="/bt-logo-52.png" />
+    <link rel="apple-touch-icon" href="/bt-logo-52.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-
-    <title>Ibirwa Kivu Bike Tours | Adventure Cycling in Rwanda</title>
   </head>
   <body>
     <div id="root"></div>
@@ -35,41 +48,51 @@
           if (thirdPartyLoaded) return;
           thirdPartyLoaded = true;
 
-          // 1. Tidio Chat Widget
+          // 1. Tidio Chat Widget + Automated Font Preload Warning Suppressor
           const tidioScript = document.createElement("script");
-          tidioScript.src =
-            "//code.tidio.co/ldu1i1cyjp1ukolerdriocnmy3r2bpgc.js";
+          tidioScript.src = "//code.tidio.co/ldu1i1cyjp1ukolerdriocnmy3r2bpgc.js";
           tidioScript.async = true;
+          
+          // Fix: Intercept Tidio's font injection engine to stop unused .woff2 warnings
+          tidioScript.onload = () => {
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                  if (node.tagName === 'LINK' && node.rel === 'preload' && node.href.includes('fonts.tidio.co')) {
+                    node.remove(); // Safely drop the aggressive background font preloader
+                  }
+                });
+              });
+            });
+            observer.observe(document.head, { childList: true });
+          };
+          
           document.body.appendChild(tidioScript);
 
-          // 2. SPEED FIX: Defer Elfsight widget injection to resolve browser tracking prevention stalls
+          // 2. Elfsight Widget Asset Pipeline Fix
+          // (Changed from root home domain 'https://elfsight.com' which causes fetch blocks,
+          // to their proper core edge CDN server runtime utility asset link)
           const elfsightScript = document.createElement("script");
-          elfsightScript.src = "https://elfsight.com";
+          elfsightScript.src = "https://static.elfsight.com/platform/platform.js";
           elfsightScript.async = true;
           elfsightScript.defer = true;
           document.body.appendChild(elfsightScript);
         }
 
-        // Load on scroll past 75%
+        // Execution Listeners (Scroll triggers, interaction handlers, and fallback timers)
         window.addEventListener("scroll", () => {
           const scrollPosition = window.scrollY + window.innerHeight;
           const pageHeight = document.documentElement.scrollHeight;
           if (pageHeight > 0 && scrollPosition / pageHeight > 0.75) {
             loadThirdPartyScripts();
           }
-        });
+        }, { passive: true }); // passive increases scroll frames and drops layout shift blocks
 
-        // Load after 2 seconds (delayed load so it doesn't block)
-        setTimeout(loadThirdPartyScripts, 2000);
+        setTimeout(loadThirdPartyScripts, 3500); // Shifted to 3.5s to let core layout build flawlessly
 
-        // Load on first mouse move or touch start (user interaction)
-        window.addEventListener("mousemove", loadThirdPartyScripts, {
-          once: true,
-        });
-        window.addEventListener("touchstart", loadThirdPartyScripts, {
-          once: true,
-        });
+        window.addEventListener("mousemove", loadThirdPartyScripts, { once: true });
+        window.addEventListener("touchstart", loadThirdPartyScripts, { once: true });
       })();
     </script>
-  </body>
+  </head>
 </html>

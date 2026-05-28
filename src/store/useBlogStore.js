@@ -2,22 +2,23 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import axios from "../lib/axios";
 import { toast } from "react-toastify";
+// 1. Import your Auth Store to extract the unencrypted in-memory token safely
+import useAuthStore from "./useAuthStore"; 
 
 const API_URL = "/blogs";
 
-// Helper function to extract or initialize a unique device/browser tracking signature
 const getOrInitializeClientId = () => {
   let clientId = localStorage.getItem("kivu_anonymous_client_id");
   if (!clientId) {
-    // Generates a robust, lightweight unique hash signature
     clientId = `client_${Math.random().toString(36).substring(2, 15)}_${Date.now()}`;
     localStorage.setItem("kivu_anonymous_client_id", clientId);
   }
   return clientId;
 };
 
+// 2. Updated to read the decrypted token instantly from Zustand memory space
 const getAuthHeaders = (isMultipart = false) => {
-  const token = JSON.parse(localStorage.getItem("kivu-auth-storage")).state.token;
+  const token = useAuthStore.getState().token; 
   return {
     headers: {
       Authorization: token ? `Bearer ${token}` : "",
@@ -36,7 +37,6 @@ const useBlogStore = create(
 
     // --- ACTIONS ---
 
-    // 1. Fetch All Blogs
     fetchBlogs: async () => {
       set({ isLoading: true, error: null });
       try {
@@ -46,7 +46,6 @@ const useBlogStore = create(
         
         const clientId = getOrInitializeClientId();
 
-        // Inject initial isLiked UI states dynamically based on backend array values
         const synchronizedBlogs = parsedBlogs.map((blog) => ({
           ...blog,
           likes: Array.isArray(blog.likes) ? blog.likes : [],
@@ -68,7 +67,6 @@ const useBlogStore = create(
       }
     },
 
-    // 2. Fetch Single Blog
     fetchBlogById: async (id) => {
       const cached = get().blogs.find((b) => b._id === id);
       if (cached) {
@@ -104,13 +102,11 @@ const useBlogStore = create(
 
     clearCurrentBlog: () => set({ currentBlog: null }),
 
-    // 3. Robust Like Sync (Using Device/Browser Fingerprinting)
     toggleLike: async (blogId) => {
       const previousBlogs = get().blogs;
       const previousCurrentBlog = get().currentBlog;
       const clientId = getOrInitializeClientId();
 
-      // Step A: Optimistic UI update for instantaneous click responsiveness
       const updatedBlogs = previousBlogs.map((b) => {
         if (b._id === blogId) {
           const currentLikesArray = Array.isArray(b.likes) ? b.likes : [];
@@ -137,12 +133,10 @@ const useBlogStore = create(
         "like_optimistic"
       );
 
-      // Step B: Send the expected clientId within the request body payload
       try {
         const res = await axios.post(`${API_URL}/${blogId}/toggle-like`, { clientId });
         const serverResponse = res.data; 
 
-        // Step C: Reconcile state using fresh data matrices from MongoDB
         set((state) => {
           const reconcileTargetBlog = (blog) => ({
             ...blog,
@@ -160,9 +154,8 @@ const useBlogStore = create(
           "❌ Backend Like Validation Error Response:",
           err.response?.data?.message || err.response?.data || err.message
         );
-        toast.error(err.message)
+        toast.error(err.message);
         
-        // Step D: Revert back if network fails or pipeline breaks
         set(
           {
             blogs: previousBlogs,
@@ -174,7 +167,6 @@ const useBlogStore = create(
       }
     },
 
-    // 4. Add Live Comment Route Sync
     addComment: async (blogId, commentPayload) => {
       const previousBlogs = get().blogs;
       const previousCurrentBlog = get().currentBlog;
@@ -215,7 +207,7 @@ const useBlogStore = create(
         }), false, "comment_server_sync");
       } catch (err) {
         console.error("Comment ingestion pipeline dropped on server cluster:", err.message);
-        toast.error("Fail to add comment")
+        toast.error("Fail to add comment");
         set(
           {
             blogs: previousBlogs,
@@ -227,7 +219,6 @@ const useBlogStore = create(
       }
     },
 
-    // 5. Admin CRUD Mutations
     createBlog: async (formData) => {
       set({ isLoading: true });
       try {
@@ -241,9 +232,8 @@ const useBlogStore = create(
           }),
           false,
           "create_blog_success"
-      
         );
-        toast.info("Blog created successfully")
+        toast.info("Blog created successfully");
         return { success: true };
       } catch (err) {
         set({ isLoading: false });
@@ -269,11 +259,11 @@ const useBlogStore = create(
           false,
           "update_blog_success"
         );
-        toast.success("You have suceessfull Updated blog")
+        toast.success("You have successfully Updated blog");
         return { success: true };
       } catch (err) {
         set({ isLoading: false });
-        toast.error("You failed to Update blog")
+        toast.error("You failed to Update blog");
         return {
           success: false,
           error: err.response?.data?.message || err.message,
@@ -293,11 +283,11 @@ const useBlogStore = create(
           false,
           "delete_blog_success"
         );
-        toast.success("You have suceessfull deleted blog")
+        toast.success("You have successfully deleted blog");
         return { success: true };
       } catch (err) {
         set({ isLoading: false });
-         toast.error("Fails to delete blog")
+        toast.error("Fails to delete blog");
         return {
           success: false,
           error: err.response?.data?.message || err.message,

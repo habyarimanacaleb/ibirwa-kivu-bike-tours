@@ -64,7 +64,7 @@ const CommentSection = ({ blogId, comments = [] }) => {
             type="text"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            placeholder="Your Name (e.g., Caleb H.)"
+            placeholder="Your Name (e.g., Joe Doe)"
             className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-medium text-slate-800 focus:outline-none focus:border-blue-600 bg-slate-50/50 placeholder-slate-400"
           />
           <input

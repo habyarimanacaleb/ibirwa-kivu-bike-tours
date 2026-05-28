@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, devtools } from 'zustand/middleware';
 import axios from 'axios';
 
-const API_URL = "https://kivu-back-end.onrender.com/api/gallery";
+const API_URL = "https://v2.ibirwakivubiketours.com/api/gallery";
 
 const useGalleryStore = create(
   devtools(

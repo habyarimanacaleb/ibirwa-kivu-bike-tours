@@ -19,7 +19,7 @@ const UpdateUserForm = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`https://kivu-back-end.onrender.com/api/ibirwa-clients/user/${id}`);
+        const res = await axios.get(`https://v2.ibirwakivubiketours.com/api/ibirwa-clients/user/${id}`);
         const user = res.data.user;
         // console.log('Fetched user:', user);
         setFormData({
@@ -48,7 +48,7 @@ const UpdateUserForm = () => {
     e.preventDefault();
     try {
       await axios.put(
-        `https://kivu-back-end.onrender.com/api/ibirwa-clients/user/${id}`,
+        `https://v2.ibirwakivubiketours.com/api/ibirwa-clients/user/${id}`,
         formData
       );
       navigate('/users');

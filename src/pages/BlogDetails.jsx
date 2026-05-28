@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { 
   Calendar, 
-  User, 
   Tag, 
   Heart, 
   Clock, 
@@ -19,6 +18,7 @@ import {
 } from "lucide-react";
 import useBlogStore from "../store/useBlogStore";
 import CommentSection from "../features/blog/CommentSection";
+import { NavLink } from "react-router-dom";
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -63,7 +63,8 @@ const BlogDetail = () => {
       const extractedHeadings = lines
         .filter(line => line.trim().startsWith("###"))
         .map((line) => {
-          const text = line.replace("###", "").trim();
+          // Clean all hash marks globally out of the line match
+          const text = line.replace(/###/g, "").trim();
           const safeId = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
           return { id: safeId, text };
         });
@@ -139,11 +140,10 @@ const BlogDetail = () => {
     setActiveImageIndex((prev) => (prev - 1 + displayGallery.length) % displayGallery.length);
   };
 
-  // 🌟 FIX: Crash-proof Tag Array Normalizer Handler
+  // Crash-proof Tag Array Normalizer Handler
   const getCleanTags = () => {
     if (!blog.tags) return [];
     if (Array.isArray(blog.tags)) {
-      // If the first element looks like stringified JSON array strings due to legacy fallbacks, parse safely
       if (typeof blog.tags[0] === 'string' && blog.tags[0].startsWith('[') && blog.tags[0].endsWith(']')) {
         try {
           return JSON.parse(blog.tags[0]);
@@ -165,7 +165,7 @@ const BlogDetail = () => {
     <div className="min-h-screen bg-slate-50/50 pb-20 selection:bg-emerald-100 selection:text-emerald-900 relative">
       
       {/* STICKY TOP SCROLL PROGRESS INDICATOR BAR */}
-      <div className="fixed top-0 left-0 right-0 h-3 bg-slate-100 z-50 overflow-hidden">
+      <div className="fixed top-0 left-0 right-0 h-1.5 bg-slate-100 z-50 overflow-hidden">
         <div 
           className="h-full bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 transition-all duration-75 ease-out"
           style={{ width: `${scrollProgress}%` }}
@@ -269,7 +269,8 @@ const BlogDetail = () => {
                 {blog.content ? (
                   blog.content.split("\n").map((line, index) => {
                     if (line.trim().startsWith("###")) {
-                      const cleanText = line.replace("###", "").trim();
+                      // Fix: Replaced pattern globally with regular expression mapping criteria
+                      const cleanText = line.replace(/###/g, "").trim();
                       const safeId = cleanText.toLowerCase().replace(/[^a-z0-9]+/g, "-");
                       return (
                         <h3 key={index} id={safeId} className="text-lg sm:text-xl font-bold text-slate-900 pt-4 tracking-tight flex items-center gap-2 scroll-mt-24">
@@ -278,7 +279,7 @@ const BlogDetail = () => {
                         </h3>
                       );
                     }
-                    return <p key={index}>{line}</p>;
+                    return line.trim() !== "" ? <p key={index}>{line}</p> : <div key={index} className="h-2" />;
                   })
                 ) : (
                   <p className="text-slate-400 italic">No entry telemetry content available.</p>
@@ -419,6 +420,7 @@ const BlogDetail = () => {
               <h4 className="text-sm font-extrabold tracking-tight">Ready to see these coordinates live?</h4>
               <p className="text-[10px] text-slate-300 font-medium leading-relaxed mt-0.5">Book field support and boat charters directly via our central reservation nodes.</p>
             </div>
+            Navigate to our <NavLink to="/services" className="absolute inset-0 z-30"></NavLink>
           </div>
         </aside>
       </div>
@@ -433,7 +435,7 @@ const BlogDetail = () => {
       {/* LIGHTBOX MODAL OVERLAY PORTAL SCREEN SLIDER */}
       {activeImageIndex !== null && (
         <div 
-          className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-[100] flex flex-col items-center justify-center p-4 animate-fade-in transition-all selection:bg-transparent"
+          className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-[100] flex flex-col items-center justify-center p-4 transition-all selection:bg-transparent"
           onClick={() => setActiveImageIndex(null)}
         >
           {/* Top Info HUD Header string */}
@@ -465,7 +467,7 @@ const BlogDetail = () => {
             <img 
               src={displayGallery[activeImageIndex]} 
               alt="High definition target waypoint overview map focus view" 
-              className="max-w-full max-h-[75vh] object-contain rounded-xl border border-slate-800/40 shadow-2xl animate-scale-up"
+              className="max-w-full max-h-[75vh] object-contain rounded-xl border border-slate-800/40 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             />
 
