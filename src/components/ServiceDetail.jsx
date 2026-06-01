@@ -314,7 +314,7 @@ export const ServiceDetail = () => {
 
       {/* Floating WhatsApp with context message */}
       <WhatsAppChat
-        introMessage={`I am interested in the ${currentService.title} tour.`}
+        introMessage={`${currentService.title}`}
       />
       <Footer />
     </div>

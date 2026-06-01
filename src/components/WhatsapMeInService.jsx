@@ -1,31 +1,75 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Send, MessageCircle } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
+import { track } from "../analystics/track";
 
-const WhatsAppChat = ({introMessage}) => {
+const WhatsAppChat = ({ introMessage }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const inputRef = useRef(null);
   const [messages, setMessages] = useState([
-    { text: `👋 Hi there! what can we assist on '${introMessage}' Service?`, sender: "bot" },
+    {
+      text: `👋 Welcome! You're interested in our ${introMessage} service. Tell us what you need and we'll assist you on WhatsApp.`,
+      sender: "bot",
+    },
   ]);
   const [input, setInput] = useState("");
   const chatEndRef = useRef(null);
 
   const toggleChat = () => setIsOpen(!isOpen);
-  
+
   const handleSend = () => {
-    if (!input.trim()) return;
+    const userMessage = input.trim();
+  if (!userMessage) return;
 
-    const phoneNumber = "250784606393"; 
-    const encodedMessage = encodeURIComponent(input);
-    const waUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-    setMessages([...messages, { text: input, sender: "user" }]);
+    const phoneNumber = "250784606393";
+
+    const timestamp = new Date().toLocaleString();
+
+    const messageToSend = `
+🚀 NEW SERVICE INQUIRY
+
+Service: ${introMessage}
+
+Customer Message:
+${userMessage}
+Submitted:
+${timestamp}
+  `;
+
+    const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      messageToSend,
+    )}`;
+
+   
+    // analytics
+  track.event("whatsapp_message_sent", {
+    service: introMessage,
+    message_length: userMessage.length,
+  });
+
+  track.event("whatsapp_redirect_clicked", {
+    service: introMessage,
+  });
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        text: userMessage,
+        sender: "user",
+      },
+    ]);
+
     setInput("");
-
     setIsOpen(false);
 
     window.open(waUrl, "_blank");
-
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      inputRef.current?.focus();
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -33,7 +77,11 @@ const WhatsAppChat = ({introMessage}) => {
 
   return (
     <>
-      <div className="fixed bottom-10 right-4 z-50" role="button"  aria-label={`Chat about ${introMessage}`}>
+      <div
+        className="fixed bottom-10 right-4 z-50"
+        role="button"
+        aria-label={`Chat about ${introMessage}`}
+      >
         <button
           onClick={toggleChat}
           className="bg-[#45e367] p-3 rounded-full shadow-lg hover:bg-[#20b359] transition"
@@ -73,6 +121,7 @@ const WhatsAppChat = ({introMessage}) => {
           <div className="flex items-center p-2 border-t bg-white">
             <input
               value={input}
+              ref={inputRef}
               onChange={(e) => setInput(e.target.value)}
               type="text"
               placeholder="Type a message"
