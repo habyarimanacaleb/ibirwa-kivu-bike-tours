@@ -12,6 +12,8 @@ import MountainBikingSection from "../components/Home/MountainBikingSection";
 import Contact from "../components/Home/Contact";
 import Review from "../features/home/Review";
 import AboutSummarySection from "../features/about/AboutSectionHome";
+import SentryTestButon from "../test/SentryTestButton";
+import SafeTest from "../test/SafeTest";
 
 export const Home = () => {
   return (
@@ -20,8 +22,11 @@ export const Home = () => {
       {/*Main section*/}
       <main className="bg-gray-200">
         {/*Hero section*/}
-        <section id="home" className="relative home-hello-section h-auto pb-6 text-white">
-          <Hero  />
+        <section
+          id="home"
+          className="relative home-hello-section h-auto pb-6 text-white"
+        >
+          <Hero />
         </section>
         <section id="inquiry" className="fade-in mb-6">
           <TourInquiryForm />
@@ -92,6 +97,13 @@ export const Home = () => {
         <section className="fade-in">
           <Review />
         </section>
+
+        {/* 
+         <section className="fade-in flex flex-col items-center gap-6 py-12">
+          <SentryTestButon />
+          <SafeTest />
+        </section> */}
+
         <ChevronButton />
         <WhatsAppChat />
       </main>

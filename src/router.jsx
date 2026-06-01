@@ -30,10 +30,12 @@ import NotFoundPage from "./pages/NotFound";
 import BlogPage from "./pages/BlogPage";
 import BlogDetails from "./pages/BlogDetails";
 import AdminBlog from "./pages/admin/AdminBlog";
+import { RootLayout } from "./RootLayout";
 
 export const router = createBrowserRouter([
   {
     path: "/",
+    element: <RootLayout />,
     children: [
       // Public Routes
       { index: true, element: <Home /> },
