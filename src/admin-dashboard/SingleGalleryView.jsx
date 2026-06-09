@@ -12,7 +12,7 @@ const SingleGalleryView = () => {
   useEffect(() => {
     const fetchGalleryItem = async () => {
       try {
-        const response = await axios.get(`https://v2.ibirwakivubiketours.com/api/gallery/${id}`);
+        const response = await axios.get(` http://localhost:3001/api/gallery/${id}`);
         setGalleryItem(response.data);
       } catch (err) {
         setError("Failed to fetch gallery item.");
