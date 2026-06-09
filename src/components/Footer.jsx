@@ -146,7 +146,7 @@ export const Footer = () => {
 
             {/* TikTok */}
             <a
-              href="https://www.tiktok.com/@ibirwaafricanlaketours"
+              href="https://www.tiktok.com/@ibirwa.kivu.biketours"
               target="_blank"
               rel="noreferrer"
               className="text-slate-500 hover:text-white transition-colors text-xl"

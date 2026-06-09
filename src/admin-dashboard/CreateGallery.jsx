@@ -21,7 +21,7 @@ const CreateGallery = () => {
 
     try {
       const response = await axios.post(
-        "https://v2.ibirwakivubiketours.com/api/gallery",
+        " http://localhost:3001/api/gallery",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
