@@ -1,7 +1,7 @@
 import axios from "axios";
 import useAuthStore from "../store/useAuthStore";
 
-const API_BASE = " http://localhost:3001/api";
+const API_BASE = " https://v2.ibirwakivubiketours.com/api";
 
 const axiosInstance = axios.create({ baseURL: API_BASE });
 
